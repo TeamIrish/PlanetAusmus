@@ -34,8 +34,8 @@ class MapEditor : public Event {
 
 	public: 
 	// filename
-	char filenameSave[32];
-	char filenameLoad[32];
+	string filenameSave;
+	string filenameLoad;
 	bool Load;
 
 	public: // need to make get/set functions for these
@@ -52,7 +52,7 @@ class MapEditor : public Event {
 
 	void UserInput();
 
-	void RandomMapGenerate(char[]="maps/randomMap.map", int[4]=NULL);
+	void RandomMapGenerate(string="randomMap.map", int[4]=NULL);
 	void RMG_Recursion(int[],int[][40]);
 
     public:

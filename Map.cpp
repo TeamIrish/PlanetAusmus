@@ -5,7 +5,7 @@ Map::Map() {
 	Surf_Tileset = NULL;
 }
 
-bool Map::OnLoad(char* File, bool Load,char* filenameLoad, int currentTileXID, int currentTileYID) {
+bool Map::OnLoad(char* File, bool Load,string filenameLoad, int currentTileXID, int currentTileYID) {
 	TileList.clear();
 
 	if(Load == false){
@@ -27,7 +27,7 @@ bool Map::OnLoad(char* File, bool Load,char* filenameLoad, int currentTileXID, i
 	if(Load == true){
 	// Load in a map from memory
 
-		FILE* FileHandle = fopen(filenameLoad, "r");
+	  FILE* FileHandle = fopen(filenameLoad.c_str(),"r");
 
 		if(FileHandle == NULL) {
 			return false;

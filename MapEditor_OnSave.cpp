@@ -5,7 +5,7 @@
 void MapEditor::OnSave() {
 
 	ofstream myfile;
-	myfile.open (filenameSave);
+	myfile.open(filenameSave.c_str());
 	if(myfile.is_open()==false){
 		cout << "Could not open file.\n";
 	}

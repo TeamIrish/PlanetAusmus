@@ -3,9 +3,11 @@
 
 #include "SDL/SDL.h"
 #include <vector>
+#include <string>
 
 #include "Tile.h"
 #include "Surface.h"
+using namespace std;
 
 class Map {
 
@@ -24,7 +26,7 @@ class Map {
 
 	public:
 
-		bool OnLoad(char* File,bool,char*,int,int);
+		bool OnLoad(char*,bool,string,int,int);
 
 		void OnRender(SDL_Surface* Surf_Display, int MapX, int MapY);
 

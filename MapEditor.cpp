@@ -31,12 +31,14 @@ void MapEditor::UserInput(){
 	if(Load == true){
 	  cout << "Which file would you like to load?";
 	  cin >> filenameLoad;
+	  filenameLoad = "maps/"+filenameLoad;  // loads from maps directory
 	  cout << "What filename would you like to save this under? ";
 	  cin >> filenameSave;
+	  filenameSave = "maps/"+filenameSave;  // saves to maps directory
 	}else{
 	  cout << "What filename would you like to save this under? ";
 	  cin >> filenameSave;
-	  strcpy(filenameLoad,filenameSave);
+	  filenameLoad = filenameSave = "maps/"+filenameSave;  // puts file in maps directory
 	  RandomMapGenerate(filenameSave);
 	  Load = true;
 	}
@@ -74,6 +76,6 @@ int MapEditor::OnExecute() {
 
 int main(int argc, char* argv[]) {
 
-    MapEditor theApp; 
+    MapEditor theApp;
     return theApp.OnExecute();
 }

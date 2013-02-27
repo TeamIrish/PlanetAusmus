@@ -7,14 +7,14 @@
 #include <iostream>
 using namespace std;
 
-void MapEditor::RandomMapGenerate(char savename[],int cornervalues[4]){
+void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   srand(time(NULL));
   int tilevalue[40][40] = {{0}};
   int corners[4] = {0,0,39,39};
   // reference arrays:
-  // tile order: mountains,snow,rock,dirt,grass,grass,tree,deadtree,evergreen,grass,grass,sand,water,deepwater
-  const int tileX[] = {6,3,3,0,0,0,0,3,6,0,0,3,6,0};
-  const int tileY[] = {9,9,0,3,1,1,6,6,6,1,1,1,1,2};
+  // tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
+  const int tileX[] = {6,3,3,6,3,3,0,0,0,0,6,0,0,3,6,0};
+  const int tileY[] = {8,0,9,9,9,0,3,1,1,6,6,1,1,1,1,2};
 
   // initialize corner tile values
   if(cornervalues==NULL){  // random if unspecified
@@ -26,7 +26,9 @@ void MapEditor::RandomMapGenerate(char savename[],int cornervalues[4]){
     int a=0;
     for(int i=0;i<40;i+=39){
       for(int j=0;j<40;j+=39){
-	tilevalue[i][j]=cornervalues[a++];
+	if(cornervalues[a]==-1) tilevalue[i][j]=rand()%100;
+	else tilevalue[i][j]=cornervalues[a];
+	a++;
       }
     }
   }
@@ -34,16 +36,24 @@ void MapEditor::RandomMapGenerate(char savename[],int cornervalues[4]){
   // generate map recursively
   RMG_Recursion(corners,tilevalue);
 
+  // intermix two types of trees
+  for(int i=0;i<40;i++){
+    for(int j=0;j<40;j++){
+      if(tilevalue[i][j]/6==9 && rand()%2) tilevalue[i][j]+=6;
+      else if(tilevalue[i][j]/6==10 && rand()%2) tilevalue[i][j]-=6;
+    }
+  }
+
   // write to file
-  FILE *fptr;
-  if((fptr = fopen(savename,"w")) == NULL) return;
+  ofstream fptr;
+  fptr.open(savename.c_str());
+  if(fptr.is_open() == false) return;
 
   for(int i=0;i<40;i++){
-    for(int j=0;j<40;j++) fprintf(fptr,"%d:%d ",tileX[tilevalue[i][j]/14],tileY[tilevalue[i][j]/14]);
-    fprintf(fptr,"\n");
+    for(int j=0;j<40;j++) fptr<<tileX[tilevalue[i][j]/6]<<":"<<tileY[tilevalue[i][j]/6]<<" ";
+    fptr<<endl;
   }
-  fclose(fptr);
-  fptr = NULL;
+  fptr.close();
 }
 
 void MapEditor::RMG_Recursion(int pos[4],int tilevalue[40][40]){
