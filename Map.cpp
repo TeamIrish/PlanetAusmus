@@ -8,7 +8,8 @@ Map::Map() {
 bool Map::OnLoad(char* File, bool Load,string filenameLoad, int currentTileXID, int currentTileYID) {
 	TileList.clear();
 
-	if(Load == false){
+	/*if(Load == false){
+	  cout<<"Not loading map."<<endl;
 		// generate a fresh map
 		for(int Y=0;Y<MAP_HEIGHT;Y++) {
 			for(int X=0;X<MAP_WIDTH;X++) {
@@ -24,14 +25,16 @@ bool Map::OnLoad(char* File, bool Load,string filenameLoad, int currentTileXID, 
 	}
 	
 
-	if(Load == true){
+	if(Load == true){*/
+	  cout<<"Loading map..."<<endl;
 	// Load in a map from memory
 
 	  FILE* FileHandle = fopen(filenameLoad.c_str(),"r");
 
 		if(FileHandle == NULL) {
+		  cout<<"Error opening file."<<endl;
 			return false;
-		}
+		} cout<<"File opened"<<endl;
 
 		for(int Y=0;Y<MAP_HEIGHT;Y++) {
 			for(int X=0;X<MAP_WIDTH;X++) {
@@ -45,8 +48,8 @@ bool Map::OnLoad(char* File, bool Load,string filenameLoad, int currentTileXID, 
 		}
 
 		fclose(FileHandle);
-
-	}
+		cout<<"Done."<<endl;
+	//}
 
 	return true;
 }

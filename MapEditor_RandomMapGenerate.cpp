@@ -3,12 +3,11 @@
 // Random Map Generator
 
 #include "MapEditor.h"
-#include <valarray>
 #include <iostream>
+#include <valarray>
 using namespace std;
 
 void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
-  srand(time(NULL));
   int tilevalue[40][40] = {{0}};
   int corners[4] = {0,0,39,39};
   // reference arrays:

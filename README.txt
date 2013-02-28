@@ -7,11 +7,11 @@
               | |                                
               |_|                                
 
-    by Matthew Rundle
+  Matthew Rundle, Benjamin Laws, Matthew Mahan, Paul Kennedy
 
 ------------------------------------------------------------
 
-A 2D tile-based map editor using C++ with the SDL libraries.
+A 2D top-down RPG using C++ with the SDL libraries.
 
 Created for use in the semester project for the Spring 2013
 semester CSE20212 class (Fundamentals of Computing II) at

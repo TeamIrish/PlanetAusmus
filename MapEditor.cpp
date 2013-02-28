@@ -1,8 +1,15 @@
 #include "MapEditor.h"
+#include "Camera.h"
 #include <iostream>
 using namespace std;
 
+string MapEditor::filenameSave[4];
+string MapEditor::filenameLoad[4];
+MapEditor MapEditor::MapEditorControl;
+bool MapEditor::runLoadMaps=false;
+
 MapEditor::MapEditor() {
+        srand(time(NULL));
 	// Initialize the surfaces to NULL to avoid errors
 	Surf_Display = NULL;
 	Control_Display = NULL;
@@ -17,7 +24,7 @@ MapEditor::MapEditor() {
 }
 
 void MapEditor::UserInput(){
-	char input;
+  /*char input;
 
 	cout << "Would you like to load a file? [y/n] ";
 	cin >> input;
@@ -41,11 +48,13 @@ void MapEditor::UserInput(){
 	  filenameLoad = filenameSave = "maps/"+filenameSave;  // puts file in maps directory
 	  RandomMapGenerate(filenameSave);
 	  Load = true;
-	}
+	  }*/
 }
 
 int MapEditor::OnExecute() {
-	UserInput();
+  //UserInput();
+  Load=true;
+  Camera::CameraControl.ChangeMapView();
 
 	// Initialize the game; if it fails, return error code and close program
 	if(OnInit() == false){
@@ -55,7 +64,12 @@ int MapEditor::OnExecute() {
 	SDL_Event Event;
 
 	while(Running){
-		// check for events (user input), pass one at a time to OnEvent()
+	  if(runLoadMaps==true){
+	    LoadMaps();
+	    runLoadMaps=false;
+	  }
+
+		// check for events (user input), pass one at a time to OnEvent(
 		while(SDL_PollEvent(&Event)){
 			OnEvent(&Event);
 		}
@@ -72,6 +86,15 @@ int MapEditor::OnExecute() {
 	OnCleanup();
 
 	return 0;
+}
+
+bool MapEditor::LoadMaps(){
+  for(int i=0;i<4;i++){
+    cout<<"Load map "<<i<<endl;
+    if(gameMap[i].OnLoad("/maps/1.map",Load,filenameLoad[i],currentTileXID,currentTileYID) == false) {
+      cout<<"  Error loading "<<filenameLoad[i]<<endl;
+    }
+  }
 }
 
 int main(int argc, char* argv[]) {

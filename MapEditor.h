@@ -29,13 +29,13 @@ class MapEditor : public Event {
 	SDL_Surface* Tileset;
 	SDL_Surface* Selector;
 
+	public:
 	// game map
-	Map gameMap;
+	Map gameMap[4];
 
-	public: 
-	// filename
-	string filenameSave;
-	string filenameLoad;
+	// filenames
+	static string filenameSave[4];
+	static string filenameLoad[4];
 	bool Load;
 
 	public: // need to make get/set functions for these
@@ -52,8 +52,11 @@ class MapEditor : public Event {
 
 	void UserInput();
 
-	void RandomMapGenerate(string="randomMap.map", int[4]=NULL);
-	void RMG_Recursion(int[],int[][40]);
+	bool LoadMaps(); // called after every change of map view
+	static bool runLoadMaps;
+
+	static void RandomMapGenerate(string="randomMap.map", int[4]=NULL);
+	static void RMG_Recursion(int[],int[][40]);
 
     public:
 

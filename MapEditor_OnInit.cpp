@@ -35,16 +35,14 @@ bool MapEditor::OnInit() {
 	Surface::Transparent(Selector,255,0,255);
 	Surface::Transparent(Control_Display,255,0,255);
 
-//==========================================================================
-// Load map tileset
+	//==========================================================================
+	// Load map tileset
 
-if(gameMap.OnLoad("/maps/1.map",Load,filenameLoad,currentTileXID,currentTileYID) == false) {
-	return false;
-}
-
-if((gameMap.Surf_Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
-	return false;
-}
+	for(int i=0;i<4;i++){
+	  if((gameMap[i].Surf_Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
+	    return false;
+	  }
+	}
 
 //==============================================================================
 // Set keyboard repeat count

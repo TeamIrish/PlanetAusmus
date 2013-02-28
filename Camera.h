@@ -20,6 +20,8 @@ class Camera {
  
         int* TargetX;
         int* TargetY;
+
+	int currentMapX,currentMapY;
  
     public:
         int TargetMode;
@@ -33,6 +35,8 @@ class Camera {
  
     public:
         void OnMove(int MoveX, int MoveY);
+
+	bool ChangeMapView();
  
     public:
         int GetX();

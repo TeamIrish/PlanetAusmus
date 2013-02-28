@@ -9,7 +9,7 @@ void MapEditor::OnEvent(SDL_Event* Event) {
 void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
 	// On left mouse button click
 
-	if(1 /* MouseXPos < (WWIDTH - CBAR_WIDTH) */){
+  if(1 /* MouseXPos < (WWIDTH - CBAR_WIDTH) */){
 		int CameraXPos = Camera::CameraControl.GetX();
 		int CameraYPos = Camera::CameraControl.GetY();
 
@@ -23,10 +23,10 @@ void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
 		int MapYTile = (MapYPos - MapYRemainder) / TILE_SIZE;
 
 		int TileNumber = (MapYTile * MAP_WIDTH) + MapXTile;
-		gameMap.TileList[TileNumber].TileXID = currentTileXID;
-		gameMap.TileList[TileNumber].TileYID = currentTileYID;
-		gameMap.TileList[TileNumber].TypeID = TILE_TYPE_NORMAL;
-	}
+		gameMap[0].TileList[TileNumber].TileXID = currentTileXID;
+		gameMap[0].TileList[TileNumber].TileYID = currentTileYID;
+		gameMap[0].TileList[TileNumber].TypeID = TILE_TYPE_NORMAL;
+  }
 
 // TYPE SELECTION
 /*
