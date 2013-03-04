@@ -58,26 +58,26 @@ void Camera::CheckBounds(){
 	if(Camera::CameraControl.GetX() > 0){
 	  //Camera::CameraControl.SetPos(0,Camera::CameraControl.GetY());
 	  if(--currentMapX<0) currentMapX=999;
-	  ChangeMapView();
 	  CameraControl.SetPos(MAP_WIDTH*TILE_SIZE*-1,CameraControl.GetY());
+	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetX() < (MAP_WIDTH*TILE_SIZE*-1)){
 	  //Camera::CameraControl.SetPos((MAP_WIDTH*TILE_SIZE*-1)+WWIDTH,Camera::CameraControl.GetY());
 	  if(++currentMapX>999) currentMapX=0;
-	  ChangeMapView();
 	  CameraControl.SetPos(0,CameraControl.GetY());
+	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetY() > 0){
 	  //Camera::CameraControl.SetPos(Camera::CameraControl.GetX(), 0);
 	  if(--currentMapY<0) currentMapY=999;
-	  ChangeMapView();
 	  CameraControl.SetPos(CameraControl.GetX(),MAP_HEIGHT*TILE_SIZE*-1);
+	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetY() < (MAP_HEIGHT*TILE_SIZE*-1)){
 	  //Camera::CameraControl.SetPos(Camera::CameraControl.GetX(),(MAP_HEIGHT*TILE_SIZE*-1)+WHEIGHT);
 	  if(++currentMapY>999) currentMapY=0;
-	  ChangeMapView();
 	  CameraControl.SetPos(CameraControl.GetX(),0);
+	  ChangeMapView();
 	}
 }
 

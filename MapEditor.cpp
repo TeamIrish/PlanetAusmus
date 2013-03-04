@@ -64,11 +64,6 @@ int MapEditor::OnExecute() {
 	SDL_Event Event;
 
 	while(Running){
-	  if(runLoadMaps==true){
-	    LoadMaps();
-	    runLoadMaps=false;
-	  }
-
 		// check for events (user input), pass one at a time to OnEvent(
 		while(SDL_PollEvent(&Event)){
 			OnEvent(&Event);
@@ -76,6 +71,12 @@ int MapEditor::OnExecute() {
 
 		// Manipulate data
 		OnLoop();
+
+	  // switch map view if necessary
+	  if(runLoadMaps==true){
+	    LoadMaps();
+	    runLoadMaps=false;
+	  }
 		// Render the output
 		OnRender();
 	}
