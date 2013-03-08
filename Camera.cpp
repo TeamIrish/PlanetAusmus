@@ -139,16 +139,12 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 
       // if map exists, get adjacent corner
       testmap = "maps/map"+Xstr+Ystr;
-      cout<<"  check map "<<testmap<<endl;
       ifstream file(testmap.c_str());
       if(file){
-	cout<<"  file exists"<<endl;
 	switch(i+j){
 	// get bottom-right: ij=02, ij=11, ij=20
 	case 2:
-	  cout<<"  get bottom-right"<<endl;
 	  for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
-	  cout<<"  bottom line ="<<line;
 	  X = line[(MAP_WIDTH-1)*4]-'0';
 	  Y = line[(MAP_WIDTH-1)*4+2]-'0';
 	  break;
@@ -156,9 +152,7 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	// get top-right: ij=00, ij=22, ij=31
 	case 0:
 	case 4:
-	  cout<<"  get top-right"<<endl;
 	  file.getline(line,sizeof(line));
-	  cout<<"  top line = "<<line<<endl;
 	  X = line[(MAP_WIDTH-1)*4]-'0';
 	  Y = line[(MAP_WIDTH-1)*4+2]-'0';
 	  break;
@@ -169,14 +163,12 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	  switch(i){
 	  case 0:
 	    // get bottom-left
-	    cout<<"  get bottom-left"<<endl;
 	    for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
 	    X = line[0]-'0';
 	    Y = line[2]-'0';
 	    break;
 	  case 1:
 	    if(j==0){ // get top-left
-	      cout<<"  get top-left"<<endl;
 	      file.get(character);
 	      X = character-'0';
 	      file.ignore();
@@ -184,7 +176,6 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	      Y = character-'0';
 	    }
 	    else{  // get bottom-left
-	      cout<<"  get bottom-left"<<endl;
 	      for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
 	      X = line[0]-'0';
 	      Y = line[2]-'0';
@@ -192,7 +183,6 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	    break;
 	  case 2:
 	    // get top-left
-	    cout<<"  get top-left"<<endl;
 	    file.get(character);
 	    X = character-'0';
 	    file.ignore();
@@ -201,7 +191,6 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	    break;
 	  case 3:
 	    if(j==2){ // get top-left
-	      cout<<"  get top-left"<<endl;
 	      file.get(character);
 	      X = character-'0';
 	      file.ignore();
@@ -209,7 +198,6 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	      Y = character-'0';
 	    }
 	    else{ // get bottom-left
-	      cout<<"  get bottom-left"<<endl;
 	      for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
 	      X = line[0]-'0';
 	      Y = line[2]-'0';
@@ -219,12 +207,12 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	}// end outer switch
 	cout<<"Corner "<<i<<" is "<<X<<","<<Y<<endl;
 	corners[i] = TileToValue(X,Y);
+	cout<<"   value: "<<corners[i]<<endl;
 	file.close();
 	break; // move to next corner
       }
-      else{  // file does not exist; set corner randomly, try next map
-	cout<<"  corner "<<i<<" random"<<endl;
-	corners[i]=rand()%100;
+      else{  // file does not exist; set corner to -1, try next map
+	corners[i]=-1;
 	file.close();
       }
     }
@@ -237,5 +225,5 @@ int Camera::TileToValue(int X,int Y){
       return i*6;
     }
   }
-  return 50;
+  return 50; // unidentifiable tile; set to middle value
 }

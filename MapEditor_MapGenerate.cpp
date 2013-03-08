@@ -13,20 +13,26 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   // reference arrays: tileX and tileY in class header
   // tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
 
-  // initialize corner tile values
-  if(cornervalues==NULL){  // random if unspecified
-    for(int i=0;i<40;i+=39){
-      for(int j=0;j<40;j+=39) tilevalue[i][j]=rand()%100;
+  // set unspecified corner values
+  for(int i=0;i<4;i++){
+    if(cornervalues[i]==-1){  // random if unspecified
+      for(int j=0;j<4;j++){
+	if(cornervalues[j]!=-1){
+	  cornervalues[i]=cornervalues[j]+pow(-1,rand()%2)*(rand()%10);  // set unspecified corner to some specified corner +/-10
+	  if(cornervalues[i]>99) cornervalues[i]=99;
+	}
+      }
+      if(cornervalues[i]==-1) cornervalues[i]=rand()%100; // if still unspecified (should only happen to first corner of first map), set to random
     }
   }
-  else{  // set if specified
-    int a=0;
-    for(int i=0;i<40;i+=39){
-      for(int j=0;j<40;j+=39){
-	if(cornervalues[a]==-1) tilevalue[i][j]=rand()%100;
-	else tilevalue[i][j]=cornervalues[a];
-	a++;
-      }
+
+  // set corners in map array
+  int a=0;
+  for(int i=0;i<40;i+=39){
+    for(int j=0;j<40;j+=39){
+      tilevalue[i][j]=cornervalues[a];
+      cout<<"Output corner "<<a<<" value: "<<cornervalues[a]<<endl;
+      a++;
     }
   }
 
