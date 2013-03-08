@@ -3,10 +3,13 @@
 #include <iostream>
 using namespace std;
 
+// initialize static variables
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
 MapEditor MapEditor::MapEditorControl;
 bool MapEditor::runLoadMaps=false;
+int MapEditor::tileX[] = {6,3,3,6,3,3,0,0,0,0,6,0,0,3,6,0};
+int MapEditor::tileY[] = {8,0,9,9,9,0,3,1,1,6,6,1,1,1,1,2};
 
 MapEditor::MapEditor() {
         srand(time(NULL));
@@ -91,7 +94,6 @@ int MapEditor::OnExecute() {
 
 bool MapEditor::LoadMaps(){
   for(int i=0;i<4;i++){
-    cout<<"Load map "<<i<<endl;
     if(gameMap[i].OnLoad("/maps/1.map",Load,filenameLoad[i],currentTileXID,currentTileYID) == false) {
       cout<<"  Error loading "<<filenameLoad[i]<<endl;
     }

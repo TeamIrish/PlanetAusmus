@@ -1,5 +1,6 @@
 #include <iomanip>
 #include <sstream>
+#include <valarray>
 #include "MapEditor.h"
 #include "Camera.h"
  
@@ -53,7 +54,7 @@ void Camera::SetTarget(int* X, int* Y) {
     TargetY = Y;
 }
 
-// Check to make sure that the camera didn't move out of bounds - if so, fix
+// Check to make sure that the camera didn't move out of bounds - if so, change view
 void Camera::CheckBounds(){
 	if(Camera::CameraControl.GetX() > 0){
 	  //Camera::CameraControl.SetPos(0,Camera::CameraControl.GetY());
@@ -86,23 +87,25 @@ bool Camera::ChangeMapView(){
   cout<<"Changing map view..."<<endl;
   ostringstream ss;
   string Xstr,Ystr;
-  int mapCoord;
+  int mapXCoord,mapYCoord;
+  int corners[4];
 
   for(int i=0;i<4;i++){
-    mapCoord = (currentMapX+(i%2))>999 ? 0 : currentMapX+(i%2);  // allows wrap from 999 to 0 and vice versa
-    ss<<setw(3)<<setfill('0')<<mapCoord;
+    mapXCoord = (currentMapX+(i%2))>999 ? 0 : currentMapX+(i%2);  // allows wrap from 999 to 0 and vice versa
+    ss<<setw(3)<<setfill('0')<<mapXCoord;
     Xstr = ss.str(); // save in string
     ss.str("");  // clear stream
 
-    mapCoord = (currentMapY+(i/2))>999 ? 0 : currentMapY+(i/2);  // allows wrap from 999 to 0 and vice versa
-    ss<<setw(3)<<setfill('0')<<mapCoord;
+    mapYCoord = (currentMapY+(i/2))>999 ? 0 : currentMapY+(i/2);  // allows wrap from 999 to 0 and vice versa
+    ss<<setw(3)<<setfill('0')<<mapYCoord;
     Ystr = ss.str();
     ss.str("");  // clear stream
     MapEditor::filenameLoad[i] = MapEditor::filenameSave[i] = "maps/map"+Xstr+Ystr;
     ifstream file(MapEditor::filenameLoad[i].c_str());
     if(!file){  // file does not exist; make it
       cout<<"Generating file "<<MapEditor::filenameLoad[i]<<endl;
-      MapEditor::RandomMapGenerate(MapEditor::filenameLoad[i]);
+      GetCornerValues(mapXCoord,mapYCoord,corners);
+      MapEditor::RandomMapGenerate(MapEditor::filenameLoad[i],corners);
     }
     file.close();
   }
@@ -112,4 +115,127 @@ bool Camera::ChangeMapView(){
 
   cout<<"View set to: "<<MapEditor::filenameLoad[0]<<" "<<MapEditor::filenameLoad[1]<<"\n             "<<MapEditor::filenameLoad[2]<<" "<<MapEditor::filenameLoad[3]<<endl;
 
+}
+
+void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
+  ostringstream ss;
+  string Xstr,Ystr,testmap;
+  int tmp,X,Y;
+  char character,line[MAP_WIDTH*4+4];
+  
+
+  for(int i=0;i<4;i++){
+    for(int j=0;j<3;j++){
+      // get coords of one adjacent map
+      tmp = XCoord-pow(-1,i)*((j+1)%2); // -1,0,-1,+1,0,+1,-1,0,-1,+1,0,+1
+      ss<<setw(3)<<setfill('0')<<((tmp<0)?999:tmp);
+      Xstr = ss.str(); // save in string
+      ss.str("");  // clear stream
+
+      tmp = YCoord-pow(-1,i/2)*((j+1)/2); // 0,-1,-1,0,-1,-1,0,+1,+1,0,+1,+1
+      ss<<setw(3)<<setfill('0')<<((tmp<0)?999:tmp);
+      Ystr = ss.str();
+      ss.str("");  // clear stream
+
+      // if map exists, get adjacent corner
+      testmap = "maps/map"+Xstr+Ystr;
+      cout<<"  check map "<<testmap<<endl;
+      ifstream file(testmap.c_str());
+      if(file){
+	cout<<"  file exists"<<endl;
+	switch(i+j){
+	// get bottom-right: ij=02, ij=11, ij=20
+	case 2:
+	  cout<<"  get bottom-right"<<endl;
+	  for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
+	  cout<<"  bottom line ="<<line;
+	  X = line[(MAP_WIDTH-1)*4]-'0';
+	  Y = line[(MAP_WIDTH-1)*4+2]-'0';
+	  break;
+
+	// get top-right: ij=00, ij=22, ij=31
+	case 0:
+	case 4:
+	  cout<<"  get top-right"<<endl;
+	  file.getline(line,sizeof(line));
+	  cout<<"  top line = "<<line<<endl;
+	  X = line[(MAP_WIDTH-1)*4]-'0';
+	  Y = line[(MAP_WIDTH-1)*4+2]-'0';
+	  break;
+
+	case 1:
+	case 3:
+	case 5:
+	  switch(i){
+	  case 0:
+	    // get bottom-left
+	    cout<<"  get bottom-left"<<endl;
+	    for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
+	    X = line[0]-'0';
+	    Y = line[2]-'0';
+	    break;
+	  case 1:
+	    if(j==0){ // get top-left
+	      cout<<"  get top-left"<<endl;
+	      file.get(character);
+	      X = character-'0';
+	      file.ignore();
+	      file.get(character);
+	      Y = character-'0';
+	    }
+	    else{  // get bottom-left
+	      cout<<"  get bottom-left"<<endl;
+	      for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
+	      X = line[0]-'0';
+	      Y = line[2]-'0';
+	    }
+	    break;
+	  case 2:
+	    // get top-left
+	    cout<<"  get top-left"<<endl;
+	    file.get(character);
+	    X = character-'0';
+	    file.ignore();
+	    file.get(character);
+	    Y = character-'0';
+	    break;
+	  case 3:
+	    if(j==2){ // get top-left
+	      cout<<"  get top-left"<<endl;
+	      file.get(character);
+	      X = character-'0';
+	      file.ignore();
+	      file.get(character);
+	      Y = character-'0';
+	    }
+	    else{ // get bottom-left
+	      cout<<"  get bottom-left"<<endl;
+	      for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
+	      X = line[0]-'0';
+	      Y = line[2]-'0';
+	    }
+	  }
+	  break;
+	}// end outer switch
+	cout<<"Corner "<<i<<" is "<<X<<","<<Y<<endl;
+	corners[i] = TileToValue(X,Y);
+	file.close();
+	break; // move to next corner
+      }
+      else{  // file does not exist; set corner randomly, try next map
+	cout<<"  corner "<<i<<" random"<<endl;
+	corners[i]=rand()%100;
+	file.close();
+      }
+    }
+  }
+}
+
+int Camera::TileToValue(int X,int Y){ 
+  for(int i=0;i<NUM_TILES;i++){
+    if(X==MapEditor::tileX[i] && Y==MapEditor::tileY[i]){
+      return i*6;
+    }
+  }
+  return 50;
 }

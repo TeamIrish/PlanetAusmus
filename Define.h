@@ -11,4 +11,6 @@
 #define CBAR_WIDTH 320
 #define CBAR_HEIGHT 32
 
+#define NUM_TILES 16
+
 #endif

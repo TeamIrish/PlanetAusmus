@@ -37,6 +37,8 @@ class Camera {
         void OnMove(int MoveX, int MoveY);
 
 	bool ChangeMapView();
+	void GetCornerValues(int,int,int[]);
+	int TileToValue(int,int);
  
     public:
         int GetX();

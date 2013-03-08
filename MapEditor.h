@@ -57,6 +57,9 @@ class MapEditor : public Event {
 
 	static void RandomMapGenerate(string="randomMap.map", int[4]=NULL);
 	static void RMG_Recursion(int[],int[][40]);
+	// tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
+	static int tileX[NUM_TILES];
+	static int tileY[NUM_TILES];
 
     public:
 
