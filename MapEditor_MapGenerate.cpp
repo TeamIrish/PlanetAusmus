@@ -4,6 +4,7 @@
 
 #include "MapEditor.h"
 #include <iostream>
+#include <iomanip>
 #include <valarray>
 using namespace std;
 
@@ -15,14 +16,15 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
 
   // set unspecified corner values
   for(int i=0;i<4;i++){
-    if(cornervalues[i]==-1){  // random if unspecified
+    if(cornervalues[i]==-1){  // check other corners if unspecified
       for(int j=0;j<4;j++){
 	if(cornervalues[j]!=-1){
-	  cornervalues[i]=cornervalues[j]+pow(-1,rand()%2)*(rand()%10);  // set unspecified corner to some specified corner +/-10
-	  if(cornervalues[i]>99) cornervalues[i]=99;
+	  cornervalues[i]=cornervalues[j]+pow(-1,rand()%2)*(rand()%10);  // set unspecified corner to some specified corner +/- up to 9
+	  if(cornervalues[i]>95) cornervalues[i]=95;
+	  if(cornervalues[i]<-1) cornervalues[i]=0;
 	}
       }
-      if(cornervalues[i]==-1) cornervalues[i]=rand()%100; // if still unspecified (should only happen to first corner of first map), set to random
+      if(cornervalues[i]==-1) cornervalues[i]=rand()%96; // if still unspecified (should only happen to first corner of first map), set to random
     }
   }
 
@@ -53,7 +55,7 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   if(fptr.is_open() == false) return;
 
   for(int i=0;i<40;i++){
-    for(int j=0;j<40;j++) fptr<<tileX[tilevalue[i][j]/6]<<":"<<tileY[tilevalue[i][j]/6]<<" ";
+    for(int j=0;j<40;j++) fptr<<setw(2)<<setfill('0')<<tilevalue[i][j]<<" ";
     fptr<<endl;
   }
   fptr.close();
@@ -71,7 +73,7 @@ void MapEditor::RMG_Recursion(int pos[4],int tilevalue[40][40]){
  // center takes average of four corners plus/minus random fluctuation based on distance
   tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] = (tilevalue[pos[0]][pos[1]]+tilevalue[pos[0]][pos[3]]+tilevalue[pos[2]][pos[1]]+tilevalue[pos[2]][pos[3]])/4 + pow(-1,rand()%2)*(rand()%(pos[2]-pos[0]));
   if(tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] < 0) tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2]=0;
-  if(tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] > 99) tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2]=99;
+  if(tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] > 95) tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2]=95;
 
   // recursion
   int newpos[4] = {pos[0],pos[1],(pos[0]+pos[2])/2,(pos[1]+pos[3])/2};

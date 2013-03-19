@@ -27,34 +27,6 @@ MapEditor::MapEditor() {
 	Running = true;
 }
 
-void MapEditor::UserInput(){
-  /*char input;
-
-	cout << "Would you like to load a file? [y/n] ";
-	cin >> input;
-	if(input=='y' || input == 'Y'){
-		Load = true;
-	}
-	if(input=='n' || input == 'N'){
-
-	}
-
-	if(Load == true){
-	  cout << "Which file would you like to load?";
-	  cin >> filenameLoad;
-	  filenameLoad = "maps/"+filenameLoad;  // loads from maps directory
-	  cout << "What filename would you like to save this under? ";
-	  cin >> filenameSave;
-	  filenameSave = "maps/"+filenameSave;  // saves to maps directory
-	}else{
-	  cout << "What filename would you like to save this under? ";
-	  cin >> filenameSave;
-	  filenameLoad = filenameSave = "maps/"+filenameSave;  // puts file in maps directory
-	  RandomMapGenerate(filenameSave);
-	  Load = true;
-	  }*/
-}
-
 int MapEditor::OnExecute() {
   //UserInput();
   Load=true;

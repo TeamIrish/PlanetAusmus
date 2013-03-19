@@ -50,8 +50,6 @@ class MapEditor : public Event {
 
         int OnExecute();
 
-	void UserInput();
-
 	bool LoadMaps(); // called after every change of map view
 	static bool runLoadMaps;
 

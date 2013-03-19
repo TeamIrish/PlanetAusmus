@@ -35,12 +35,12 @@ bool Map::OnLoad(char* File, bool Load,string filenameLoad, int currentTileXID, 
 			return false;
 		}
 
+		Tile tempTile;
+		int tempTileValue;
 		for(int Y=0;Y<MAP_HEIGHT;Y++) {
 			for(int X=0;X<MAP_WIDTH;X++) {
-				Tile tempTile;
-
-				fscanf(FileHandle, "%d:%d ", &tempTile.TileXID, &tempTile.TileYID);
-
+				fscanf(FileHandle,"%d ",&tempTileValue);
+				ValueToTile(tempTileValue,tempTile.TileXID,tempTile.TileYID);
 				TileList.push_back(tempTile);
 			}
 			fscanf(FileHandle, " \n");
@@ -50,6 +50,13 @@ bool Map::OnLoad(char* File, bool Load,string filenameLoad, int currentTileXID, 
 	//}
 
 	return true;
+}
+
+void Map::ValueToTile(int value,int &tileX,int &tileY){
+  if(value>95) value=95;
+  if(value<0) value=0;
+  tileX = MapEditor::tileX[value/6];
+  tileY = MapEditor::tileY[value/6];
 }
 
 void Map::OnRender(SDL_Surface* Surf_Display, int MapX, int MapY) {

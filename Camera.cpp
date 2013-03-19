@@ -1,6 +1,7 @@
 #include <iomanip>
 #include <sstream>
 #include <valarray>
+#include <cstring>
 #include "MapEditor.h"
 #include "Camera.h"
  
@@ -120,20 +121,23 @@ bool Camera::ChangeMapView(){
 void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
   ostringstream ss;
   string Xstr,Ystr,testmap;
-  int tmp,X,Y;
-  char character,line[MAP_WIDTH*4+4];
-  
+  int tmp,value;
+  char line[MAP_WIDTH*4+4];
 
   for(int i=0;i<4;i++){
     for(int j=0;j<3;j++){
       // get coords of one adjacent map
       tmp = XCoord-pow(-1,i)*((j+1)%2); // -1,0,-1,+1,0,+1,-1,0,-1,+1,0,+1
-      ss<<setw(3)<<setfill('0')<<((tmp<0)?999:tmp);
+      if(tmp<0) tmp=999;
+      if(tmp>999) tmp=0;
+      ss<<setw(3)<<setfill('0')<<tmp;
       Xstr = ss.str(); // save in string
       ss.str("");  // clear stream
 
       tmp = YCoord-pow(-1,i/2)*((j+1)/2); // 0,-1,-1,0,-1,-1,0,+1,+1,0,+1,+1
-      ss<<setw(3)<<setfill('0')<<((tmp<0)?999:tmp);
+      if(tmp<0) tmp=999;
+      if(tmp>999) tmp=0;
+      ss<<setw(3)<<setfill('0')<<tmp;
       Ystr = ss.str();
       ss.str("");  // clear stream
 
@@ -145,16 +149,16 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	// get bottom-right: ij=02, ij=11, ij=20
 	case 2:
 	  for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
-	  X = line[(MAP_WIDTH-1)*4]-'0';
-	  Y = line[(MAP_WIDTH-1)*4+2]-'0';
+	  value = atoi(strtok(line," "));
+	  for(int k=0;k<MAP_WIDTH-1;k++) value = atoi(strtok(NULL," "));
 	  break;
 
 	// get top-right: ij=00, ij=22, ij=31
 	case 0:
 	case 4:
 	  file.getline(line,sizeof(line));
-	  X = line[(MAP_WIDTH-1)*4]-'0';
-	  Y = line[(MAP_WIDTH-1)*4+2]-'0';
+	  value = atoi(strtok(line," "));
+	  for(int k=0;k<MAP_WIDTH-1;k++) value = atoi(strtok(NULL," "));
 	  break;
 
 	case 1:
@@ -164,50 +168,36 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	  case 0:
 	    // get bottom-left
 	    for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
-	    X = line[0]-'0';
-	    Y = line[2]-'0';
+	    value = atoi(strtok(line," "));
 	    break;
 	  case 1:
 	    if(j==0){ // get top-left
-	      file.get(character);
-	      X = character-'0';
-	      file.ignore();
-	      file.get(character);
-	      Y = character-'0';
+	      file.getline(line,sizeof(line));
+	      value = atoi(strtok(line," "));
 	    }
 	    else{  // get bottom-left
 	      for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
-	      X = line[0]-'0';
-	      Y = line[2]-'0';
+	      value = atoi(strtok(line," "));
 	    }
 	    break;
 	  case 2:
 	    // get top-left
-	    file.get(character);
-	    X = character-'0';
-	    file.ignore();
-	    file.get(character);
-	    Y = character-'0';
+	    file.getline(line,sizeof(line));
+	    value = atoi(strtok(line," "));
 	    break;
 	  case 3:
 	    if(j==2){ // get top-left
-	      file.get(character);
-	      X = character-'0';
-	      file.ignore();
-	      file.get(character);
-	      Y = character-'0';
+	      file.getline(line,sizeof(line));
+	      value = atoi(strtok(line," "));
 	    }
 	    else{ // get bottom-left
 	      for(int k=0;k<MAP_HEIGHT;k++) file.getline(line,sizeof(line)); // get to last line
-	      X = line[0]-'0';
-	      Y = line[2]-'0';
+	      value = atoi(strtok(line," "));
 	    }
 	  }
 	  break;
 	}// end outer switch
-	cout<<"Corner "<<i<<" is "<<X<<","<<Y<<endl;
-	corners[i] = TileToValue(X,Y);
-	cout<<"   value: "<<corners[i]<<endl;
+	corners[i] = value;
 	file.close();
 	break; // move to next corner
       }
