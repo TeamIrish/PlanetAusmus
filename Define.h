@@ -13,4 +13,8 @@
 
 #define NUM_TILES 16
 
+#define CHARACTER_W 40
+#define CHARACTER_H 40
+#define PLAYER_MAX_STATE 2
+
 #endif

@@ -13,12 +13,12 @@ int MapEditor::tileX[] = {6,3,3,6,3,3,0,0,0,0,6,0,0,3,6,0};
 int MapEditor::tileY[] = {8,0,9,9,9,0,3,1,1,6,6,1,1,1,1,2};
 
 MapEditor::MapEditor() {
-        srand(time(NULL));
 	// Initialize the surfaces to NULL to avoid errors
 	Surf_Display = NULL;
 	Control_Display = NULL;
 	Tileset = NULL;
 	Selector =  NULL;
+	Player_Character = NULL;
 
 	currentTileXID=0;
 	currentTileYID=1;
@@ -29,6 +29,8 @@ MapEditor::MapEditor() {
 
 int MapEditor::OnExecute() {
   //UserInput();
+  srand(time(NULL));
+
   Load=true;
   Camera::CameraControl.ChangeMapView();
 

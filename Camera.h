@@ -25,10 +25,15 @@ class Camera {
  
     public:
         int TargetMode;
-		bool MovingRight;
-		bool MovingLeft;
-		bool MovingUp;
-		bool MovingDown;
+	bool MovingRight;
+	bool MovingLeft;
+	bool MovingUp;
+	bool MovingDown;
+
+	int playerStateX; // 0=down,1=up,2=left,3=right
+	int playerStateY; // 0=still,1-2=moving
+	int animationTimer;
+	void AnimateCharacter();
  
     public:
         Camera();

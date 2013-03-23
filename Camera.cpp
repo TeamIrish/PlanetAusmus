@@ -122,7 +122,7 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
   ostringstream ss;
   string Xstr,Ystr,testmap;
   int tmp,value;
-  char line[MAP_WIDTH*4+4];
+  char line[MAP_WIDTH*4];
 
   for(int i=0;i<4;i++){
     for(int j=0;j<3;j++){
@@ -216,4 +216,24 @@ int Camera::TileToValue(int X,int Y){
     }
   }
   return 50; // unidentifiable tile; set to middle value
+}
+
+void Camera::AnimateCharacter(){
+  // set player direction
+  if(MovingLeft) playerStateX=2;
+  else if(MovingRight) playerStateX=3;
+  else if(MovingDown) playerStateX=0;
+  else if(MovingUp) playerStateX=1;
+  else{ // not in motion
+    playerStateY=0;
+    animationTimer=3;
+    return;
+  }
+
+  // set player animation frame
+  if(animationTimer<3) animationTimer++;
+  else{
+    animationTimer=0;
+    playerStateY = (playerStateY%PLAYER_MAX_STATE) + 1;
+  }
 }

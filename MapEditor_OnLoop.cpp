@@ -20,4 +20,7 @@ void MapEditor::OnLoop() {
 
 	// Check to make sure that the camera didn't move out of bounds - if so, change map view
 	Camera::CameraControl.CheckBounds();
+
+	// Change player character state
+	Camera::CameraControl.AnimateCharacter();
 }

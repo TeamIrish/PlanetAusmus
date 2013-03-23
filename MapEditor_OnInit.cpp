@@ -17,23 +17,29 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
-	if((Control_Display = Surface::OnLoad("./graphics/controlBar.png")) == NULL){
+	/*if((Control_Display = Surface::OnLoad("./graphics/controlBar.png")) == NULL){
 		return false;
-	}
+	}*/
 
 	if((Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
 		return false;
 	}
-	if((Selector = Surface::OnLoad("./graphics/selector.png")) == NULL){
+	/*if((Selector = Surface::OnLoad("./graphics/selector.png")) == NULL){
 		return false;
-	}
+	}*/
+
+	// Load player character
+	if((Player_Character = Surface::OnLoad("./graphics/character.png")) == NULL){
+		return false;
+	}	
 
 	// Name the window
 	SDL_WM_SetCaption("MapEditor",NULL);
 
-	// Makes the pink background transparent
-	Surface::Transparent(Selector,255,0,255);
-	Surface::Transparent(Control_Display,255,0,255);
+	// Make the pink background transparent
+	//Surface::Transparent(Selector,255,0,255);
+	//Surface::Transparent(Control_Display,255,0,255);
+	Surface::Transparent(Player_Character,255,0,255);
 
 	//==========================================================================
 	// Load map tileset

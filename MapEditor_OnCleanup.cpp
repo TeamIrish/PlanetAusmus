@@ -7,6 +7,7 @@ void MapEditor::OnCleanup() {
 	SDL_FreeSurface(Control_Display);
 	SDL_FreeSurface(Tileset);
 	SDL_FreeSurface(Selector);
+	SDL_FreeSurface(Player_Character);
 	for(int i=0;i<4;i++) SDL_FreeSurface(gameMap[i].Surf_Tileset);
 
 	// Quit out of SDL

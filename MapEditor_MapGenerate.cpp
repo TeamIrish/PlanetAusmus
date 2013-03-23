@@ -22,6 +22,7 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
 	  cornervalues[i]=cornervalues[j]+pow(-1,rand()%2)*(rand()%10);  // set unspecified corner to some specified corner +/- up to 9
 	  if(cornervalues[i]>95) cornervalues[i]=95;
 	  if(cornervalues[i]<-1) cornervalues[i]=0;
+	  break;
 	}
       }
       if(cornervalues[i]==-1) cornervalues[i]=rand()%96; // if still unspecified (should only happen to first corner of first map), set to random
@@ -33,7 +34,6 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   for(int i=0;i<40;i+=39){
     for(int j=0;j<40;j+=39){
       tilevalue[i][j]=cornervalues[a];
-      cout<<"Output corner "<<a<<" value: "<<cornervalues[a]<<endl;
       a++;
     }
   }
@@ -49,6 +49,9 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
     }
   }
 
+  for(int i=0;i<40;i+=39)
+    for(int j=0;j<40;j+=39)
+      cout<<"   Corner value: "<<tilevalue[i][j]<<endl;
   // write to file
   ofstream fptr;
   fptr.open(savename.c_str());
@@ -60,6 +63,7 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   }
   fptr.close();
 }
+
 
 void MapEditor::RMG_Recursion(int pos[4],int tilevalue[40][40]){
   if(abs(pos[0]-pos[2])<2 && abs(pos[1]-pos[3])<2) return;  // base case
