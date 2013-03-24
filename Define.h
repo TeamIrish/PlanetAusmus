@@ -15,6 +15,6 @@
 
 #define CHARACTER_W 40
 #define CHARACTER_H 40
-#define PLAYER_MAX_STATE 2
+#define PLAYER_MAX_ANIM_STATE 3
 
 #endif

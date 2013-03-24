@@ -231,9 +231,9 @@ void Camera::AnimateCharacter(){
   }
 
   // set player animation frame
-  if(animationTimer<3) animationTimer++;
+  if(animationTimer<2) animationTimer++;
   else{
     animationTimer=0;
-    playerStateY = (playerStateY%PLAYER_MAX_STATE) + 1;
+    playerStateY = (playerStateY+1) % (PLAYER_MAX_ANIM_STATE+1);
   }
 }
