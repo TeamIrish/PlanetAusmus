@@ -2,7 +2,6 @@
  
 void MapEditor::OnRender() {
 
-  cout << "test" << endl;
   // render maps
   for(int i=0;i<4;i++){
     gameMap[i].OnRender(Surf_Display, Camera::CameraControl.GetX()+MAP_WIDTH*TILE_SIZE*(i%2), Camera::CameraControl.GetY()+MAP_HEIGHT*TILE_SIZE*(i/2));

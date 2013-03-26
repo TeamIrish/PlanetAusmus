@@ -27,7 +27,6 @@ MapEditor::MapEditor() {
 	currentTileXID=0;
 	currentTileYID=1;
 
-	Load = false;
 	Running = true;
 }
 
@@ -35,7 +34,6 @@ int MapEditor::OnExecute() {
   //UserInput();
   srand(time(NULL));
 
-  Load=true;
   Camera::CameraControl.ChangeMapView();
 
 	// Initialize the game; if it fails, return error code and close program

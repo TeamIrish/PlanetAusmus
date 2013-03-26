@@ -41,7 +41,6 @@ class MapEditor : public Event {
 	// filenames
 	static string filenameSave[4];
 	static string filenameLoad[4];
-	bool Load;
 
 	public: // need to make get/set functions for these
 

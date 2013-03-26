@@ -5,28 +5,8 @@ Map::Map() {
 	Surf_Tileset = NULL;
 }
 
-bool Map::OnLoad(char* File, bool Load,string filenameLoad, int currentTileXID, int currentTileYID) {
+bool Map::OnLoad(char* File, string filenameLoad, int currentTileXID, int currentTileYID) {
 	TileList.clear();
-
-	/*if(Load == false){
-	  cout<<"Not loading map."<<endl;
-		// generate a fresh map
-		for(int Y=0;Y<MAP_HEIGHT;Y++) {
-			for(int X=0;X<MAP_WIDTH;X++) {
-				
-				Tile tempTile;
-
-				tempTile.TileXID = currentTileXID;
-				tempTile.TileYID = currentTileYID;
-
-				TileList.push_back(tempTile);
-			}
-		}
-	}
-	
-
-	if(Load == true){*/
-	// Load in a map from memory
 
 	  FILE* FileHandle = fopen(filenameLoad.c_str(),"r");
 
@@ -47,7 +27,6 @@ bool Map::OnLoad(char* File, bool Load,string filenameLoad, int currentTileXID, 
 		}
 
 		fclose(FileHandle);
-	//}
 
 	return true;
 }
@@ -90,13 +69,13 @@ void Map::OnRender(SDL_Surface* Surf_Display, int MapX, int MapY) {
 			Surface::OnDraw(Surf_Display, Surf_Tileset, tX, tY, TilesetX, TilesetY, TILE_SIZE, TILE_SIZE);
 			
 			if( ((tX > CharacterXPos) && (tX < (CharacterXPos + TILE_SIZE))) && ((tY > CharacterYPos) && (tY < (CharacterYPos + TILE_SIZE))) ){
-				if(TileList[ID].TypeID == 1){
+				if(TileList[ID].TypeID == TILE_TYPE_TRAVERSABLE){
 					cout << "Traversable" << endl;
 				}
-				if(TileList[ID].TypeID == 2){
+				if(TileList[ID].TypeID == TILE_TYPE_NON_TRAVERSABLE){
 					cout << "Non-traversable" << endl;
 				}
-				if(TileList[ID].TypeID == 0){
+				if(TileList[ID].TypeID == TILE_TYPE_NONE){
 					cout << "No Type" << endl;
 				}
 			}
