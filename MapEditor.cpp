@@ -50,13 +50,13 @@ int MapEditor::OnExecute() {
 		while(SDL_PollEvent(&Event)){
 			OnEvent(&Event);
 		}
-
+		
 		// Manipulate data
 		OnLoop();
 
 	  // switch map view if necessary
 	  if(runLoadMaps==true){
-	    LoadMaps();
+	    LoadMaps(); // HAVING ERRORS
 	    runLoadMaps=false;
 	  }
 		// Render the output

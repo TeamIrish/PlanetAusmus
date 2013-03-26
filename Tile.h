@@ -5,12 +5,12 @@
 
 #include "Define.h"
 
-/*enum {
+enum {
 	TILE_TYPE_NONE = 0,
 
 	TILE_TYPE_TRAVERSABLE,
 	TILE_TYPE_NON_TRAVERSABLE
-};*/
+};
 
 class Tile {
 

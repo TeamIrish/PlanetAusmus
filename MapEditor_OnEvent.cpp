@@ -25,7 +25,7 @@ void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
 		int TileNumber = (MapYTile * MAP_WIDTH) + MapXTile;
 		gameMap[0].TileList[TileNumber].TileXID = currentTileXID;
 		gameMap[0].TileList[TileNumber].TileYID = currentTileYID;
-		gameMap[0].TileList[TileNumber].TypeID = TILE_TYPE_NORMAL;
+		gameMap[0].TileList[TileNumber].TypeID = TILE_TYPE_NONE;
   }
 
 // TYPE SELECTION
