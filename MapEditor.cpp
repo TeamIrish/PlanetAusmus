@@ -71,7 +71,7 @@ int MapEditor::OnExecute() {
 
 bool MapEditor::LoadMaps(){
   for(int i=0;i<4;i++){
-    if(gameMap[i].OnLoad("/maps/1.map",Load,filenameLoad[i],currentTileXID,currentTileYID) == false) {
+    if(gameMap[i].OnLoad("/maps/1.map",filenameLoad[i],currentTileXID,currentTileYID) == false) {
       cout<<"  Error loading "<<filenameLoad[i]<<endl;
     }
   }
