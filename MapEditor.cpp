@@ -19,11 +19,10 @@ MapEditor::MapEditor() {
 	Control_Display = NULL;
 	Tileset = NULL;
 	Selector =  NULL;
-<<<<<<< HEAD
+
 	Main_Character = NULL;
-=======
+
 	Player_Character = NULL;
->>>>>>> b087c503c444245bb24dcc4fdd04eabfae956ff3
 
 	currentTileXID=0;
 	currentTileYID=1;
