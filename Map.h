@@ -27,7 +27,7 @@ class Map {
 	public:
 
 		bool OnLoad(char*,bool,string,int,int);
-		void ValueToTile(int,int&,int&);
+		void ValueToTile(int,int&,int&,int&);
 		void OnRender(SDL_Surface* Surf_Display, int MapX, int MapY);
 
 };

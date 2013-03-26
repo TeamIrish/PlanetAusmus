@@ -11,6 +11,7 @@ bool MapEditor::runLoadMaps=false;
 // tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
 int MapEditor::tileX[] = {6,3,3,6,3,3,0,0,0,0,6,0,0,3,6,0};
 int MapEditor::tileY[] = {8,0,9,9,9,0,3,1,1,6,6,1,1,1,1,2};
+int MapEditor::tileTypes[] = {2,1,1,2,1,1,1,1,1,2,2,1,1,1,2,2}; // 1 = traversable, 2 = non-traversable
 
 MapEditor::MapEditor() {
 	// Initialize the surfaces to NULL to avoid errors
@@ -18,7 +19,11 @@ MapEditor::MapEditor() {
 	Control_Display = NULL;
 	Tileset = NULL;
 	Selector =  NULL;
+<<<<<<< HEAD
+	Main_Character = NULL;
+=======
 	Player_Character = NULL;
+>>>>>>> b087c503c444245bb24dcc4fdd04eabfae956ff3
 
 	currentTileXID=0;
 	currentTileYID=1;

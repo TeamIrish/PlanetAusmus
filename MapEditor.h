@@ -28,7 +28,11 @@ class MapEditor : public Event {
 	SDL_Surface* Control_Display;
 	SDL_Surface* Tileset;
 	SDL_Surface* Selector;
+<<<<<<< HEAD
+	SDL_Surface* Main_Character;
+=======
 	SDL_Surface* Player_Character;
+>>>>>>> b087c503c444245bb24dcc4fdd04eabfae956ff3
 
 	public:
 	// game map
@@ -59,6 +63,7 @@ class MapEditor : public Event {
 	// tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
 	static int tileX[NUM_TILES];
 	static int tileY[NUM_TILES];
+	static int tileTypes[NUM_TILES];
 
     public:
 
