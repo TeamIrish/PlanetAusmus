@@ -3,7 +3,7 @@
 void MapEditor::OnLoop() {
 
 	// Move camera
-	int moveSize = 1;
+	int moveSize = 5;
 	if(Camera::CameraControl.MovingLeft == true){
 		Camera::CameraControl.OnMove(moveSize,0);
 		if(!(CheckCollision())) Camera::CameraControl.OnMove(-moveSize,0);
