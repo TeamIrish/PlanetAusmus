@@ -80,6 +80,7 @@ class MapEditor : public Event {
 	void OnExit();
  
         void OnLoop();
+	bool CheckCollision();
  
         void OnRender();
 

@@ -8,8 +8,8 @@
 Camera Camera::CameraControl;
  
 Camera::Camera() {
-    X = -(WWIDTH/2);
-	Y = -(WHEIGHT/2);
+  X = -(MAP_WIDTH*TILE_SIZE-WWIDTH/2);   //-(WWIDTH/2);
+  Y = -(MAP_HEIGHT*TILE_SIZE-WHEIGHT/2); //-(WHEIGHT/2);
  
     TargetX = TargetY = NULL;
  

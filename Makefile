@@ -31,4 +31,4 @@ Tile.o: Tile.cpp
 	g++ -c Tile.cpp
 
 clean:
-	rm -f *.o *~
+	rm -f *.o *~ MapEditor maps/map*

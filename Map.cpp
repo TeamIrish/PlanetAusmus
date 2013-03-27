@@ -60,15 +60,15 @@ void Map::OnRender(SDL_Surface* Surf_Display, int MapX, int MapY) {
 
 			/* Checks to find the center tile */ // NEW
 
-			int CameraXPos = Camera::CameraControl.GetX(); // NEW
+			/*int CameraXPos = Camera::CameraControl.GetX(); // NEW
 			int CameraYPos = Camera::CameraControl.GetY(); // NEW
 			int CharacterXPos = CameraXPos + WWIDTH/2;
-			int CharacterYPos = CameraYPos + WHEIGHT/2;
+			int CharacterYPos = CameraYPos + WHEIGHT/2;*/
 
 			// This is placing each tile on the display, 
 			Surface::OnDraw(Surf_Display, Surf_Tileset, tX, tY, TilesetX, TilesetY, TILE_SIZE, TILE_SIZE);
 			
-			if( ((tX > CharacterXPos) && (tX < (CharacterXPos + TILE_SIZE))) && ((tY > CharacterYPos) && (tY < (CharacterYPos + TILE_SIZE))) ){
+			/*if( ((tX < CharacterXPos) && (tX+TILE_SIZE > CharacterXPos )) && ((tY < CharacterYPos) && (tY+TILE_SIZE > CharacterYPos)) ){
 				if(TileList[ID].TypeID == TILE_TYPE_TRAVERSABLE){
 					cout << "Traversable" << endl;
 				}
@@ -78,7 +78,7 @@ void Map::OnRender(SDL_Surface* Surf_Display, int MapX, int MapY) {
 				if(TileList[ID].TypeID == TILE_TYPE_NONE){
 					cout << "No Type" << endl;
 				}
-			}
+			}*/
 
 			ID++;
 		}
