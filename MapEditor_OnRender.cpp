@@ -8,7 +8,7 @@ void MapEditor::OnRender() {
   }
 
   // render player character
-  Surface::OnDraw(Surf_Display,Player_Character,WWIDTH/2,WHEIGHT/2,Camera::CameraControl.playerStateX*CHARACTER_W,Camera::CameraControl.playerStateY*CHARACTER_H,CHARACTER_W,CHARACTER_H);
+  Surface::OnDraw(Surf_Display,Player_Character,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2,Camera::CameraControl.playerStateX*CHARACTER_W,Camera::CameraControl.playerStateY*CHARACTER_H,CHARACTER_W,CHARACTER_H);
 
   
   // Refresh the buffer and display Surf_Display to screen
