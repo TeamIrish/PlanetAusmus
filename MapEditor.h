@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 #include <vector>
 
@@ -16,6 +17,7 @@
 #include "Surface.h"
 #include "Map.h"
 #include "Camera.h"
+#include "Enemy.h"
 
 using namespace std;
  
@@ -47,7 +49,8 @@ class MapEditor : public Event {
 	// current tile choice
 	int currentTileXID;
 	int currentTileYID;
-	static MapEditor MapEditorControl;
+
+	vector<Enemy> EnemyList;
 
     public:
         MapEditor();
@@ -81,6 +84,7 @@ class MapEditor : public Event {
  
         void OnLoop();
 	bool CheckCollision();
+	void SpawnEnemy();
  
         void OnRender();
 

@@ -10,7 +10,7 @@ class Surface {
  
     public:
 	// simple static function that will load a surface for us
-    static SDL_Surface* OnLoad(char* File);
+    static SDL_Surface* OnLoad(const char* File);
 
 	// function to draw (blit) images
 	static bool OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int X, int Y);

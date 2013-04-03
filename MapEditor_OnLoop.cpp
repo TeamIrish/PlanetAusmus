@@ -29,6 +29,9 @@ void MapEditor::OnLoop() {
 
 	// Change player character state
 	Camera::CameraControl.AnimateCharacter();
+
+	// Decide whether to spawn enemy
+	if(rand()%100<2 && EnemyList.size()<6) SpawnEnemy();
 }
 
 
@@ -60,4 +63,14 @@ bool MapEditor::CheckCollision(){
 		//cout<<"Other."<<endl;
 		return true;
 	}
+}
+
+
+void MapEditor::SpawnEnemy(){
+  string typestring = "golem.png";
+  int spawnX = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
+  int spawnY = -Camera::CameraControl.GetY()+WHEIGHT/2+pow(-1,rand()%2)*(rand()%(WHEIGHT/3));
+  Enemy tmp(typestring,32,32,spawnX,spawnY);
+  EnemyList.push_back(tmp);
+  cout<<"Enemy Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
 }

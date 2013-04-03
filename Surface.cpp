@@ -4,7 +4,7 @@ Surface::Surface(){
 }
 
 // simple static function that will load a surface for us
-SDL_Surface* Surface::OnLoad(char* File) {
+SDL_Surface* Surface::OnLoad(const char* File) {
     SDL_Surface* Surf_Temp = NULL;
     SDL_Surface* Surf_Return = NULL;
  

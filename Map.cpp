@@ -44,9 +44,6 @@ void Map::OnRender(SDL_Surface* Surf_Display, int MapX, int MapY) {
 		return;
 	}
 
-	int TilesetWidth = Surf_Tileset-> w / TILE_SIZE;
-	int TilesetHeight = Surf_Tileset-> h / TILE_SIZE;
-
 	int ID = 0;
 
 	for(int Y=0;Y<MAP_HEIGHT;Y++) {

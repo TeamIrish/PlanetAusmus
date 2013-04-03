@@ -6,7 +6,6 @@ using namespace std;
 // initialize static variables
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
-MapEditor MapEditor::MapEditorControl;
 bool MapEditor::runLoadMaps=false;
 // tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
 int MapEditor::tileX[] = {6,3,3,6,3,3,0,0,0,0,6,0,0,3,6,0};

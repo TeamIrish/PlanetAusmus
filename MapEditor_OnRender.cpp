@@ -10,7 +10,11 @@ void MapEditor::OnRender() {
   // render player character
   Surface::OnDraw(Surf_Display,Player_Character,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2,Camera::CameraControl.playerStateX*CHARACTER_W,Camera::CameraControl.playerStateY*CHARACTER_H,CHARACTER_W,CHARACTER_H);
 
-  
+  // render enemies
+  for(int i=0;i<EnemyList.size();i++){
+    if(EnemyList[i].OnRender(Surf_Display)==false) cout<<"Error displaying enemy "<<i<<endl;
+  }
+
   // Refresh the buffer and display Surf_Display to screen
   SDL_Flip(Surf_Display);
 }

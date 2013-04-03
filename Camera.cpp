@@ -116,6 +116,7 @@ bool Camera::ChangeMapView(){
 
   cout<<"View set to: "<<MapEditor::filenameLoad[0]<<" "<<MapEditor::filenameLoad[1]<<"\n             "<<MapEditor::filenameLoad[2]<<" "<<MapEditor::filenameLoad[3]<<endl;
 
+  return true;
 }
 
 void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
