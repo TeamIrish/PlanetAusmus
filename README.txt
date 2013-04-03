@@ -1,0 +1,70 @@
+  __  __             ______    _ _ _             
+ |  \/  |           |  ____|  | (_) |            
+ | \  / | __ _ _ __ | |__   __| |_| |_ ___  _ __ 
+ | |\/| |/ _` | '_ \|  __| / _` | | __/ _ \| '__|
+ | |  | | (_| | |_) | |___| (_| | | || (_) | |   
+ |_|  |_|\__,_| .__/|______\__,_|_|\__\___/|_|   
+              | |                                
+              |_|                                
+
+  Matthew Rundle, Benjamin Laws, Matthew Mahan, Paul Kennedy
+
+------------------------------------------------------------
+
+A 2D top-down RPG using C++ with the SDL libraries.
+
+Created for use in the semester project for the Spring 2013
+semester CSE20212 class (Fundamentals of Computing II) at
+the University of Notre Dame.
+
+------------------------------------------------------------
+
+Credits:
+
+    -Special thanks to David Gervais for the particular 
+     tileset used in the creation of MapEditor. His work is
+     published under the Creative Commons license. To view
+     some of his work, visit:
+     http://pousse.rapiere.free.fr/tome/tome-tiles.htm
+
+    -Also, special thanks goes to Tim Jones of
+     http://www.sdltutorials.com for helping us make our
+     foray into SDL and helping us to devlop this map
+     editor tool
+
+    -Placeholder character sprite, originally from Pokemon Blue, can be 
+     found at:
+     http://spriters-resource.com/gameboy/pokerb/sheet/8728
+
+------------------------------------------------------------
+
+Installation:
+
+    -MapEditor requires installation of all SDL libaries
+
+        -Resources can be found at http://www.libsdl.org/
+
+    -Download all files, and run the makefile
+
+    -The "grounds32.gif" tileset must be located in
+     containing folder "./tilesets/" relative to the 
+     executable file
+
+------------------------------------------------------------
+
+Instructions:
+
+    -Run make
+
+    -Run MapEditor
+
+------------------------------------------------------------
+
+Controls:
+
+    -WASD to control camera and navigate around map
+
+    -ESC to exit
+
+------------------------------------------------------------
+
