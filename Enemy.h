@@ -14,15 +14,18 @@ class Enemy{
  public:
   Enemy(string,int,int,int=MAP_WIDTH,int=MAP_HEIGHT);
   bool OnRender(SDL_Surface*);
+  double getX();
+  double getY();
+  void changePos(int,int);
+  void OnCleanup();
  private:
-  SDL_Surface* EnemySprite;
+  int X;
+  int Y;
   int width;
   int height;
   int enemyStateX;
   int enemyStateY;
- public:
-  double X;
-  double Y;
+  SDL_Surface* EnemySprite;
 };
 
 #endif

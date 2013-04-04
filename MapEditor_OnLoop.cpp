@@ -63,7 +63,6 @@ bool MapEditor::CheckCollision(){
 
 
 void MapEditor::SpawnEnemy(){
-  cout<<"SpawnEnemy()"<<endl;
   string typestring = "golem.png";
   // generate random coordinates onscreen
   int spawnX = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
@@ -77,4 +76,5 @@ void MapEditor::SpawnEnemy(){
   Enemy* tmp = new Enemy(typestring,32,32,spawnX,spawnY);
   EnemyList.push_back(tmp);
   cout<<"Enemy Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
+  for(int i=0;i<EnemyList.size();i++) cout<<(int)EnemyList[i]->getX()/TILE_SIZE<<","<<(int)EnemyList[i]->getY()/TILE_SIZE<<endl;
 }

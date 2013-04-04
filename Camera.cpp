@@ -14,12 +14,13 @@ Camera::Camera() {
     TargetX = TargetY = NULL;
  
     TargetMode = TARGET_MODE_NORMAL;
+
+    playerStateX = playerStateY = 0;
 }
  
 void Camera::OnMove(int MoveX, int MoveY) {
     X += MoveX;
     Y += MoveY;
-    //cout<<"Current tile position: "<<(-X+WWIDTH/2)/TILE_SIZE<<","<<(-Y+WHEIGHT/2)/TILE_SIZE<<endl;
 }
  
 int Camera::GetX() {
@@ -61,29 +62,41 @@ void Camera::CheckBounds(){
 	if(Camera::CameraControl.GetX() > 0){
 	  if(--currentMapX<0) currentMapX=999;
 	  CameraControl.SetPos(MAP_WIDTH*TILE_SIZE*-1,CameraControl.GetY());
-	  for(int i=0;i<MapEditor::EnemyList.size();i++)
-	    MapEditor::EnemyList[i]->X -= MAP_WIDTH*TILE_SIZE;
+	  for(int i=0;i<MapEditor::EnemyList.size();i++){
+	    cout<<"Enemy "<<i<<" old position: "<<(int)MapEditor::EnemyList[i]->getX()/TILE_SIZE<<","<<(int)MapEditor::EnemyList[i]->getY()/TILE_SIZE<<endl;
+	    MapEditor::EnemyList[i]->changePos(MAP_WIDTH*TILE_SIZE,0);
+	    cout<<"        new position: "<<(int)MapEditor::EnemyList[i]->getX()/TILE_SIZE<<","<<(int)MapEditor::EnemyList[i]->getY()/TILE_SIZE<<endl;
+	  }
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetX() < (-1*MAP_WIDTH*TILE_SIZE)){
 	  if(++currentMapX>999) currentMapX=0;
 	  CameraControl.SetPos(0,CameraControl.GetY());
-	  for(int i=0;i<MapEditor::EnemyList.size();i++)
-	    MapEditor::EnemyList[i]->X += MAP_WIDTH*TILE_SIZE;
+	  for(int i=0;i<MapEditor::EnemyList.size();i++){
+	    cout<<"Enemy "<<i<<" old position: "<<(int)MapEditor::EnemyList[i]->getX()/TILE_SIZE<<","<<(int)MapEditor::EnemyList[i]->getY()/TILE_SIZE<<endl;
+	    MapEditor::EnemyList[i]->changePos(-MAP_WIDTH*TILE_SIZE,0);
+	    cout<<"Enemy "<<i<<" new position: "<<(int)MapEditor::EnemyList[i]->getX()/TILE_SIZE<<","<<(int)MapEditor::EnemyList[i]->getY()/TILE_SIZE<<endl;
+	  }
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetY() > 0){
 	  if(--currentMapY<0) currentMapY=999;
 	  CameraControl.SetPos(CameraControl.GetX(),MAP_HEIGHT*TILE_SIZE*-1);
-	  for(int i=0;i<MapEditor::EnemyList.size();i++)
-	    MapEditor::EnemyList[i]->Y -= MAP_HEIGHT*TILE_SIZE;
+	  for(int i=0;i<MapEditor::EnemyList.size();i++){
+	    cout<<"Enemy "<<i<<" old position: "<<(int)MapEditor::EnemyList[i]->getX()/TILE_SIZE<<","<<(int)MapEditor::EnemyList[i]->getY()/TILE_SIZE<<endl;
+	    MapEditor::EnemyList[i]->changePos(0,MAP_WIDTH*TILE_SIZE);
+	    cout<<"Enemy "<<i<<" new position: "<<(int)MapEditor::EnemyList[i]->getX()/TILE_SIZE<<","<<(int)MapEditor::EnemyList[i]->getY()/TILE_SIZE<<endl;
+	  }
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetY() < (-1*MAP_HEIGHT*TILE_SIZE)){
 	  if(++currentMapY>999) currentMapY=0;
 	  CameraControl.SetPos(CameraControl.GetX(),0);
-	  for(int i=0;i<MapEditor::EnemyList.size();i++)
-	    MapEditor::EnemyList[i]->Y += MAP_HEIGHT*TILE_SIZE;
+	  for(int i=0;i<MapEditor::EnemyList.size();i++){
+	    cout<<"Enemy "<<i<<" old position: "<<(int)MapEditor::EnemyList[i]->getX()/TILE_SIZE<<","<<(int)MapEditor::EnemyList[i]->getY()/TILE_SIZE<<endl;
+	    MapEditor::EnemyList[i]->changePos(0,-MAP_WIDTH*TILE_SIZE);
+	    cout<<"Enemy "<<i<<" new position: "<<(int)MapEditor::EnemyList[i]->getX()/TILE_SIZE<<","<<(int)MapEditor::EnemyList[i]->getY()/TILE_SIZE<<endl;
+	  }
 	  ChangeMapView();
 	}
 }

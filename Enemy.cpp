@@ -20,3 +20,19 @@ bool Enemy::OnRender(SDL_Surface* Display){
   return true;
 }
 
+double Enemy::getX(){
+  return X;
+}
+
+double Enemy::getY(){
+  return Y;
+}
+
+void Enemy::changePos(int a,int b){
+  X += a;
+  Y += b;
+}
+
+void Enemy::OnCleanup(){
+  SDL_FreeSurface(EnemySprite);
+}
