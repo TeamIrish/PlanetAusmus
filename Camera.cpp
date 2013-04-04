@@ -19,6 +19,7 @@ Camera::Camera() {
 void Camera::OnMove(int MoveX, int MoveY) {
     X += MoveX;
     Y += MoveY;
+    //cout<<"Current tile position: "<<(-X+WWIDTH/2)/TILE_SIZE<<","<<(-Y+WHEIGHT/2)/TILE_SIZE<<endl;
 }
  
 int Camera::GetX() {
@@ -58,27 +59,31 @@ void Camera::SetTarget(int* X, int* Y) {
 // Check to make sure that the camera didn't move out of bounds - if so, change view
 void Camera::CheckBounds(){
 	if(Camera::CameraControl.GetX() > 0){
-	  //Camera::CameraControl.SetPos(0,Camera::CameraControl.GetY());
 	  if(--currentMapX<0) currentMapX=999;
 	  CameraControl.SetPos(MAP_WIDTH*TILE_SIZE*-1,CameraControl.GetY());
+	  for(int i=0;i<MapEditor::EnemyList.size();i++)
+	    MapEditor::EnemyList[i]->X -= MAP_WIDTH*TILE_SIZE;
 	  ChangeMapView();
 	}
-	if(Camera::CameraControl.GetX() < (MAP_WIDTH*TILE_SIZE*-1)){
-	  //Camera::CameraControl.SetPos((MAP_WIDTH*TILE_SIZE*-1)+WWIDTH,Camera::CameraControl.GetY());
+	if(Camera::CameraControl.GetX() < (-1*MAP_WIDTH*TILE_SIZE)){
 	  if(++currentMapX>999) currentMapX=0;
 	  CameraControl.SetPos(0,CameraControl.GetY());
+	  for(int i=0;i<MapEditor::EnemyList.size();i++)
+	    MapEditor::EnemyList[i]->X += MAP_WIDTH*TILE_SIZE;
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetY() > 0){
-	  //Camera::CameraControl.SetPos(Camera::CameraControl.GetX(), 0);
 	  if(--currentMapY<0) currentMapY=999;
 	  CameraControl.SetPos(CameraControl.GetX(),MAP_HEIGHT*TILE_SIZE*-1);
+	  for(int i=0;i<MapEditor::EnemyList.size();i++)
+	    MapEditor::EnemyList[i]->Y -= MAP_HEIGHT*TILE_SIZE;
 	  ChangeMapView();
 	}
-	if(Camera::CameraControl.GetY() < (MAP_HEIGHT*TILE_SIZE*-1)){
-	  //Camera::CameraControl.SetPos(Camera::CameraControl.GetX(),(MAP_HEIGHT*TILE_SIZE*-1)+WHEIGHT);
+	if(Camera::CameraControl.GetY() < (-1*MAP_HEIGHT*TILE_SIZE)){
 	  if(++currentMapY>999) currentMapY=0;
 	  CameraControl.SetPos(CameraControl.GetX(),0);
+	  for(int i=0;i<MapEditor::EnemyList.size();i++)
+	    MapEditor::EnemyList[i]->Y += MAP_HEIGHT*TILE_SIZE;
 	  ChangeMapView();
 	}
 }

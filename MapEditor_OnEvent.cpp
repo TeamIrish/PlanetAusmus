@@ -9,7 +9,7 @@ void MapEditor::OnEvent(SDL_Event* Event) {
 void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
 	// On left mouse button click
 
-  if(1 /* MouseXPos < (WWIDTH - CBAR_WIDTH) */){
+  /*  if(1 /* MouseXPos < (WWIDTH - CBAR_WIDTH) *//*){
 		int CameraXPos = Camera::CameraControl.GetX();
 		int CameraYPos = Camera::CameraControl.GetY();
 
@@ -29,7 +29,6 @@ void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
   }
 
 // TYPE SELECTION
-/*
 	if(MouseXPos > (WWIDTH - CBAR_WIDTH)){
 		
 		// First row - should probably get rid of magic numbers
@@ -46,10 +45,7 @@ void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
 
 //==============================================================================
 void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
-
-	int move_size=10;	
-	
-	switch(sym) {
+       	switch(sym) {
 
 		case SDLK_LEFT: {
 			if(!((currentTileXID==0) && (currentTileYID==0))){

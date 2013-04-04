@@ -16,12 +16,13 @@ class Enemy{
   bool OnRender(SDL_Surface*);
  private:
   SDL_Surface* EnemySprite;
-  double X;
-  double Y;
   int width;
   int height;
   int enemyStateX;
   int enemyStateY;
+ public:
+  double X;
+  double Y;
 };
 
 #endif

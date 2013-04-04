@@ -1,24 +1,20 @@
 #include "MapEditor.h"
  
 void MapEditor::OnLoop() {
-
 	// Move camera
 	int moveSize = 5;
 	if(Camera::CameraControl.MovingLeft == true){
 		Camera::CameraControl.OnMove(moveSize,0);
 		if(!(CheckCollision())) Camera::CameraControl.OnMove(-moveSize,0);
 	}
-
 	if(Camera::CameraControl.MovingRight == true){
 		Camera::CameraControl.OnMove(-moveSize,0);
 		if(!(CheckCollision())) Camera::CameraControl.OnMove(moveSize,0);
 	}
-
 	if(Camera::CameraControl.MovingUp == true){
 		Camera::CameraControl.OnMove(0,moveSize);
 		if(!(CheckCollision())) Camera::CameraControl.OnMove(0,-moveSize);
 	}
-
 	if(Camera::CameraControl.MovingDown == true){
 		Camera::CameraControl.OnMove(0,-moveSize);
 		if(!(CheckCollision())) Camera::CameraControl.OnMove(0,moveSize);
@@ -67,10 +63,18 @@ bool MapEditor::CheckCollision(){
 
 
 void MapEditor::SpawnEnemy(){
+  cout<<"SpawnEnemy()"<<endl;
   string typestring = "golem.png";
+  // generate random coordinates onscreen
   int spawnX = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
   int spawnY = -Camera::CameraControl.GetY()+WHEIGHT/2+pow(-1,rand()%2)*(rand()%(WHEIGHT/3));
-  Enemy tmp(typestring,32,32,spawnX,spawnY);
+  // move coordinates to somewhere offscreen
+  int random=rand()%3;
+  if(random>0) spawnX += pow(-1,rand()%2)*WWIDTH;
+  if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT;
+
+  // instantiate enemy and add to list
+  Enemy* tmp = new Enemy(typestring,32,32,spawnX,spawnY);
   EnemyList.push_back(tmp);
   cout<<"Enemy Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
 }

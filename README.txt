@@ -1,11 +1,11 @@
-  __  __             ______    _ _ _             
- |  \/  |           |  ____|  | (_) |            
- | \  / | __ _ _ __ | |__   __| |_| |_ ___  _ __ 
- | |\/| |/ _` | '_ \|  __| / _` | | __/ _ \| '__|
- | |  | | (_| | |_) | |___| (_| | | || (_) | |   
- |_|  |_|\__,_| .__/|______\__,_|_|\__\___/|_|   
-              | |                                
-              |_|                                
+     _____         _______ __   _ _______ _______  
+    |_____] |      |_____| | \  | |______    |     
+    |       |_____ |     | |  \_| |______    |     
+                                                
+   _______ _     _ _______ _______ _     _ _______
+   |_____| |     | |______ |  |  | |     | |______
+   |     | |_____| ______| |  |  | |_____| ______|
+                                                
 
   Matthew Rundle, Benjamin Laws, Matthew Mahan, Paul Kennedy
 
@@ -27,13 +27,13 @@ Credits:
      some of his work, visit:
      http://pousse.rapiere.free.fr/tome/tome-tiles.htm
 
-    -Also, special thanks goes to Tim Jones of
+    -Special thanks goes to Tim Jones of
      http://www.sdltutorials.com for helping us make our
-     foray into SDL and helping us to devlop this map
-     editor tool
+     foray into SDL. We used his SDL game tutorials to help
+     us develop the initial structure of this game.
 
-    -Placeholder character sprite, originally from Pokemon Blue, can be 
-     found at:
+    -Placeholder character sprite, originally from
+     Pokemon Blue, can be found at:
      http://spriters-resource.com/gameboy/pokerb/sheet/8728
 
 ------------------------------------------------------------
