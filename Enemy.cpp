@@ -11,6 +11,7 @@ Enemy::Enemy(string file,int w,int h,int x,int y){
   height = h;
   X = x;
   Y = y;
+  enemyStateX = enemyStateY = 0;
 }
 
 bool Enemy::OnRender(SDL_Surface* Display){

@@ -50,7 +50,7 @@ class MapEditor : public Event {
 	int currentTileXID;
 	int currentTileYID;
 
-	vector<Enemy> EnemyList;
+	static vector<Enemy*> EnemyList;
 
     public:
         MapEditor();

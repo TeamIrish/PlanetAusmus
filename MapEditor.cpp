@@ -6,6 +6,7 @@ using namespace std;
 // initialize static variables
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
+vector<Enemy*> MapEditor::EnemyList;
 bool MapEditor::runLoadMaps=false;
 // tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
 int MapEditor::tileX[] = {6,3,3,6,3,3,0,0,0,0,6,0,0,3,6,0};
@@ -72,8 +73,10 @@ bool MapEditor::LoadMaps(){
   for(int i=0;i<4;i++){
     if(gameMap[i].OnLoad("/maps/1.map",filenameLoad[i],currentTileXID,currentTileYID) == false) {
       cout<<"  Error loading "<<filenameLoad[i]<<endl;
+      return false;
     }
   }
+  return true;
 }
 
 int main(int argc, char* argv[]) {
