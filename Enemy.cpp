@@ -20,12 +20,20 @@ bool Enemy::OnRender(SDL_Surface* Display){
   return true;
 }
 
-double Enemy::getX(){
+int Enemy::getX(){
   return X;
 }
 
-double Enemy::getY(){
+int Enemy::getY(){
   return Y;
+}
+
+int Enemy::getW(){
+  return width;
+}
+
+int Enemy::getH(){
+  return height;
 }
 
 void Enemy::changePos(int a,int b){

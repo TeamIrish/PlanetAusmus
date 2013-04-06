@@ -14,8 +14,10 @@ class Enemy{
  public:
   Enemy(string,int,int,int=MAP_WIDTH,int=MAP_HEIGHT);
   bool OnRender(SDL_Surface*);
-  double getX();
-  double getY();
+  int getX();
+  int getY();
+  int getW();
+  int getH();
   void changePos(int,int);
   void OnCleanup();
  private:

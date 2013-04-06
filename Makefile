@@ -34,3 +34,4 @@ Enemy.o: Enemy.cpp
 
 clean:
 	rm -f *.o *~ MapEditor maps/map*
+
