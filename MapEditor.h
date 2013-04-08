@@ -24,14 +24,15 @@ using namespace std;
 class MapEditor : public Event {
     private:
 	bool Running;
+	bool Quit;
 
 	// SDL surfaces
 	SDL_Surface* Surf_Display;
 	SDL_Surface* Control_Display;
 	SDL_Surface* Tileset;
 	SDL_Surface* Selector;
-
-	SDL_Surface* Main_Character;
+	SDL_Surface* Menu;
+		bool dispMenu;
 
 	SDL_Surface* Player_Character;
 
@@ -56,6 +57,7 @@ class MapEditor : public Event {
         MapEditor();
 
         int OnExecute();
+	void GameOver();
 
 	bool LoadMaps(); // called after every change of map view
 	static bool runLoadMaps;
@@ -80,11 +82,13 @@ class MapEditor : public Event {
 
 	void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode);
 
+	void OnStop();
 	void OnExit();
  
         void OnLoop();
 	bool CheckCollision();
 	void SpawnEnemy();
+	bool CheckEnemyCollisions();
  
         void OnRender();
 

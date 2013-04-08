@@ -19,8 +19,8 @@ MapEditor::MapEditor() {
 	Control_Display = NULL;
 	Tileset = NULL;
 	Selector =  NULL;
-
-	Main_Character = NULL;
+	Menu = NULL;
+		dispMenu = false;
 
 	Player_Character = NULL;
 
@@ -28,10 +28,10 @@ MapEditor::MapEditor() {
 	currentTileYID=1;
 
 	Running = true;
+	Quit = false;
 }
 
 int MapEditor::OnExecute() {
-  //UserInput();
   srand(time(NULL));
 
   Camera::CameraControl.ChangeMapView();
@@ -61,7 +61,9 @@ int MapEditor::OnExecute() {
 		OnRender();
 	}
 
-	OnSave();
+	OnSave(); // doesn't actually do anything anymore... might later, though, if we actually save stuff
+
+	GameOver();
 
 	// Clean up trash
 	OnCleanup();
@@ -77,6 +79,13 @@ bool MapEditor::LoadMaps(){
     }
   }
   return true;
+}
+
+void MapEditor::GameOver(){
+  SDL_Event Event;
+  while(!Quit){
+    while(SDL_PollEvent(&Event)) OnEvent(&Event);
+  }
 }
 
 int main(int argc, char* argv[]) {

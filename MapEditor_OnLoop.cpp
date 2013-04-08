@@ -5,19 +5,19 @@ void MapEditor::OnLoop() {
 	int moveSize = 5;
 	if(Camera::CameraControl.MovingLeft == true){
 		Camera::CameraControl.OnMove(moveSize,0);
-		if(!(CheckCollision())) Camera::CameraControl.OnMove(-moveSize,0);
+		if(CheckCollision()) Camera::CameraControl.OnMove(-moveSize,0);
 	}
 	if(Camera::CameraControl.MovingRight == true){
 		Camera::CameraControl.OnMove(-moveSize,0);
-		if(!(CheckCollision())) Camera::CameraControl.OnMove(moveSize,0);
+		if(CheckCollision()) Camera::CameraControl.OnMove(moveSize,0);
 	}
 	if(Camera::CameraControl.MovingUp == true){
 		Camera::CameraControl.OnMove(0,moveSize);
-		if(!(CheckCollision())) Camera::CameraControl.OnMove(0,-moveSize);
+		if(CheckCollision()) Camera::CameraControl.OnMove(0,-moveSize);
 	}
 	if(Camera::CameraControl.MovingDown == true){
 		Camera::CameraControl.OnMove(0,-moveSize);
-		if(!(CheckCollision())) Camera::CameraControl.OnMove(0,moveSize);
+		if(CheckCollision()) Camera::CameraControl.OnMove(0,moveSize);
 	}
 
 	// Check to make sure that the camera didn't move out of bounds - if so, change map view
@@ -26,8 +26,11 @@ void MapEditor::OnLoop() {
 	// Change player character state
 	Camera::CameraControl.AnimateCharacter();
 
+	// Check for collision with enemies
+	if(CheckEnemyCollisions()) Running=false;
+
 	// Decide whether to spawn enemy
-	if(rand()%100<2 && EnemyList.size()<6) SpawnEnemy();
+	if(rand()%100<1 && EnemyList.size()<6) SpawnEnemy();
 }
 
 
@@ -51,19 +54,18 @@ bool MapEditor::CheckCollision(){
 
 	if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_TRAVERSABLE){
 		//cout<<"Traversable"<<endl;
-		return true;
+		return false;
 	}else if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_NON_TRAVERSABLE){
 		//cout<<"Non-traversable"<<endl;
-		return false;
+		return true;
 	}else{
 		//cout<<"Other."<<endl;
-		return true;
+		return false;
 	}
 }
 
 
 void MapEditor::SpawnEnemy(){
-  cout<<"SpawnEnemy()"<<endl;
   string typestring = "golem.png";
   // generate random coordinates onscreen
   int spawnX = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
@@ -77,4 +79,16 @@ void MapEditor::SpawnEnemy(){
   Enemy* tmp = new Enemy(typestring,32,32,spawnX,spawnY);
   EnemyList.push_back(tmp);
   cout<<"Enemy Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
+}
+
+bool MapEditor::CheckEnemyCollisions(){
+  int charX = -Camera::CameraControl.GetX()+WWIDTH/2;
+  int charY = -Camera::CameraControl.GetY()+WHEIGHT/2;
+
+  for(int i=0;i<EnemyList.size();i++){
+    int Xdist = (CHARACTER_W + EnemyList[i]->getW())/2;
+    int Ydist = (CHARACTER_H + EnemyList[i]->getH())/2;
+    if(abs(charX-EnemyList[i]->getX())<Xdist && abs(charY-EnemyList[i]->getY())<Ydist) return true;
+  }
+  return false;
 }
