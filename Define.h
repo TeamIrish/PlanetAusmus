@@ -17,4 +17,7 @@
 #define CHARACTER_H 40
 #define PLAYER_MAX_ANIM_STATE 3
 
+#define MENU_W 600
+#define MENU_H 400
+
 #endif

@@ -16,7 +16,7 @@ void MapEditor::OnRender() {
   }
 
 	if(dispMenu == true){
-		Surface::OnDraw(Surf_Display,Menu,0,0);
+		Surface::OnDraw(Surf_Display,Menu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
 	}
 
   // Refresh the buffer and display Surf_Display to screen
