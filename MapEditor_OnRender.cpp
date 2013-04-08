@@ -15,6 +15,10 @@ void MapEditor::OnRender() {
     if((EnemyList[i]->OnRender(Surf_Display))==false) cout<<"Error displaying enemy "<<i<<endl;
   }
 
+	if(dispMenu == true){
+		Surface::OnDraw(Surf_Display,Menu,0,0);
+	}
+
   // Refresh the buffer and display Surf_Display to screen
   SDL_Flip(Surf_Display);
 }

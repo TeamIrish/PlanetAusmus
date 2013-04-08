@@ -19,6 +19,8 @@ MapEditor::MapEditor() {
 	Control_Display = NULL;
 	Tileset = NULL;
 	Selector =  NULL;
+	Menu = NULL;
+		dispMenu = false;
 
 	Player_Character = NULL;
 

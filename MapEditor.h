@@ -31,6 +31,8 @@ class MapEditor : public Event {
 	SDL_Surface* Control_Display;
 	SDL_Surface* Tileset;
 	SDL_Surface* Selector;
+	SDL_Surface* Menu;
+		bool dispMenu;
 
 	SDL_Surface* Player_Character;
 
