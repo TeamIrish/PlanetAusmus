@@ -8,6 +8,10 @@ bool MapEditor::OnInit() {
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
 		return false;
 	}
+	
+	// Initialize font 
+	if(TTF_Init()==-1) return false;
+	
 
 //======================================================================================
 // Load the graphics
@@ -49,6 +53,7 @@ bool MapEditor::OnInit() {
 	    return false;
 	  }
 	}
+	
 
 //==============================================================================
 // Set keyboard repeat count

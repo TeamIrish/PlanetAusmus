@@ -3,12 +3,15 @@
  
 #include "SDL/SDL.h"
 #include "SDL/SDL_mixer.h"
+#include "SDL/SDL_ttf.h"
+#include "SDL/SDL_image.h"
 
 #include <stdlib.h>
 
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <string>
 
 #include <vector>
 
@@ -18,6 +21,7 @@
 #include "Map.h"
 #include "Camera.h"
 #include "Enemy.h"
+#include "Objectives.h"
 
 using namespace std;
  
@@ -33,7 +37,7 @@ class MapEditor : public Event {
 	SDL_Surface* Selector;
 
 	SDL_Surface* Player_Character;
-
+	SDL_Surface* Objective;
 
 	public:
 	// game map
@@ -42,6 +46,7 @@ class MapEditor : public Event {
 	// filenames
 	static string filenameSave[4];
 	static string filenameLoad[4];
+	
 
 	public: // need to make get/set functions for these
 

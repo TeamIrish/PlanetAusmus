@@ -19,7 +19,7 @@ MapEditor::MapEditor() {
 	Control_Display = NULL;
 	Tileset = NULL;
 	Selector =  NULL;
-
+	Objective=NULL;
 	Player_Character = NULL;
 
 	currentTileXID=0;

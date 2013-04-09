@@ -31,6 +31,7 @@ void MapEditor::OnLoop() {
 
 	// Decide whether to spawn enemy
 	if(rand()%100<1 && EnemyList.size()<6) SpawnEnemy();
+		
 }
 
 

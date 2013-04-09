@@ -14,6 +14,17 @@ void MapEditor::OnRender() {
   for(int i=0;i<EnemyList.size();i++){
     if((EnemyList[i]->OnRender(Surf_Display))==false) cout<<"Error displaying enemy "<<i<<endl;
   }
+  
+  // render objective
+  // Objective
+  TTF_Font *XObjectiveFont=NULL;
+  XObjectiveFont = TTF_OpenFont("lazy.ttf",28); // assign the font and size
+  if(XObjectiveFont==NULL) cout << "Error loading font." << endl;
+  SDL_Color XObjectiveTextColor={255,255,255}; // assign color
+  Objective=TTF_RenderText_Solid(XObjectiveFont,"test test test", XObjectiveTextColor);
+  if(Objective==NULL) cout << "Error displaying text." << endl;
+  Surface::OnDraw(Surf_Display,Objective,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2);
+
 
   // Refresh the buffer and display Surf_Display to screen
   SDL_Flip(Surf_Display);
