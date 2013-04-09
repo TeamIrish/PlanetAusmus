@@ -20,4 +20,8 @@
 #define MENU_W 600
 #define MENU_H 400
 
+#define HEARTBAR_W 160
+#define HEARTBAR_H 32
+#define HALFHEART_W 16 
+
 #endif

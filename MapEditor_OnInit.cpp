@@ -31,12 +31,18 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
+	// Load the heart bar
+	if((HeartBar = Surface::OnLoad("./graphics/hearts.png")) == NULL){
+		return false;
+	}
+
 	// Name the window
 	SDL_WM_SetCaption("MapEditor",NULL);
 
 	// Make the pink background transparent
 	Surface::Transparent(Player_Character,255,0,255);
 	Surface::Transparent(Menu,255,0,255);
+	Surface::Transparent(HeartBar,255,0,255);
 
 	//==========================================================================
 	// Load map tileset

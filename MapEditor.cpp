@@ -21,6 +21,7 @@ MapEditor::MapEditor() {
 	Selector =  NULL;
 	Menu = NULL;
 		dispMenu = false;
+	HeartBar = NULL;
 
 	Player_Character = NULL;
 
