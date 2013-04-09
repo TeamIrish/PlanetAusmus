@@ -40,7 +40,7 @@ Credits:
 
 Installation:
 
-    -MapEditor requires installation of all SDL libaries
+    -Game requires installation of all SDL libaries
 
         -Resources can be found at http://www.libsdl.org/
 
@@ -62,7 +62,9 @@ Instructions:
 
 Controls:
 
-    -WASD to control camera and navigate around map
+    -WASD to navigate around map
+
+    -Press 'm' to pull up menu
 
     -ESC to exit
 
