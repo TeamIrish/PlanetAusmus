@@ -17,6 +17,7 @@ Camera::Camera() {
 
     playerStateX = playerStateY = 0;
     facingDir = -1;
+    numDirKeys = 0;
 }
 
 void Camera::OnMove(int MoveX, int MoveY) {

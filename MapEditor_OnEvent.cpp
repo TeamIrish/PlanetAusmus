@@ -15,18 +15,22 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
        	switch(sym) {
 
 	        case SDLK_LEFT:
+		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 2;
 		  break;
 
 		case SDLK_RIGHT:
+		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 3;
 		  break;
 
 		case SDLK_UP:
+		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 1;
 		  break;
 
         	case SDLK_DOWN:
+		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 0;
 		  break;
 
@@ -81,19 +85,23 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 void MapEditor::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode) {
 	switch(sym) {
          	case SDLK_LEFT:
-		  Camera::CameraControl.facingDir = -1;
+		  if((--Camera::CameraControl.numDirKeys) == 0)
+		    Camera::CameraControl.facingDir = -1;
 		  break;
 
          	case SDLK_RIGHT:
-		  Camera::CameraControl.facingDir = -1;
+		  if((--Camera::CameraControl.numDirKeys) == 0)
+		    Camera::CameraControl.facingDir = -1;
 		  break;
 
          	case SDLK_UP:
-		  Camera::CameraControl.facingDir = -1;
+		  if((--Camera::CameraControl.numDirKeys) == 0)
+		    Camera::CameraControl.facingDir = -1;
 		  break;
 
          	case SDLK_DOWN:
-		  Camera::CameraControl.facingDir = -1;
+		  if((--Camera::CameraControl.numDirKeys) == 0)
+		    Camera::CameraControl.facingDir = -1;
 		  break;
 
 		case SDLK_a:

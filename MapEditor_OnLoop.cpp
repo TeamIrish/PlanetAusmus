@@ -42,7 +42,7 @@ bool MapEditor::CheckCollision(){
   for(int i=0;i<4;i++){ // check all four corners of the sprite
 	int mapID = 0;
 	tileX = (centerX + pow(-1,i%2)*CHARACTER_W*.4) / TILE_SIZE;
-	tileY = (centerY + pow(-1,i/2)*CHARACTER_H*.4) / TILE_SIZE;
+	tileY = (centerY + (i/2)*CHARACTER_H*.25) / TILE_SIZE;  // only check bottom half of sprite, to give 3D effect
 
 	if(tileX >= MAP_WIDTH){
 		tileX -= MAP_WIDTH;
