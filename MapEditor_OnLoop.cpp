@@ -5,19 +5,19 @@ void MapEditor::OnLoop() {
 	int moveSize = 5;
 	if(Camera::CameraControl.MovingLeft == true){
 		Camera::CameraControl.OnMove(moveSize,0);
-		if(CheckCollision()) Camera::CameraControl.OnMove(-moveSize,0);
+		if(!debug && CheckCollision()) Camera::CameraControl.OnMove(-moveSize,0);
 	}
 	if(Camera::CameraControl.MovingRight == true){
 		Camera::CameraControl.OnMove(-moveSize,0);
-		if(CheckCollision()) Camera::CameraControl.OnMove(moveSize,0);
+		if(!debug && CheckCollision()) Camera::CameraControl.OnMove(moveSize,0);
 	}
 	if(Camera::CameraControl.MovingUp == true){
 		Camera::CameraControl.OnMove(0,moveSize);
-		if(CheckCollision()) Camera::CameraControl.OnMove(0,-moveSize);
+		if(!debug && CheckCollision()) Camera::CameraControl.OnMove(0,-moveSize);
 	}
 	if(Camera::CameraControl.MovingDown == true){
 		Camera::CameraControl.OnMove(0,-moveSize);
-		if(CheckCollision()) Camera::CameraControl.OnMove(0,moveSize);
+		if(!debug && CheckCollision()) Camera::CameraControl.OnMove(0,moveSize);
 	}
 
 	// Check to make sure that the camera didn't move out of bounds - if so, change map view
@@ -27,7 +27,7 @@ void MapEditor::OnLoop() {
 	Camera::CameraControl.AnimateCharacter();
 
 	// Check for collision with enemies
-	if(CheckEnemyCollisions()) Running=false;
+	if(!debug && CheckEnemyCollisions()) Running=false;
 
 	// Decide whether to spawn enemy
 	if(rand()%100<1 && EnemyList.size()<6) SpawnEnemy();

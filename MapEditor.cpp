@@ -8,12 +8,12 @@ string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
 vector<Enemy*> MapEditor::EnemyList;
 bool MapEditor::runLoadMaps=false;
-// tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
-int MapEditor::tileX[] = {6,3,3,6,3,3,0,0,0,0,6,0,0,3,6,0};
-int MapEditor::tileY[] = {8,0,9,9,9,0,3,1,1,6,6,1,1,1,1,2};
-int MapEditor::tileTypes[] = {2,1,1,2,1,1,1,1,1,2,2,1,1,1,2,2}; // 1 = traversable, 2 = non-traversable
+// tile order: deepwater,water,sand,grass,grass,evergreen,tree,grass,grass,dirt,rock,snow,mountains,snow,rock,lava
+int MapEditor::tileX[] = {0,6,3,0,0,6,0,0,0,0,3,3,6,3,3,6};
+int MapEditor::tileY[] = {2,1,1,1,1,6,6,1,1,3,0,9,9,9,0,8};
+int MapEditor::tileTypes[] = {2,2,1,1,1,2,2,1,1,1,1,1,2,1,1,2}; // 1 = traversable, 2 = non-traversable
 
-MapEditor::MapEditor() {
+MapEditor::MapEditor(string inputarg) {
 	// Initialize the surfaces to NULL to avoid errors
 	Surf_Display = NULL;
 	Control_Display = NULL;
@@ -30,6 +30,12 @@ MapEditor::MapEditor() {
 
 	Running = true;
 	Quit = false;
+
+	if(inputarg=="debug"){
+	  debug=true;
+	  cout<<"DEBUG MODE"<<endl;
+	}
+	else debug=false;
 }
 
 int MapEditor::OnExecute() {
@@ -90,7 +96,10 @@ void MapEditor::GameOver(){
 }
 
 int main(int argc, char* argv[]) {
+  string arg;
+  if(argc>1) arg=argv[1];
+  else arg="";
 
-    MapEditor theApp;
-    return theApp.OnExecute();
+  MapEditor theApp(arg);
+  return theApp.OnExecute();
 }

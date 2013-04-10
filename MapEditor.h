@@ -37,6 +37,7 @@ class MapEditor : public Event {
 
 	SDL_Surface* Player_Character;
 
+	bool debug;  // set to true with command line argument
 
 	public:
 	// game map
@@ -55,7 +56,7 @@ class MapEditor : public Event {
 	static vector<Enemy*> EnemyList;
 
     public:
-        MapEditor();
+        MapEditor(string);
 
         int OnExecute();
 	void GameOver();

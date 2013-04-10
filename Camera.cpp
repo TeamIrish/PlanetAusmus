@@ -207,6 +207,7 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	  break;
 	}// end outer switch
 	corners[i] = value;
+	if(value!=-1) cout<<"  corner "<<i<<" found: "<<value<<endl;
 	file.close();
 	break; // move to next corner
       }
@@ -224,6 +225,7 @@ int Camera::TileToValue(int X,int Y){
       return i*6;
     }
   }
+  cout<<"  unidentified tile type..."<<endl;
   return 50; // unidentifiable tile; set to middle value
 }
 
