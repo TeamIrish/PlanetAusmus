@@ -35,33 +35,39 @@ void MapEditor::OnLoop() {
 
 
 bool MapEditor::CheckCollision(){
-  int X,Y,ID;
-  X = -(Camera::CameraControl.GetX() - WWIDTH/2) / TILE_SIZE;
-  Y = -(Camera::CameraControl.GetY() - WHEIGHT/2) / TILE_SIZE;
+  int centerX,centerY,tileX,tileY,ID;
+  centerX = -(Camera::CameraControl.GetX() - WWIDTH/2);
+  centerY = -(Camera::CameraControl.GetY() - WHEIGHT/2);
 
+  for(int i=0;i<4;i++){ // check all four corners of the sprite
 	int mapID = 0;
-	if(X > MAP_WIDTH){
-		X = X - MAP_WIDTH;
+	tileX = (centerX + pow(-1,i%2)*CHARACTER_W*.4) / TILE_SIZE;
+	tileY = (centerY + pow(-1,i/2)*CHARACTER_H*.4) / TILE_SIZE;
+
+	if(tileX >= MAP_WIDTH){
+		tileX -= MAP_WIDTH;
 		mapID += 1;
 	}
-	if(Y > MAP_HEIGHT){
-		Y = Y - MAP_HEIGHT;
+	if(tileY >= MAP_HEIGHT){
+		tileY -= MAP_HEIGHT;
 		mapID += 2;
 	}
 
 	//cout<<"Tile "<<X<<","<<Y<<": "<<"(mapID = "<<mapID<<"): ";
-  ID = Y*MAP_WIDTH + X;
+	ID = tileY*MAP_WIDTH + tileX;
 
 	if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_TRAVERSABLE){
 		//cout<<"Traversable"<<endl;
-		return false;
+		continue;
 	}else if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_NON_TRAVERSABLE){
 		//cout<<"Non-traversable"<<endl;
 		return true;
 	}else{
 		//cout<<"Other."<<endl;
-		return false;
+		continue;
 	}
+  }
+  return false;
 }
 
 
@@ -86,8 +92,8 @@ bool MapEditor::CheckEnemyCollisions(){
   int charY = -Camera::CameraControl.GetY()+WHEIGHT/2;
 
   for(int i=0;i<EnemyList.size();i++){
-    int Xdist = (CHARACTER_W + EnemyList[i]->getW())/2;
-    int Ydist = (CHARACTER_H + EnemyList[i]->getH())/2;
+    int Xdist = (CHARACTER_W*.9 + EnemyList[i]->getW())/2;
+    int Ydist = (CHARACTER_H*.9 + EnemyList[i]->getH())/2;
     if(abs(charX-EnemyList[i]->getX())<Xdist && abs(charY-EnemyList[i]->getY())<Ydist) return true;
   }
   return false;

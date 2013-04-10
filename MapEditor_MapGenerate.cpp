@@ -49,9 +49,10 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
     }
   }
 
-  for(int i=0;i<40;i+=39)
+  /*for(int i=0;i<40;i+=39)
     for(int j=0;j<40;j+=39)
-      cout<<"   Corner value: "<<tilevalue[i][j]<<endl;
+    cout<<"   Corner value: "<<tilevalue[i][j]<<endl;*/
+
   // write to file
   ofstream fptr;
   fptr.open(savename.c_str());

@@ -32,9 +32,9 @@ Credits:
      foray into SDL. We used his SDL game tutorials to help
      us develop the initial structure of this game.
 
-    -Placeholder character sprite, originally from
-     Pokemon Blue, can be found at:
-     http://spriters-resource.com/gameboy/pokerb/sheet/8728
+    -Character sprite credit goes to Placky (plackys@hotmail.com), and 
+     can be found at: 
+	http://www.freewebs.com/yodasoda/Top%20Down%20Halo.png
 
 ------------------------------------------------------------
 

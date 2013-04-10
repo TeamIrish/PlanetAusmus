@@ -13,8 +13,8 @@
 
 #define NUM_TILES 16
 
-#define CHARACTER_W 40
-#define CHARACTER_H 40
+#define CHARACTER_W 28
+#define CHARACTER_H 32
 #define PLAYER_MAX_ANIM_STATE 3
 
 #define MENU_W 600

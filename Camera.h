@@ -29,7 +29,7 @@ class Camera {
 	bool MovingLeft;
 	bool MovingUp;
 	bool MovingDown;
-	bool notMoving;
+	int facingDir;  // -1=same as movement,0=down,1=up,2=left,3=right
 
 	int playerStateX; // 0=down,1=up,2=left,3=right
 	int playerStateY; // 0=still,1-2=moving

@@ -14,84 +14,106 @@ void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
 void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
        	switch(sym) {
 
-	  /*case SDLK_LEFT: {
+	        case SDLK_LEFT:
+		  Camera::CameraControl.facingDir = 2;
+		  break;
 
-		}
+		case SDLK_RIGHT:
+		  Camera::CameraControl.facingDir = 3;
+		  break;
 
-		case SDLK_RIGHT: {
+		case SDLK_UP:
+		  Camera::CameraControl.facingDir = 1;
+		  break;
 
-		}
-
-		case SDLK_UP: {
-			
-		}*/
+        	case SDLK_DOWN:
+		  Camera::CameraControl.facingDir = 0;
+		  break;
 
 		// Left
-		case SDLK_a: {
-		        if(Running) Camera::CameraControl.MovingLeft = true;
-			break;
-		}
+		case SDLK_a:
+		  if(Running){
+		    Camera::CameraControl.MovingLeft = true;
+		    Camera::CameraControl.MovingRight = false;
+		  }
+		  break;
 
 		// Right
-		case SDLK_d: {
-			if(Running) Camera::CameraControl.MovingRight = true;	
-			break;
-		}
+		case SDLK_d:
+		  if(Running){
+		    Camera::CameraControl.MovingRight = true;	
+		    Camera::CameraControl.MovingLeft = false;	
+		  }
+		  break;
 
 		// Up
-		case SDLK_w: {
-			if(Running) Camera::CameraControl.MovingUp = true;
-			break;
-		}
+		case SDLK_w:
+		  if(Running){
+		    Camera::CameraControl.MovingUp = true;
+		    Camera::CameraControl.MovingDown = false;
+		  }
+		  break;
 
 		// Down
-		case SDLK_s: {
-			if(Running) Camera::CameraControl.MovingDown = true;
-			break;
-		}
+		case SDLK_s:
+		  if(Running){
+		    Camera::CameraControl.MovingDown = true;
+		    Camera::CameraControl.MovingUp = false;
+		  }
+		  break;
 
 		// menu (toggles on and off)
-		case SDLK_m: {
-			dispMenu = !(dispMenu);
-			break;
-		}
+		case SDLK_m:
+		  dispMenu = !(dispMenu);
+		  break;
 
-    case SDLK_ESCAPE: {  
+    case SDLK_ESCAPE:
                 if(Running) OnStop();
 		else OnExit();
    		break;
-    }
 
-		default: {
-		}
+	default:
+	  break;
 	}
 }
 
 //------------------------------------------------------------------------------
 void MapEditor::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode) {
 	switch(sym) {
-		case SDLK_a: {
+         	case SDLK_LEFT:
+		  Camera::CameraControl.facingDir = -1;
+		  break;
+
+         	case SDLK_RIGHT:
+		  Camera::CameraControl.facingDir = -1;
+		  break;
+
+         	case SDLK_UP:
+		  Camera::CameraControl.facingDir = -1;
+		  break;
+
+         	case SDLK_DOWN:
+		  Camera::CameraControl.facingDir = -1;
+		  break;
+
+		case SDLK_a:
 			Camera::CameraControl.MovingLeft = false;
 			break;
-		}
 
-		case SDLK_d: {
+		case SDLK_d:
 			Camera::CameraControl.MovingRight = false;
 			break;
-		}
 
-		case SDLK_w: {
+		case SDLK_w:
 			Camera::CameraControl.MovingUp = false;
 			break;
-		}
 
-		case SDLK_s: {
+		case SDLK_s:
 			Camera::CameraControl.MovingDown = false;
 			break;
-		}
 
-		default: {
-		}
+		default:
+		  break;
 	}
 }
 
