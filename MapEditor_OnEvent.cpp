@@ -8,155 +8,120 @@ void MapEditor::OnEvent(SDL_Event* Event) {
 //==============================================================================
 void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
 	// On left mouse button click
-
-  /*  if(1 /* MouseXPos < (WWIDTH - CBAR_WIDTH) *//*){
-		int CameraXPos = Camera::CameraControl.GetX();
-		int CameraYPos = Camera::CameraControl.GetY();
-
-		int MapXPos = -1 * (CameraXPos - MouseXPos);
-		int MapYPos = -1 * (CameraYPos - MouseYPos);
-
-		int MapXRemainder = MapXPos % TILE_SIZE;
-		int MapYRemainder = MapYPos % TILE_SIZE;
-
-		int MapXTile = (MapXPos - MapXRemainder) / TILE_SIZE;
-		int MapYTile = (MapYPos - MapYRemainder) / TILE_SIZE;
-
-		int TileNumber = (MapYTile * MAP_WIDTH) + MapXTile;
-		gameMap[0].TileList[TileNumber].TileXID = currentTileXID;
-		gameMap[0].TileList[TileNumber].TileYID = currentTileYID;
-		gameMap[0].TileList[TileNumber].TypeID = TILE_TYPE_NONE;
-  }
-
-// TYPE SELECTION
-	if(MouseXPos > (WWIDTH - CBAR_WIDTH)){
-		
-		// First row - should probably get rid of magic numbers
-		if( (MouseXPos > 718) && (MouseXPos < 750) ){
-			
-
-		{
-
-
-
-	}
-*/
 }
 
 //==============================================================================
 void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
        	switch(sym) {
 
-	  /*case SDLK_LEFT: {
-			if(!((currentTileXID==0) && (currentTileYID==0))){
-				currentTileXID--;
-				if(currentTileXID < 0){
-					currentTileXID=8;
-					currentTileYID--;
-				}
-			}
-			if((currentTileXID==0) && (currentTileYID==0)){
-				currentTileXID=8;
-				currentTileYID=18;
-			}
-			break;
-		}
+	        case SDLK_LEFT:
+		  Camera::CameraControl.numDirKeys++;
+		  Camera::CameraControl.facingDir = 2;
+		  break;
 
-		case SDLK_RIGHT: {
-			if(!((currentTileXID==8) && (currentTileYID==18))){
-				currentTileXID++;
-				if(currentTileXID > 8){
-					currentTileXID=0;
-					currentTileYID++;
-				}
-			}
-			if((currentTileXID==8) && (currentTileYID==18)){
-				currentTileXID=0;
-				currentTileYID=0;
-			}
-			break;
-		}
+		case SDLK_RIGHT:
+		  Camera::CameraControl.numDirKeys++;
+		  Camera::CameraControl.facingDir = 3;
+		  break;
 
-		case SDLK_UP: {
-			if(currentTileYID > 0){
-				currentTileYID--;
-			}
-			if(currentTileYID <= 0){
-				currentTileYID=18;
-			}
-			break;
-		}
+		case SDLK_UP:
+		  Camera::CameraControl.numDirKeys++;
+		  Camera::CameraControl.facingDir = 1;
+		  break;
 
-		case SDLK_DOWN: {
-			if(currentTileYID < 18){
-				currentTileYID++;
-			}
-			if(currentTileYID >= 18){
-				currentTileYID=0;
-			}
-			break;
-		}*/
+        	case SDLK_DOWN:
+		  Camera::CameraControl.numDirKeys++;
+		  Camera::CameraControl.facingDir = 0;
+		  break;
 
 		// Left
-		case SDLK_a: {
-		        if(Running) Camera::CameraControl.MovingLeft = true;
-			break;
-		}
+		case SDLK_a:
+		  if(Running){
+		    Camera::CameraControl.MovingLeft = true;
+		    Camera::CameraControl.MovingRight = false;
+		  }
+		  break;
 
 		// Right
-		case SDLK_d: {
-			if(Running) Camera::CameraControl.MovingRight = true;	
-			break;
-		}
+		case SDLK_d:
+		  if(Running){
+		    Camera::CameraControl.MovingRight = true;	
+		    Camera::CameraControl.MovingLeft = false;	
+		  }
+		  break;
 
 		// Up
-		case SDLK_w: {
-			if(Running) Camera::CameraControl.MovingUp = true;
-			break;
-		}
+		case SDLK_w:
+		  if(Running){
+		    Camera::CameraControl.MovingUp = true;
+		    Camera::CameraControl.MovingDown = false;
+		  }
+		  break;
 
 		// Down
-		case SDLK_s: {
-			if(Running) Camera::CameraControl.MovingDown = true;
-			break;
-		}
+		case SDLK_s:
+		  if(Running){
+		    Camera::CameraControl.MovingDown = true;
+		    Camera::CameraControl.MovingUp = false;
+		  }
+		  break;
 
-    case SDLK_ESCAPE: {  
+		// menu (toggles on and off)
+		case SDLK_m:
+		  dispMenu = !(dispMenu);
+		  break;
+
+    case SDLK_ESCAPE:
                 if(Running) OnStop();
 		else OnExit();
    		break;
-    }
 
-		default: {
-		}
+	default:
+	  break;
 	}
 }
 
 //------------------------------------------------------------------------------
 void MapEditor::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode) {
 	switch(sym) {
-		case SDLK_a: {
+         	case SDLK_LEFT:
+		  if((--Camera::CameraControl.numDirKeys) == 0)
+		    Camera::CameraControl.facingDir = -1;
+		  break;
+
+         	case SDLK_RIGHT:
+		  if((--Camera::CameraControl.numDirKeys) == 0)
+		    Camera::CameraControl.facingDir = -1;
+		  break;
+
+         	case SDLK_UP:
+		  if((--Camera::CameraControl.numDirKeys) == 0)
+		    Camera::CameraControl.facingDir = -1;
+		  break;
+
+         	case SDLK_DOWN:
+		  if((--Camera::CameraControl.numDirKeys) == 0)
+		    Camera::CameraControl.facingDir = -1;
+		  break;
+
+		case SDLK_a:
 			Camera::CameraControl.MovingLeft = false;
 			break;
-		}
 
-		case SDLK_d: {
+		case SDLK_d:
 			Camera::CameraControl.MovingRight = false;
 			break;
-		}
 
-		case SDLK_w: {
+		case SDLK_w:
 			Camera::CameraControl.MovingUp = false;
 			break;
-		}
 
-		case SDLK_s: {
+		case SDLK_s:
 			Camera::CameraControl.MovingDown = false;
 			break;
-		}
 
-		default: {
-		}
+		default:
+		  break;
 	}
 }
 

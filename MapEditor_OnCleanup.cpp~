@@ -8,11 +8,13 @@ void MapEditor::OnCleanup() {
 	SDL_FreeSurface(Tileset);
 	SDL_FreeSurface(Selector);
 	SDL_FreeSurface(Player_Character);
+<<<<<<< HEAD
 	SDL_FreeSurface(Objective);
+=======
 	SDL_FreeSurface(Menu);
 	SDL_FreeSurface(HeartBar);
 	SDL_FreeSurface(TitleScreen);
-	
+>>>>>>> c8334af29714a7d23cd17a4e1b191c523b86e38b
 	for(int i=0;i<4;i++) SDL_FreeSurface(gameMap[i].Surf_Tileset);
 	for(int i=0;i<MapEditor::EnemyList.size();i++){
 	  EnemyList[i]->OnCleanup();

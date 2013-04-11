@@ -15,7 +15,7 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   // tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
 
   // set unspecified corner values
-  for(int i=0;i<4;i++){
+  for(int i=3;i>=0;i--){  // check backwards so that first corner of first map is definitely grass
     if(cornervalues[i]==-1){  // check other corners if unspecified
       for(int j=0;j<4;j++){
 	if(cornervalues[j]!=-1){
@@ -25,7 +25,10 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
 	  break;
 	}
       }
-      if(cornervalues[i]==-1) cornervalues[i]=rand()%96; // if still unspecified (should only happen to first corner of first map), set to random
+      if(cornervalues[i]==-1){
+	cornervalues[i]=50; // if still unspecified (should only happen to first corner of first map), set to grass
+	cout<<"  Set map corner arbitrarily..."<<endl;
+      }
     }
   }
 
@@ -44,14 +47,15 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   // intermix two types of trees
   for(int i=0;i<40;i++){
     for(int j=0;j<40;j++){
-      if(tilevalue[i][j]/6==9 && rand()%2) tilevalue[i][j]+=6;
-      else if(tilevalue[i][j]/6==10 && rand()%2) tilevalue[i][j]-=6;
+      if(tilevalue[i][j]/6==5 && rand()%2) tilevalue[i][j]+=6;
+      else if(tilevalue[i][j]/6==6 && rand()%2) tilevalue[i][j]-=6;
     }
   }
 
   for(int i=0;i<40;i+=39)
     for(int j=0;j<40;j+=39)
-      cout<<"   Corner value: "<<tilevalue[i][j]<<endl;
+    cout<<"   Corner value: "<<tilevalue[i][j]<<endl;
+
   // write to file
   ofstream fptr;
   fptr.open(savename.c_str());

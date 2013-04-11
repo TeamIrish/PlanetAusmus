@@ -16,9 +16,10 @@ Camera::Camera() {
     TargetMode = TARGET_MODE_NORMAL;
 
     playerStateX = playerStateY = 0;
-    notMoving = true;
+    facingDir = -1;
+    numDirKeys = 0;
 }
- 
+
 void Camera::OnMove(int MoveX, int MoveY) {
     X += MoveX;
     Y += MoveY;
@@ -206,6 +207,7 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	  break;
 	}// end outer switch
 	corners[i] = value;
+	if(value!=-1) cout<<"  corner "<<i<<" found: "<<value<<endl;
 	file.close();
 	break; // move to next corner
       }
@@ -223,33 +225,24 @@ int Camera::TileToValue(int X,int Y){
       return i*6;
     }
   }
+  cout<<"  unidentified tile type..."<<endl;
   return 50; // unidentifiable tile; set to middle value
 }
 
 void Camera::AnimateCharacter(){
   // set player direction
-  if(MovingLeft){
-    if(notMoving) playerStateX = 2;
-    notMoving = false;
-  }
-  else if(MovingRight){
-    if(notMoving) playerStateX = 3;
-    notMoving = false;
-  }
-  else if(MovingDown){
-    if(notMoving) playerStateX = 0;
-    notMoving = false;
-  }
-  else if(MovingUp){
-    if(notMoving) playerStateX = 1;
-    notMoving = false;
-  }
+  if(MovingLeft) playerStateX = 2;
+  else if(MovingRight) playerStateX = 3;
+  else if(MovingDown) playerStateX = 0;
+  else if(MovingUp) playerStateX = 1;
   else{  // not in motion
     playerStateY = 0;
     animationTimer = 3; // so that frame will change as soon as movement restarts
-    notMoving = true;
+    if(facingDir!=-1) playerStateX = facingDir;
     return;
   }
+  // arrow keys trump movement direction when setting what direction player is facing (so that player can shoot in any direction while moving)
+  if(facingDir!=-1) playerStateX = facingDir;
 
   // set player animation frame
   if(animationTimer<2) animationTimer++;

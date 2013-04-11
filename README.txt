@@ -32,15 +32,15 @@ Credits:
      foray into SDL. We used his SDL game tutorials to help
      us develop the initial structure of this game.
 
-    -Placeholder character sprite, originally from
-     Pokemon Blue, can be found at:
-     http://spriters-resource.com/gameboy/pokerb/sheet/8728
+    -Character sprite credit goes to Placky (plackys@hotmail.com), and 
+     can be found at: 
+	http://www.freewebs.com/yodasoda/Top%20Down%20Halo.png
 
 ------------------------------------------------------------
 
 Installation:
 
-    -MapEditor requires installation of all SDL libaries
+    -Game requires installation of all SDL libaries
 
         -Resources can be found at http://www.libsdl.org/
 
@@ -62,7 +62,9 @@ Instructions:
 
 Controls:
 
-    -WASD to control camera and navigate around map
+    -WASD to navigate around map
+
+    -Press 'm' to pull up menu
 
     -ESC to exit
 

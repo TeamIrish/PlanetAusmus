@@ -19,13 +19,16 @@ MapEditor::MapEditor(string inputarg) {
 	Control_Display = NULL;
 	Tileset = NULL;
 	Selector =  NULL;
+<<<<<<< HEAD
 	Objective=NULL;
+=======
 	Menu = NULL;
 		dispMenu = false;
 	HeartBar = NULL;
 	TitleScreen = NULL;
 		dispTitle = true;
 
+>>>>>>> c8334af29714a7d23cd17a4e1b191c523b86e38b
 	Player_Character = NULL;
 	
 	// Initialize Font objects to NULL
