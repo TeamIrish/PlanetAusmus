@@ -5,7 +5,7 @@
 #include "SDL/SDL_mixer.h"
 #include "SDL/SDL_ttf.h"
 #include "SDL/SDL_image.h"
-
+#include "SDL/SDL_ttf.h"
 #include <stdlib.h>
 
 #include <iostream>
@@ -13,7 +13,7 @@
 #include <cmath>
 #include <string>
 #include <sstream>
-
+#include <fstream>
 #include <vector>
 
 #include "Define.h"
@@ -58,11 +58,9 @@ class MapEditor : public Event {
 	
 	// Fonts
 	TTF_Font *XObjectiveFont;
-	SDL_Color XObjectiveTextColor;
+	SDL_Color XObjectiveTextColor;	
 	
-	// Objective Class
-	Objectives myObjectives;
-	
+	Objectives *ObjPtr;
 
 	public: // need to make get/set functions for these
 

@@ -3,7 +3,7 @@ all: MapEditor
 MapEditor: MapEditor.o MapEditor_OnInit.o MapEditor_OnEvent.o MapEditor_OnLoop.o MapEditor_OnRender.o MapEditor_OnCleanup.o MapEditor_OnSave.o MapEditor_MapGenerate.o Surface.o Event.o Camera.o Map.o Tile.o Enemy.o Objectives.o
 	g++ MapEditor.o MapEditor_OnInit.o MapEditor_OnEvent.o MapEditor_OnLoop.o MapEditor_OnRender.o MapEditor_OnCleanup.o MapEditor_OnSave.o MapEditor_MapGenerate.o Surface.o Event.o Camera.o Map.o Tile.o Enemy.o Objectives.o -o MapEditor -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf -Wall
 
-MapEditor.o: MapEditor.cpp
+MapEditor.o: MapEditor.cpp MapEditor.h
 	g++ -c MapEditor.cpp -Wall
 MapEditor_OnInit.o: MapEditor_OnInit.cpp
 	g++ -c MapEditor_OnInit.cpp -Wall

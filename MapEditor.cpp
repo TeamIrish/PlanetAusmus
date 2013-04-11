@@ -55,7 +55,7 @@ int MapEditor::OnExecute() {
 	}
 
 	SDL_Event Event;
-	Objectives myObjectives;
+	ObjPtr = new Objectives; 
 
 	while(dispTitle == true){
 		while(SDL_PollEvent(&Event)){
