@@ -20,16 +20,10 @@ using namespace std;
 class Objectives{
  public:
   Objectives();
-  bool OnRender(SDL_Surface*);
-  void OnCleanup();
-  SDL_Surface *Objective;
+  string CurrentObj;
   
  private:
   vector<string> list;
-  TTF_Font *ObjectiveFont;
-  SDL_Color ObjectiveTextColor;
-  int ObjectiveStateX;
-  int ObjectiveStateY;
   
 };
 

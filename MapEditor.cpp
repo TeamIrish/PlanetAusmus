@@ -55,6 +55,7 @@ int MapEditor::OnExecute() {
 	}
 
 	SDL_Event Event;
+	Objectives myObjectives;
 
 	// Enter into the title screen view
 	while(dispTitle == true){

@@ -12,6 +12,7 @@
 #include <fstream>
 #include <cmath>
 #include <string>
+#include <sstream>
 
 #include <vector>
 
@@ -58,6 +59,9 @@ class MapEditor : public Event {
 	// Fonts
 	TTF_Font *XObjectiveFont;
 	SDL_Color XObjectiveTextColor;
+	
+	// Objective Class
+	Objectives myObjectives;
 	
 
 	public: // need to make get/set functions for these

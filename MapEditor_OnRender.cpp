@@ -16,7 +16,12 @@ void MapEditor::OnRender() {
   }
   
   // render objective
-  Objective=TTF_RenderText_Solid(XObjectiveFont,"test", XObjectiveTextColor);
+  
+  stringstream Current;
+
+  Current << myObjectives.CurrentObj; // making the c string
+  
+  Objective=TTF_RenderText_Solid(XObjectiveFont,(Current.str()).c_str(), XObjectiveTextColor);
   if(Objective==NULL) cout << "Error displaying text." << endl;
   Surface::OnDraw(Surf_Display,Objective,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2);
 
