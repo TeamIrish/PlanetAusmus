@@ -31,6 +31,11 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
+	// Load the title screen
+	if((TitleScreen = Surface::OnLoad("./graphics/title.png")) == NULL){
+		return false;
+	}
+
 	// Load the heart bar
 	if((HeartBar = Surface::OnLoad("./graphics/hearts.png")) == NULL){
 		return false;

@@ -34,6 +34,8 @@ class MapEditor : public Event {
 	SDL_Surface* Menu;
 		bool dispMenu;
 	SDL_Surface* HeartBar;
+	SDL_Surface* TitleScreen;
+		bool dispTitle;
 
 	SDL_Surface* Player_Character;
 

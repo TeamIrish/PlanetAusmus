@@ -22,6 +22,8 @@ MapEditor::MapEditor(string inputarg) {
 	Menu = NULL;
 		dispMenu = false;
 	HeartBar = NULL;
+	TitleScreen = NULL;
+		dispTitle = true;
 
 	Player_Character = NULL;
 
