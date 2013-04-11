@@ -46,6 +46,10 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
+	if((TitleMenu = Surface::OnLoad("./graphics/titleMenu.png")) == NULL){
+		return false;
+	}
+
 	// Load the heart bar
 	if((HeartBar = Surface::OnLoad("./graphics/hearts.png")) == NULL){
 		return false;
@@ -57,6 +61,7 @@ bool MapEditor::OnInit() {
 	// Make the pink background transparent
 	Surface::Transparent(Player_Character,255,0,255);
 	Surface::Transparent(Menu,255,0,255);
+	Surface::Transparent(TitleMenu,255,0,255);
 	Surface::Transparent(HeartBar,255,0,255);
 
 	//==========================================================================

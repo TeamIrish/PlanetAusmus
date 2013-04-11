@@ -16,15 +16,15 @@ int MapEditor::tileTypes[] = {2,2,1,1,1,2,2,1,1,1,1,1,2,1,1,2}; // 1 = traversab
 MapEditor::MapEditor(string inputarg) {
 	// Initialize the surfaces to NULL to avoid errors
 	Surf_Display = NULL;
-	Control_Display = NULL;
 	Tileset = NULL;
-	Selector =  NULL;
 	Objective=NULL;
 	Menu = NULL;
 		dispMenu = false;
 	HeartBar = NULL;
 	TitleScreen = NULL;
 		dispTitle = true;
+	TitleMenu = NULL;
+		dispTitleMenu = false;
 
 	Player_Character = NULL;
 	
@@ -57,14 +57,17 @@ int MapEditor::OnExecute() {
 	SDL_Event Event;
 	ObjPtr = new Objectives; 
 
+	// Enter into the title screen view
 	while(dispTitle == true){
 		while(SDL_PollEvent(&Event)){
 			OnEvent(&Event);
 		}
 		Surface::OnDraw(Surf_Display,TitleScreen,0,0);
+		if(dispTitleMenu) Surface::OnDraw(Surf_Display,TitleMenu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
 		SDL_Flip(Surf_Display);
 	}
 
+	// Main game loop
 	while(Running){
 		// check for events (user input), pass one at a time to OnEvent(
 		while(SDL_PollEvent(&Event)){

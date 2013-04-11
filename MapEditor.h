@@ -33,14 +33,14 @@ class MapEditor : public Event {
 
 	// SDL surfaces
 	SDL_Surface* Surf_Display;
-	SDL_Surface* Control_Display;
 	SDL_Surface* Tileset;
-	SDL_Surface* Selector;
 	SDL_Surface* Menu;
 		bool dispMenu;
 	SDL_Surface* HeartBar;
 	SDL_Surface* TitleScreen;
 		bool dispTitle;
+	SDL_Surface* TitleMenu;
+		bool dispTitleMenu;
 
 	SDL_Surface* Player_Character;
 	SDL_Surface* Objective;

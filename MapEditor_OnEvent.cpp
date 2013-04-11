@@ -8,6 +8,21 @@ void MapEditor::OnEvent(SDL_Event* Event) {
 //==============================================================================
 void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
 	// On left mouse button click
+	//cout << "X: " << MouseXPos << "\nY: " << MouseYPos << "\n" << endl;
+	if(dispTitle && !(dispTitleMenu)){
+		// clicked "Start" button
+		if(((MouseXPos > 359) && (MouseXPos < 432)) && ((MouseYPos > 298) && (MouseYPos < 323))){
+			dispTitle = false;
+		}
+		if(((MouseXPos > 359) && (MouseXPos < 432)) && ((MouseYPos > 343) && (MouseYPos < 363))){
+			dispTitleMenu = true;
+		}
+	}
+	if(dispTitleMenu){
+		if(((MouseXPos > 601) && (MouseXPos < 630)) && ((MouseYPos > 159) && (MouseYPos < 181))){
+			dispTitleMenu = false;
+		}
+	}
 }
 
 //==============================================================================
