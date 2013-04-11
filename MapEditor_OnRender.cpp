@@ -24,6 +24,7 @@ void MapEditor::OnRender() {
 	// render the heart bar
 	Surface::OnDraw(Surf_Display,HeartBar,WWIDTH-HEARTBAR_W,0,0,0,HEARTBAR_W,HEARTBAR_H);
 
+	// render the menu (conditionally)
 	if(dispMenu == true){
 		Surface::OnDraw(Surf_Display,Menu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
 	}
