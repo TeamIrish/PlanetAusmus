@@ -17,4 +17,7 @@
 #define CHARACTER_H 40
 #define PLAYER_MAX_ANIM_STATE 3
 
+#define OBJ_FONT_SIZE 28
+#define OBJ_FONT_TYPE "ice-sans-regular.ttf"
+
 #endif

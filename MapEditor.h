@@ -47,6 +47,10 @@ class MapEditor : public Event {
 	static string filenameSave[4];
 	static string filenameLoad[4];
 	
+	// Fonts
+	TTF_Font *XObjectiveFont;
+	SDL_Color XObjectiveTextColor;
+	
 
 	public: // need to make get/set functions for these
 

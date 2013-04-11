@@ -21,6 +21,9 @@ MapEditor::MapEditor() {
 	Selector =  NULL;
 	Objective=NULL;
 	Player_Character = NULL;
+	
+	// Initialize Font objects to NULL
+	TTF_Font *XObjectiveFont = NULL;
 
 	currentTileXID=0;
 	currentTileYID=1;

@@ -8,7 +8,7 @@
 Objectives::Objectives(){
 
 	ObjectiveFont = NULL;
-	ObjectiveFont = TTF_OpenFont("ice-sans-regular.ttf",14); // assign the font and size
+	ObjectiveFont = TTF_OpenFont("ice-sans-regular.ttf",28); // assign the font and size
 	SDL_Color ObjectiveTextColor={255,255,255}; // assign color
 	Objective=TTF_RenderText_Solid(ObjectiveFont,"test", ObjectiveTextColor);	
 }

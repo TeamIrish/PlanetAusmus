@@ -37,6 +37,11 @@ bool MapEditor::OnInit() {
 		return false;
 	}	
 
+	// Load Objective Font
+ 	XObjectiveFont = TTF_OpenFont("lazy.ttf",28); // assign the font and size
+	if(XObjectiveFont==NULL) cout << "Error loading font." << endl;
+	SDL_Color XObjectiveTextColor={1,1,1}; // assign color
+
 	// Name the window
 	SDL_WM_SetCaption("MapEditor",NULL);
 
