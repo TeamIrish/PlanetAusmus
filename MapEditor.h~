@@ -42,10 +42,12 @@ class MapEditor : public Event {
 		bool dispTitle;
 
 	SDL_Surface* Player_Character;
+<<<<<<< HEAD
 	SDL_Surface* Objective;
+=======
 
 	bool debug;  // set to true with command line argument
-
+>>>>>>> c8334af29714a7d23cd17a4e1b191c523b86e38b
 
 	public:
 	// game map

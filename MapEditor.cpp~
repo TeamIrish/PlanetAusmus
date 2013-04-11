@@ -19,13 +19,16 @@ MapEditor::MapEditor(string inputarg) {
 	Control_Display = NULL;
 	Tileset = NULL;
 	Selector =  NULL;
+<<<<<<< HEAD
 	Objective=NULL;
+=======
 	Menu = NULL;
 		dispMenu = false;
 	HeartBar = NULL;
 	TitleScreen = NULL;
 		dispTitle = true;
 
+>>>>>>> c8334af29714a7d23cd17a4e1b191c523b86e38b
 	Player_Character = NULL;
 	
 	// Initialize Font objects to NULL
@@ -55,14 +58,6 @@ int MapEditor::OnExecute() {
 	}
 
 	SDL_Event Event;
-
-	while(dispTitle == true){
-		while(SDL_PollEvent(&Event)){
-			OnEvent(&Event);
-		}
-		Surface::OnDraw(Surf_Display,TitleScreen,0,0);
-		SDL_Flip(Surf_Display);
-	}
 
 	while(Running){
 		// check for events (user input), pass one at a time to OnEvent(

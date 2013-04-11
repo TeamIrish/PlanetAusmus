@@ -30,12 +30,12 @@ bool MapEditor::OnInit() {
 		return false;
 	}	
 
-
+<<<<<<< HEAD
 	// Load Objective Font
  	XObjectiveFont = TTF_OpenFont("lazy.ttf",28); // assign the font and size
 	if(XObjectiveFont==NULL) cout << "Error loading font." << endl;
 	SDL_Color XObjectiveTextColor={1,1,1}; // assign color
-
+=======
 	// Load the menu
 	if((Menu = Surface::OnLoad("./graphics/menu.png")) == NULL){
 		return false;
