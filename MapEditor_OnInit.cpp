@@ -1,3 +1,11 @@
+/*
+Team: Matt Rundle, Benjamin Laws, Matt Mahan, Paul Kennedy
+File: MapEditor_OnInit.cpp
+
+This is the implementation file for the OnInit() function of the MapEditor class. It handles the initialization
+of all SDL components, as well as the loading in of graphics and sounds.
+*/
+
 #include "MapEditor.h"
 
 bool MapEditor::OnInit() {
@@ -21,6 +29,7 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
+	// Load the tileset
 	if((Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
 		return false;
 	}
@@ -29,7 +38,6 @@ bool MapEditor::OnInit() {
 	if((Player_Character = Surface::OnLoad("./graphics/character.png")) == NULL){
 		return false;
 	}	
-
 
 	// Load Objective Font
  	XObjectiveFont = TTF_OpenFont("lazy.ttf",28); // assign the font and size
@@ -46,6 +54,7 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
+	// Load the title menu
 	if((TitleMenu = Surface::OnLoad("./graphics/titleMenu.png")) == NULL){
 		return false;
 	}
@@ -58,28 +67,21 @@ bool MapEditor::OnInit() {
 	// Name the window
 	SDL_WM_SetCaption("MapEditor",NULL);
 
-	// Make the pink background transparent
+	// Make pink background of following surfaces transparent
 	Surface::Transparent(Player_Character,255,0,255);
 	Surface::Transparent(Menu,255,0,255);
 	Surface::Transparent(TitleMenu,255,0,255);
 	Surface::Transparent(HeartBar,255,0,255);
 
-	//==========================================================================
-	// Load map tileset
+//==========================================================================
+// Load map tileset
 
 	for(int i=0;i<4;i++){
-	  if((gameMap[i].Surf_Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
-	    return false;
-	  }
+  	if((gameMap[i].Surf_Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
+  	  return false;
+  	}
 	}
 	
-
-//==============================================================================
-// Set keyboard repeat count
-
-// Disabled key repeat because it was messing up selection of tiles
-// SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
-
 //===============================================================================
 // if everything loaded without errors
 

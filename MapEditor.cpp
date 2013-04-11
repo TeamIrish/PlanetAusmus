@@ -1,8 +1,16 @@
+/*
+Team: Matt Rundle, Benjamin Laws, Matt Mahan, Paul Kennedy
+File: MapEditor.cpp
+
+This is the implementation file for the MapEditor class, which is the 'overarching' class of the program.
+*/
+
 #include "MapEditor.h"
 #include "Camera.h"
 #include <iostream>
 using namespace std;
 
+//==============================================================================
 // initialize static variables
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
@@ -13,7 +21,11 @@ int MapEditor::tileX[] = {0,6,3,0,0,6,0,0,0,0,3,3,6,3,3,6};
 int MapEditor::tileY[] = {2,1,1,1,1,6,6,1,1,3,0,9,9,9,0,8};
 int MapEditor::tileTypes[] = {2,2,1,1,1,2,2,1,1,1,1,1,2,1,1,2}; // 1 = traversable, 2 = non-traversable
 
+
+//==============================================================================
+//
 MapEditor::MapEditor(string inputarg) {
+
 	// Initialize the surfaces to NULL to avoid errors
 	Surf_Display = NULL;
 	Tileset = NULL;
@@ -44,7 +56,11 @@ MapEditor::MapEditor(string inputarg) {
 	else debug=false;
 }
 
+
+//==============================================================================
+//
 int MapEditor::OnExecute() {
+
   srand(time(NULL));
 
   Camera::CameraControl.ChangeMapView();
@@ -72,6 +88,7 @@ int MapEditor::OnExecute() {
 		// check for events (user input), pass one at a time to OnEvent(
 		while(SDL_PollEvent(&Event)){
 			OnEvent(&Event);
+			if(Event.type == SDL_QUIT) Quit = true;
 		}
 		
 		// Manipulate data
@@ -82,6 +99,7 @@ int MapEditor::OnExecute() {
 	    LoadMaps(); // HAVING ERRORS
 	    runLoadMaps=false;
 	  }
+
 		// Render the output
 		OnRender();
 	}
@@ -96,6 +114,9 @@ int MapEditor::OnExecute() {
 	return 0;
 }
 
+
+//==============================================================================
+//
 bool MapEditor::LoadMaps(){
   for(int i=0;i<4;i++){
     if(gameMap[i].OnLoad("/maps/1.map",filenameLoad[i],currentTileXID,currentTileYID) == false) {
@@ -106,6 +127,9 @@ bool MapEditor::LoadMaps(){
   return true;
 }
 
+
+//==============================================================================
+//
 void MapEditor::GameOver(){
   SDL_Event Event;
   while(!Quit){
@@ -113,6 +137,9 @@ void MapEditor::GameOver(){
   }
 }
 
+
+//==============================================================================
+//
 int main(int argc, char* argv[]) {
   string arg;
   if(argc>1) arg=argv[1];

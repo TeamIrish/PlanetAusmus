@@ -1,3 +1,11 @@
+/*
+Team: Matt Rundle, Benjamin Laws, Matt Mahan, Paul Kennedy
+File: MapEditor_OnRender.cpp
+
+This is the implementation file for the OnRender() function of the MapEditor class. It handles the
+rendering of graphics to the screen each iteration through the game loop.
+*/
+
 #include "MapEditor.h"
  
 void MapEditor::OnRender() {
@@ -26,10 +34,10 @@ void MapEditor::OnRender() {
   Surface::OnDraw(Surf_Display,Objective,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2);
 
 
-	// render the heart bar
+	// Render the heart bar
 	Surface::OnDraw(Surf_Display,HeartBar,WWIDTH-HEARTBAR_W,0,0,0,HEARTBAR_W,HEARTBAR_H);
 
-	// render the menu (conditionally)
+	// Render the menu (conditionally)
 	if(dispMenu == true){
 		Surface::OnDraw(Surf_Display,Menu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
 	}

@@ -1,6 +1,17 @@
+/*
+Team: Matt Rundle, Benjamin Laws, Matt Mahan, Paul Kennedy
+File: MapEditor_OnLoop.cpp
+
+This is the implementation file for the OnLoop() function of the MapEditor class. This function is called
+every iteration through the game loop and makes appropriate changes to game data.
+*/
+
 #include "MapEditor.h"
- 
+
+//==============================================================================
+//
 void MapEditor::OnLoop() {
+	
 	// Move camera
 	int moveSize = 5;
 	if(Camera::CameraControl.MovingLeft == true){
@@ -35,7 +46,10 @@ void MapEditor::OnLoop() {
 }
 
 
+//==============================================================================
+//
 bool MapEditor::CheckCollision(){
+
   int centerX,centerY,tileX,tileY,ID;
   centerX = -(Camera::CameraControl.GetX() - WWIDTH/2);
   centerY = -(Camera::CameraControl.GetY() - WHEIGHT/2);
@@ -72,6 +86,8 @@ bool MapEditor::CheckCollision(){
 }
 
 
+//==============================================================================
+//
 void MapEditor::SpawnEnemy(){
   string typestring = "golem.png";
   // generate random coordinates onscreen
@@ -88,6 +104,9 @@ void MapEditor::SpawnEnemy(){
   cout<<"Enemy Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
 }
 
+
+//==============================================================================
+//
 bool MapEditor::CheckEnemyCollisions(){
   int charX = -Camera::CameraControl.GetX()+WWIDTH/2;
   int charY = -Camera::CameraControl.GetY()+WHEIGHT/2;

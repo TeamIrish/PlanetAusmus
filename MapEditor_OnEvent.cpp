@@ -1,3 +1,11 @@
+/*
+Team: Matt Rundle, Benjamin Laws, Matt Mahan, Paul Kennedy
+File: MapEditor_OnRender.cpp
+
+This is the implementation file for the OnEvent() function of the MapEditor class, which inherits from
+the Event class. This takes in user input and handles it by applying changes to game data.
+*/
+
 #include "MapEditor.h"
  
 //==============================================================================
