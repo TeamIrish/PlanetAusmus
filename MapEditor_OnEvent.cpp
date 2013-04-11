@@ -71,6 +71,10 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 		  dispMenu = !(dispMenu);
 		  break;
 
+		case SDLK_p:
+			dispTitle = false;
+			break;
+
     case SDLK_ESCAPE:
                 if(Running) OnStop();
 		else OnExit();

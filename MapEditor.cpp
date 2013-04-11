@@ -52,6 +52,14 @@ int MapEditor::OnExecute() {
 
 	SDL_Event Event;
 
+	while(dispTitle == true){
+		while(SDL_PollEvent(&Event)){
+			OnEvent(&Event);
+		}
+		Surface::OnDraw(Surf_Display,TitleScreen,0,0);
+		SDL_Flip(Surf_Display);
+	}
+
 	while(Running){
 		// check for events (user input), pass one at a time to OnEvent(
 		while(SDL_PollEvent(&Event)){
