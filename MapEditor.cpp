@@ -31,6 +31,7 @@ MapEditor::MapEditor(string inputarg) {
 	Surf_Display = NULL;
 	Tileset = NULL;
 	Objective=NULL;
+	ObjBackground=NULL;
 	Menu = NULL;
 		dispMenu = false;
 	HeartBar = NULL;
