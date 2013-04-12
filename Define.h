@@ -18,7 +18,7 @@
 #define PLAYER_MAX_ANIM_STATE 3
 
 #define OBJ_FONT_SIZE 28
-#define OBJ_FONT_TYPE "ice-sans-regular.ttf"
+#define OBJ_FONT_TYPE "./fonts/future.ttf"
 
 #define MENU_W 600
 #define MENU_H 400

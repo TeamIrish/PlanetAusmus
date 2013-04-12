@@ -98,13 +98,18 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 			dispTitle = false;
 			break;
 
-    case SDLK_ESCAPE:
-                if(Running) OnStop();
-		else OnExit();
-   		break;
+		case SDLK_ESCAPE:
+		            if(Running) OnStop();
+			else OnExit();
+	   		break;
 
-	default:
-	  break;
+		// Objective (toggle on and off)
+		case SDLK_o:
+			dispObjective = !(dispObjective);
+			break;
+
+		default:
+	  		break;
 	}
 }
 

@@ -55,6 +55,7 @@ class MapEditor : public Event {
 
 			SDL_Surface* Player_Character;
 			SDL_Surface* Objective;
+				bool dispObjective;
 
         protected:
 			static bool debug;  // set to true with command line argument

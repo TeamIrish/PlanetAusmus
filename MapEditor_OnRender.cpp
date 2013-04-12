@@ -24,14 +24,13 @@ void MapEditor::OnRender() {
   }
   
   // render objective
-  
-  stringstream Current;
-
-  Current << ObjPtr->CurrentObj; // making the c string
-  
-  Objective=TTF_RenderText_Solid(XObjectiveFont,(Current.str()).c_str(), XObjectiveTextColor);
-  if(Objective==NULL) cout << "Error displaying text." << endl;
-  Surface::OnDraw(Surf_Display,Objective,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2);
+  if(dispObjective==true){
+  	stringstream Current;
+  	Current << ObjPtr->CurrentObj; // making the c string
+  	Objective=TTF_RenderText_Solid(XObjectiveFont,(Current.str()).c_str(), XObjectiveTextColor);
+  	if(Objective==NULL) cout << "Error displaying text." << endl;
+  	Surface::OnDraw(Surf_Display,Objective,1,1);
+  }
 
 
 	// Render the heart bar
