@@ -19,8 +19,8 @@ void MapEditor::OnRender() {
   Surface::OnDraw(Surf_Display,Player_Character,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2,Camera::CameraControl.playerStateX*CHARACTER_W,Camera::CameraControl.playerStateY*CHARACTER_H,CHARACTER_W,CHARACTER_H);
 
   // render enemies
-  for(int i=0;i<EnemyList.size();i++){
-    if((EnemyList[i]->OnRender(Surf_Display))==false) cout<<"Error displaying enemy "<<i<<endl;
+  for(int i=0;i<EntityList.size();i++){
+    if((EntityList[i]->OnRender(Surf_Display))==false) cout<<"Error displaying entity "<<i<<endl;
   }
   
   // render objective

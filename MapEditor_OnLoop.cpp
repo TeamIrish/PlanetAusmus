@@ -41,7 +41,7 @@ void MapEditor::OnLoop() {
 	if(!debug && CheckEnemyCollisions()) Running=false;
 
 	// Decide whether to spawn enemy
-	if(rand()%100<1 && EnemyList.size()<6) SpawnEnemy();
+	if(rand()%100<1 && EntityList.size()<6) SpawnEnemy();
 
 	// De-spawn enemies if too far from player
 	DeSpawnEnemies();
@@ -102,9 +102,9 @@ void MapEditor::SpawnEnemy(){
   if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT;
 
   // instantiate enemy and add to list
-  Enemy* tmp = new Enemy(typestring,32,32,spawnX,spawnY);
-  EnemyList.push_back(tmp);
-  cout<<"Enemy Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
+  Entity* tmp = new Entity(typestring,32,32,spawnX,spawnY);
+  EntityList.push_back(tmp);
+  cout<<"Entity (Enemy) Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
 }
 
 
@@ -114,10 +114,10 @@ bool MapEditor::CheckEnemyCollisions(){
   int charX = -Camera::CameraControl.GetX()+WWIDTH/2;
   int charY = -Camera::CameraControl.GetY()+WHEIGHT/2;
 
-  for(int i=0;i<EnemyList.size();i++){
-    int Xdist = (CHARACTER_W*.9 + EnemyList[i]->getW())/2;
-    int Ydist = (CHARACTER_H*.9 + EnemyList[i]->getH())/2;
-    if(abs(charX-EnemyList[i]->getX())<Xdist && abs(charY-EnemyList[i]->getY())<Ydist) return true;
+  for(int i=0;i<EntityList.size();i++){
+    int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
+    int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
+    if(abs(charX-EntityList[i]->getX())<Xdist && abs(charY-EntityList[i]->getY())<Ydist) return true;
   }
   return false;
 }
@@ -126,14 +126,14 @@ bool MapEditor::CheckEnemyCollisions(){
 //==============================================================================
 //
 void MapEditor::DeSpawnEnemies(){
-  for(int i=0;i<EnemyList.size();i++){
-    int distX = EnemyList[i]->getX() + Camera::CameraControl.GetX();
-    int distY = EnemyList[i]->getY() + Camera::CameraControl.GetY();
+  for(int i=0;i<EntityList.size();i++){
+    int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
+    int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
     double dist = sqrt(distX*distX+distY*distY);
 
     if(dist > 1280){
-      EnemyList[i]->OnCleanup();
-      EnemyList.erase(EnemyList.begin()+i);
+      EntityList[i]->OnCleanup();
+      EntityList.erase(EntityList.begin()+i);
       if(debug) cout<<"Enemy "<<i<<" despawned."<<endl;
     }
   }

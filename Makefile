@@ -1,7 +1,7 @@
 all: MapEditor
 
-MapEditor: MapEditor.o MapEditor_OnInit.o MapEditor_OnEvent.o MapEditor_OnLoop.o MapEditor_OnRender.o MapEditor_OnCleanup.o MapEditor_OnSave.o MapEditor_MapGenerate.o Surface.o Event.o Camera.o Map.o Tile.o Enemy.o Objectives.o
-	g++ MapEditor.o MapEditor_OnInit.o MapEditor_OnEvent.o MapEditor_OnLoop.o MapEditor_OnRender.o MapEditor_OnCleanup.o MapEditor_OnSave.o MapEditor_MapGenerate.o Surface.o Event.o Camera.o Map.o Tile.o Enemy.o Objectives.o -o MapEditor -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf -Wall
+MapEditor: MapEditor.o MapEditor_OnInit.o MapEditor_OnEvent.o MapEditor_OnLoop.o MapEditor_OnRender.o MapEditor_OnCleanup.o MapEditor_OnSave.o MapEditor_MapGenerate.o Surface.o Event.o Camera.o Map.o Tile.o Entity.o Enemy.o Objectives.o
+	g++ MapEditor.o MapEditor_OnInit.o MapEditor_OnEvent.o MapEditor_OnLoop.o MapEditor_OnRender.o MapEditor_OnCleanup.o MapEditor_OnSave.o MapEditor_MapGenerate.o Surface.o Event.o Camera.o Map.o Tile.o Entity.o Enemy.o Objectives.o -o MapEditor -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf -Wall
 
 MapEditor.o: MapEditor.cpp MapEditor.h
 	g++ -c MapEditor.cpp -Wall
@@ -29,6 +29,8 @@ Map.o: Map.cpp
 	g++ -c Map.cpp -Wall
 Tile.o: Tile.cpp
 	g++ -c Tile.cpp -Wall
+Entity.o: Entity.cpp
+	g++ -c Entity.cpp -Wall
 Enemy.o: Enemy.cpp
 	g++ -c Enemy.cpp -Wall
 Objectives.o: Objectives.cpp
