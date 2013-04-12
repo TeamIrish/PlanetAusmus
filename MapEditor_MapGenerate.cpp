@@ -12,7 +12,7 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   int tilevalue[40][40] = {{0}};
   int corners[4] = {0,0,39,39};
   // reference arrays: tileX and tileY in class header
-  // tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
+  // tile order: deepwater,water,sand,grass,grass,evergreen,tree,grass,grass,dirt,rock,snow,mountains,snow,rock,lava
 
   // set unspecified corner values
   for(int i=3;i>=0;i--){  // check backwards so that first corner of first map is definitely grass
@@ -27,7 +27,7 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
       }
       if(cornervalues[i]==-1){
 	cornervalues[i]=50; // if still unspecified (should only happen to first corner of first map), set to grass
-	cout<<"  Set map corner arbitrarily..."<<endl;
+	if(debug) cout<<"  Set map corner arbitrarily..."<<endl;
       }
     }
   }
@@ -52,9 +52,10 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
     }
   }
 
-  for(int i=0;i<40;i+=39)
-    for(int j=0;j<40;j+=39)
-    cout<<"   Corner value: "<<tilevalue[i][j]<<endl;
+  if(debug)
+    for(int i=0;i<40;i+=39)
+      for(int j=0;j<40;j+=39)
+	cout<<"   Corner value: "<<tilevalue[i][j]<<endl;
 
   // write to file
   ofstream fptr;
