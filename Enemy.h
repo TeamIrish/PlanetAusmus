@@ -4,15 +4,20 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include "Entity.h"
+
+/*
 #include "SDL/SDL.h"
 #include "SDL/SDL_mixer.h"
 #include "Define.h"
 #include <string>
 using namespace std;
+*/
 
-class Enemy{
+class Enemy : public Entity {
  public:
-  Enemy(string,int,int,int=MAP_WIDTH,int=MAP_HEIGHT);
+	/*  
+	Enemy(string,int,int,int=MAP_WIDTH,int=MAP_HEIGHT);
   bool OnRender(SDL_Surface*);
   int getX();
   int getY();
@@ -20,14 +25,18 @@ class Enemy{
   int getH();
   void changePos(int,int);
   void OnCleanup();
+	*/
+
  private:
-  int X;
+	/*  
+	int X;
   int Y;
   int width;
   int height;
   int enemyStateX;
   int enemyStateY;
   SDL_Surface* EnemySprite;
+	*/
 };
 
 #endif

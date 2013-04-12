@@ -2,8 +2,9 @@
 // CSE 20212 Final Project
 
 #include "Enemy.h"
-#include "MapEditor.h"
+//#include "MapEditor.h"
 
+/*
 Enemy::Enemy(string file,int w,int h,int x,int y){
   string fullfilename = "graphics/"+file;
   EnemySprite = Surface::OnLoad(fullfilename.c_str());
@@ -44,3 +45,4 @@ void Enemy::changePos(int a,int b){
 void Enemy::OnCleanup(){
   SDL_FreeSurface(EnemySprite);
 }
+*/
