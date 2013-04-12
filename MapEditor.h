@@ -121,6 +121,7 @@ class MapEditor : public Event {
 				bool CheckCollision();
 				void SpawnEnemy();
 				bool CheckEnemyCollisions();
+				void DeSpawnEnemies();
 			 
 			  void OnRender();
 
