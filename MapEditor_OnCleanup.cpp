@@ -11,6 +11,7 @@ void MapEditor::OnCleanup() {
 	SDL_FreeSurface(HeartBar);
 	SDL_FreeSurface(TitleScreen);
 	SDL_FreeSurface(TitleMenu);
+	SDL_FreeSurface(ObjBackground);
 	
 	for(int i=0;i<4;i++) SDL_FreeSurface(gameMap[i].Surf_Tileset);
 	for(int i=0;i<MapEditor::EnemyList.size();i++){

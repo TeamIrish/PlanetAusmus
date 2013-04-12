@@ -30,6 +30,7 @@ void MapEditor::OnRender() {
   	Objective=TTF_RenderText_Solid(XObjectiveFont,(Current.str()).c_str(), XObjectiveTextColor);
   	if(Objective==NULL) cout << "Error displaying text." << endl;
   	Surface::OnDraw(Surf_Display,Objective,1,1);
+  	//Surface::OnDraw(Surf_Display,ObjBackground,0,0);
   }
 
 

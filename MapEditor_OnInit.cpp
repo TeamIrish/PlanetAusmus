@@ -43,6 +43,19 @@ bool MapEditor::OnInit() {
  	XObjectiveFont = TTF_OpenFont(OBJ_FONT_TYPE,OBJ_FONT_SIZE); // assign the font and size, which are assigned Define.h
 	if(XObjectiveFont==NULL) cout << "Error loading font." << endl;
 	SDL_Color XObjectiveTextColor={1,1,1}; // assign color
+	
+	// Load the Objective Background
+	/*
+	SDL_Rect ObjRect;
+	ObjRect.w = 100;
+	ObjRect.h = 30;
+	cout << "Rectangle defined." << endl;
+	Uint32 RectColor=SDL_MapRGB(Surf_Display->format,0,0,0);
+	cout << "Color set." << endl;
+	SDL_FillRect(ObjBackground, &ObjRect,RectColor);
+	cout << "Rectangle object filled." << endl;
+	*/
+	
 
 	// Load the menu
 	if((Menu = Surface::OnLoad("./graphics/menu.png")) == NULL){

@@ -54,6 +54,7 @@ class MapEditor : public Event {
 
 			SDL_Surface* Player_Character;
 			SDL_Surface* Objective;
+			SDL_Surface* ObjBackground;
 				bool dispObjective;
 
         protected:
