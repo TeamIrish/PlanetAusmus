@@ -42,6 +42,9 @@ void MapEditor::OnLoop() {
 
 	// Decide whether to spawn enemy
 	if(rand()%100<1 && EnemyList.size()<6) SpawnEnemy();
+
+	// De-spawn enemies if too far from player
+	DeSpawnEnemies();
 		
 }
 
@@ -117,4 +120,21 @@ bool MapEditor::CheckEnemyCollisions(){
     if(abs(charX-EnemyList[i]->getX())<Xdist && abs(charY-EnemyList[i]->getY())<Ydist) return true;
   }
   return false;
+}
+
+
+//==============================================================================
+//
+void MapEditor::DeSpawnEnemies(){
+  for(int i=0;i<EnemyList.size();i++){
+    int distX = EnemyList[i]->getX() + Camera::CameraControl.GetX();
+    int distY = EnemyList[i]->getY() + Camera::CameraControl.GetY();
+    double dist = sqrt(distX*distX+distY*distY);
+
+    if(dist > 1280){
+      EnemyList[i]->OnCleanup();
+      EnemyList.erase(EnemyList.begin()+i);
+      if(debug) cout<<"Enemy "<<i<<" despawned."<<endl;
+    }
+  }
 }
