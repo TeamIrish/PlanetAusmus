@@ -4,7 +4,7 @@
 #include <cstring>
 #include "MapEditor.h"
 #include "Camera.h"
- 
+
 Camera Camera::CameraControl;
  
 Camera::Camera() {
@@ -62,28 +62,28 @@ void Camera::SetTarget(int* X, int* Y) {
 // Check to make sure that the camera didn't move out of bounds - if so, change view
 void Camera::CheckBounds(){
 	if(Camera::CameraControl.GetX() > 0){
-	  if(--currentMapX<0) currentMapX=999;
+	  --currentMapX;
 	  CameraControl.SetPos(MAP_WIDTH*TILE_SIZE*-1,CameraControl.GetY());
 	  for(int i=0;i<MapEditor::EnemyList.size();i++)
 	    MapEditor::EnemyList[i]->changePos(MAP_WIDTH*TILE_SIZE,0);
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetX() < (-1*MAP_WIDTH*TILE_SIZE)){
-	  if(++currentMapX>999) currentMapX=0;
+	  ++currentMapX;
 	  CameraControl.SetPos(0,CameraControl.GetY());
 	  for(int i=0;i<MapEditor::EnemyList.size();i++)
 	    MapEditor::EnemyList[i]->changePos(-MAP_WIDTH*TILE_SIZE,0);
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetY() > 0){
-	  if(--currentMapY<0) currentMapY=999;
+	  --currentMapY;
 	  CameraControl.SetPos(CameraControl.GetX(),MAP_HEIGHT*TILE_SIZE*-1);
 	  for(int i=0;i<MapEditor::EnemyList.size();i++)
 	    MapEditor::EnemyList[i]->changePos(0,MAP_WIDTH*TILE_SIZE);
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetY() < (-1*MAP_HEIGHT*TILE_SIZE)){
-	  if(++currentMapY>999) currentMapY=0;
+	  ++currentMapY;
 	  CameraControl.SetPos(CameraControl.GetX(),0);
 	  for(int i=0;i<MapEditor::EnemyList.size();i++)
 	    MapEditor::EnemyList[i]->changePos(0,-MAP_WIDTH*TILE_SIZE);
@@ -93,26 +93,27 @@ void Camera::CheckBounds(){
 
 
 bool Camera::ChangeMapView(){
-  cout<<"Changing map view..."<<endl;
+  if(MapEditor::debug) cout<<"Changing map view..."<<endl;
   ostringstream ss;
   string Xstr,Ystr;
   int mapXCoord,mapYCoord;
   int corners[4];
 
   for(int i=0;i<4;i++){
-    mapXCoord = (currentMapX+(i%2))>999 ? 0 : currentMapX+(i%2);  // allows wrap from 999 to 0 and vice versa
+    mapXCoord = currentMapX+(i%2);  // allows wrap from 999 to 0 and vice versa
     ss<<setw(3)<<setfill('0')<<mapXCoord;
     Xstr = ss.str(); // save in string
     ss.str("");  // clear stream
 
-    mapYCoord = (currentMapY+(i/2))>999 ? 0 : currentMapY+(i/2);  // allows wrap from 999 to 0 and vice versa
+    mapYCoord = currentMapY+(i/2);  // allows wrap from 999 to 0 and vice versa
     ss<<setw(3)<<setfill('0')<<mapYCoord;
     Ystr = ss.str();
     ss.str("");  // clear stream
-    MapEditor::filenameLoad[i] = MapEditor::filenameSave[i] = "maps/map"+Xstr+Ystr;
+    MapEditor::filenameLoad[i] = MapEditor::filenameSave[i] = "maps/map"+Xstr+"_"+Ystr;
+
     ifstream file(MapEditor::filenameLoad[i].c_str());
     if(!file){  // file does not exist; make it
-      cout<<"Generating file "<<MapEditor::filenameLoad[i]<<endl;
+      if(MapEditor::debug) cout<<"Generating file "<<MapEditor::filenameLoad[i]<<endl;
       GetCornerValues(mapXCoord,mapYCoord,corners);
       MapEditor::RandomMapGenerate(MapEditor::filenameLoad[i],corners);
     }
@@ -122,7 +123,7 @@ bool Camera::ChangeMapView(){
   // tell program to load new view into memory
   MapEditor::runLoadMaps = true;
 
-  cout<<"View set to: "<<MapEditor::filenameLoad[0]<<" "<<MapEditor::filenameLoad[1]<<"\n             "<<MapEditor::filenameLoad[2]<<" "<<MapEditor::filenameLoad[3]<<endl;
+  if(MapEditor::debug) cout<<"View set to: "<<MapEditor::filenameLoad[0]<<" "<<MapEditor::filenameLoad[1]<<"\n             "<<MapEditor::filenameLoad[2]<<" "<<MapEditor::filenameLoad[3]<<endl;
 
   return true;
 }
@@ -137,21 +138,17 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
     for(int j=0;j<3;j++){
       // get coords of one adjacent map
       tmp = XCoord-pow(-1,i)*((j+1)%2); // -1,0,-1,+1,0,+1,-1,0,-1,+1,0,+1
-      if(tmp<0) tmp=999;
-      if(tmp>999) tmp=0;
       ss<<setw(3)<<setfill('0')<<tmp;
       Xstr = ss.str(); // save in string
       ss.str("");  // clear stream
 
       tmp = YCoord-pow(-1,i/2)*((j+1)/2); // 0,-1,-1,0,-1,-1,0,+1,+1,0,+1,+1
-      if(tmp<0) tmp=999;
-      if(tmp>999) tmp=0;
       ss<<setw(3)<<setfill('0')<<tmp;
       Ystr = ss.str();
       ss.str("");  // clear stream
 
       // if map exists, get adjacent corner
-      testmap = "maps/map"+Xstr+Ystr;
+      testmap = "maps/map"+Xstr+"_"+Ystr;
       ifstream file(testmap.c_str());
       if(file){
 	switch(i+j){
@@ -207,7 +204,7 @@ void Camera::GetCornerValues(int XCoord,int YCoord,int corners[]){
 	  break;
 	}// end outer switch
 	corners[i] = value;
-	if(value!=-1) cout<<"  corner "<<i<<" found: "<<value<<endl;
+	if(MapEditor::debug) if(value!=-1) cout<<"  corner "<<i<<" found: "<<value<<endl;
 	file.close();
 	break; // move to next corner
       }
@@ -225,7 +222,7 @@ int Camera::TileToValue(int X,int Y){
       return i*6;
     }
   }
-  cout<<"  unidentified tile type..."<<endl;
+  if(MapEditor::debug) cout<<"  unidentified tile type..."<<endl;
   return 50; // unidentifiable tile; set to middle value
 }
 

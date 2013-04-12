@@ -34,6 +34,7 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 using namespace std;
  
 class MapEditor : public Event {
+  friend class Camera;
 
     private:
 
@@ -54,7 +55,8 @@ class MapEditor : public Event {
 			SDL_Surface* Player_Character;
 			SDL_Surface* Objective;
 
-			bool debug;  // set to true with command line argument
+        protected:
+			static bool debug;  // set to true with command line argument
 
 
 	public:
@@ -119,6 +121,7 @@ class MapEditor : public Event {
 				bool CheckCollision();
 				void SpawnEnemy();
 				bool CheckEnemyCollisions();
+				void DeSpawnEnemies();
 			 
 			  void OnRender();
 
