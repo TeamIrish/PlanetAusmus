@@ -104,7 +104,9 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 	   		break;
 
 		// Objective (toggle on and off)
-		
+		case SDLK_o:
+			dispObjective = !(dispObjective);
+			break;
 
 		default:
 	  		break;

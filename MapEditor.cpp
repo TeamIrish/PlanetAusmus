@@ -43,6 +43,7 @@ MapEditor::MapEditor(string inputarg) {
 	
 	// Initialize Font objects to NULL
 	TTF_Font *XObjectiveFont = NULL;
+		dispObjective = true;
 
 	currentTileXID=0;
 	currentTileYID=1;
