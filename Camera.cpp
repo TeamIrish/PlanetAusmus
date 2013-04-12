@@ -64,29 +64,29 @@ void Camera::CheckBounds(){
 	if(Camera::CameraControl.GetX() > 0){
 	  --currentMapX;
 	  CameraControl.SetPos(MAP_WIDTH*TILE_SIZE*-1,CameraControl.GetY());
-	  for(int i=0;i<MapEditor::EnemyList.size();i++)
-	    MapEditor::EnemyList[i]->changePos(MAP_WIDTH*TILE_SIZE,0);
+	  for(int i=0;i<MapEditor::EntityList.size();i++)
+	    MapEditor::EntityList[i]->changePos(MAP_WIDTH*TILE_SIZE,0);
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetX() < (-1*MAP_WIDTH*TILE_SIZE)){
 	  ++currentMapX;
 	  CameraControl.SetPos(0,CameraControl.GetY());
-	  for(int i=0;i<MapEditor::EnemyList.size();i++)
-	    MapEditor::EnemyList[i]->changePos(-MAP_WIDTH*TILE_SIZE,0);
+	  for(int i=0;i<MapEditor::EntityList.size();i++)
+	    MapEditor::EntityList[i]->changePos(-MAP_WIDTH*TILE_SIZE,0);
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetY() > 0){
 	  --currentMapY;
 	  CameraControl.SetPos(CameraControl.GetX(),MAP_HEIGHT*TILE_SIZE*-1);
-	  for(int i=0;i<MapEditor::EnemyList.size();i++)
-	    MapEditor::EnemyList[i]->changePos(0,MAP_WIDTH*TILE_SIZE);
+	  for(int i=0;i<MapEditor::EntityList.size();i++)
+	    MapEditor::EntityList[i]->changePos(0,MAP_WIDTH*TILE_SIZE);
 	  ChangeMapView();
 	}
 	if(Camera::CameraControl.GetY() < (-1*MAP_HEIGHT*TILE_SIZE)){
 	  ++currentMapY;
 	  CameraControl.SetPos(CameraControl.GetX(),0);
-	  for(int i=0;i<MapEditor::EnemyList.size();i++)
-	    MapEditor::EnemyList[i]->changePos(0,-MAP_WIDTH*TILE_SIZE);
+	  for(int i=0;i<MapEditor::EntityList.size();i++)
+	    MapEditor::EntityList[i]->changePos(0,-MAP_WIDTH*TILE_SIZE);
 	  ChangeMapView();
 	}
 }

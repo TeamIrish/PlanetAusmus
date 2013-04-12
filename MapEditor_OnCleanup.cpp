@@ -13,9 +13,9 @@ void MapEditor::OnCleanup() {
 	SDL_FreeSurface(TitleMenu);
 	
 	for(int i=0;i<4;i++) SDL_FreeSurface(gameMap[i].Surf_Tileset);
-	for(int i=0;i<MapEditor::EnemyList.size();i++){
-	  EnemyList[i]->OnCleanup();
-	  delete EnemyList[i];
+	for(int i=0;i<MapEditor::EntityList.size();i++){
+	  EntityList[i]->OnCleanup();
+	  delete EntityList[i];
 	}
 
 	// Quit out of SDL

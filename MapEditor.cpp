@@ -14,7 +14,7 @@ using namespace std;
 // initialize static variables
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
-vector<Enemy*> MapEditor::EnemyList;
+vector<Entity*> MapEditor::EntityList;
 bool MapEditor::runLoadMaps=false;
 bool MapEditor::debug;
 // tile order: deepwater,water,sand,grass,grass,evergreen,tree,grass,grass,dirt,rock,snow,mountains,snow,rock,lava

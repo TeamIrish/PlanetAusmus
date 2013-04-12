@@ -1,7 +1,7 @@
 // Benjamin Laws, Matt Rundle, Matt Mahan, Paul Kennedy
 // CSE 20212 Final Project
 
-#include "Entity.h"
+//#include "Entity.h"
 #include "MapEditor.h"
 
 Entity::Entity(string file,int w,int h,int x,int y){

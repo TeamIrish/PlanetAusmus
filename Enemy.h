@@ -4,7 +4,8 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "Entity.h"
+#include "MapEditor.h"
+//#include "Entity.h"
 
 /*
 #include "SDL/SDL.h"
@@ -15,28 +16,10 @@ using namespace std;
 */
 
 class Enemy : public Entity {
- public:
-	/*  
-	Enemy(string,int,int,int=MAP_WIDTH,int=MAP_HEIGHT);
-  bool OnRender(SDL_Surface*);
-  int getX();
-  int getY();
-  int getW();
-  int getH();
-  void changePos(int,int);
-  void OnCleanup();
-	*/
 
- private:
-	/*  
-	int X;
-  int Y;
-  int width;
-  int height;
-  int enemyStateX;
-  int enemyStateY;
-  SDL_Surface* EnemySprite;
-	*/
+	public:
+
+	int z;
 };
 
 #endif

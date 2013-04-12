@@ -28,6 +28,7 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 #include "Surface.h"
 #include "Map.h"
 #include "Camera.h"
+#include "Entity.h"
 #include "Enemy.h"
 #include "Objectives.h"
 
@@ -80,7 +81,7 @@ class MapEditor : public Event {
 			int currentTileXID;
 			int currentTileYID;
 
-			static vector<Enemy*> EnemyList;
+			static vector<Entity*> EntityList;
 
    public:
         MapEditor(string);

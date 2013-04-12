@@ -1,13 +1,14 @@
 #ifndef ENTITY_H_
 	#define ENTITY_H_
 
-
+#include "MapEditor.h"
+/*
 #include "SDL/SDL.h"
 #include "SDL/SDL_mixer.h"
 #include "Define.h"
 #include <string>
 using namespace std;
-
+*/
 enum {
 	ENTITY_TYPE_NONE = 0,
 
@@ -40,5 +41,5 @@ class Entity {
 		SDL_Surface* EntitySprite;
 
 
-}
+};
 #endif

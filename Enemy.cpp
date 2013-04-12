@@ -1,8 +1,8 @@
 // Benjamin Laws, Matt Rundle, Matt Mahan, Paul Kennedy
 // CSE 20212 Final Project
 
-#include "Enemy.h"
-//#include "MapEditor.h"
+//#include "Enemy.h"
+#include "MapEditor.h"
 
 /*
 Enemy::Enemy(string file,int w,int h,int x,int y){
