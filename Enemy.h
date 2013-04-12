@@ -17,9 +17,6 @@ using namespace std;
 
 class Enemy : public Entity {
 
-	public:
-
-	int z;
 };
 
 #endif

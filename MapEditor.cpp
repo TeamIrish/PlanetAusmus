@@ -40,6 +40,7 @@ MapEditor::MapEditor(string inputarg) {
 		dispTitleMenu = false;
 
 	Player_Character = NULL;
+	Grave = NULL;
 	
 	// Initialize Font objects to NULL
 	TTF_Font *XObjectiveFont = NULL;
@@ -47,6 +48,8 @@ MapEditor::MapEditor(string inputarg) {
 
 	currentTileXID=0;
 	currentTileYID=1;
+
+	playerHealth = 10;
 
 	Running = true;
 	Quit = false;

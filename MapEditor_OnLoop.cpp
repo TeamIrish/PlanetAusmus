@@ -38,7 +38,11 @@ void MapEditor::OnLoop() {
 	Camera::CameraControl.AnimateCharacter();
 
 	// Check for collision with enemies
-	if(!debug && CheckEnemyCollisions()) Running=false;
+	//if(!debug && CheckEnemyCollisions()) Running=false;
+	CheckEnemyCollisions();
+
+	// Check to see if player is dead
+	if(playerHealth < 1) Running = false;
 
 	// Decide whether to spawn enemy
 	if(rand()%100<1 && EntityList.size()<6) SpawnEnemy();
@@ -103,6 +107,7 @@ void MapEditor::SpawnEnemy(){
 
   // instantiate enemy and add to list
   Entity* tmp = new Entity(typestring,32,32,spawnX,spawnY);
+	tmp->setType(ENTITY_TYPE_ENEMY);
   EntityList.push_back(tmp);
   cout<<"Entity (Enemy) Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
 }
@@ -115,10 +120,18 @@ bool MapEditor::CheckEnemyCollisions(){
   int charY = -Camera::CameraControl.GetY()+WHEIGHT/2;
 
   for(int i=0;i<EntityList.size();i++){
-    int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
-    int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
-    if(abs(charX-EntityList[i]->getX())<Xdist && abs(charY-EntityList[i]->getY())<Ydist) return true;
-  }
+		if(EntityList[i]->getType() == ENTITY_TYPE_ENEMY){
+    	int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
+    	int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
+    	if(abs(charX-EntityList[i]->getX())<Xdist && abs(charY-EntityList[i]->getY())<Ydist){
+				EntityList[i]->OnCleanup();
+	  		delete EntityList[i];
+				EntityList.erase(EntityList.begin() + i);
+				playerHealth--;
+				return true;
+			}
+		}  
+	}
   return false;
 }
 

@@ -16,8 +16,11 @@ void MapEditor::OnRender() {
   }
 
   // render player character
-  Surface::OnDraw(Surf_Display,Player_Character,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2,Camera::CameraControl.playerStateX*CHARACTER_W,Camera::CameraControl.playerStateY*CHARACTER_H,CHARACTER_W,CHARACTER_H);
-
+	if(Running == true){
+  	Surface::OnDraw(Surf_Display,Player_Character,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2,Camera::CameraControl.playerStateX*CHARACTER_W,Camera::CameraControl.playerStateY*CHARACTER_H,CHARACTER_W,CHARACTER_H);
+	}else{
+		Surface::OnDraw(Surf_Display,Grave,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2);
+	}
   // render enemies
   for(int i=0;i<EntityList.size();i++){
     if((EntityList[i]->OnRender(Surf_Display))==false) cout<<"Error displaying entity "<<i<<endl;
@@ -34,7 +37,7 @@ void MapEditor::OnRender() {
 
 
 	// Render the heart bar
-	Surface::OnDraw(Surf_Display,HeartBar,WWIDTH-HEARTBAR_W,0,0,0,HEARTBAR_W,HEARTBAR_H);
+	Surface::OnDraw(Surf_Display,HeartBar,WWIDTH-HEARTBAR_W,0,0,HEARTBAR_H*(10-playerHealth),HEARTBAR_W,HEARTBAR_H);
 
 	// Render the menu (conditionally)
 	if(dispMenu == true){

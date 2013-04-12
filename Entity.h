@@ -29,6 +29,8 @@ class Entity {
 	  int getH();
 	  void changePos(int,int);
 	  void OnCleanup();
+		void setType(int);
+		int getType();
 
 	private:
 
@@ -39,6 +41,7 @@ class Entity {
 		int entityStateX;
 		int entityStateY;
 		SDL_Surface* EntitySprite;
+		int type;
 
 
 };

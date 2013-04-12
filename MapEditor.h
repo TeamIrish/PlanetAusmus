@@ -54,6 +54,7 @@ class MapEditor : public Event {
 				bool dispTitleMenu;
 
 			SDL_Surface* Player_Character;
+			SDL_Surface* Grave;
 			SDL_Surface* Objective;
 				bool dispObjective;
 
@@ -63,6 +64,9 @@ class MapEditor : public Event {
 
 	public:
 	
+			// player health
+			int playerHealth;
+
 			// game map
 			Map gameMap[4];
 

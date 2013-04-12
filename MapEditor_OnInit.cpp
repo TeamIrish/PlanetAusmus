@@ -64,6 +64,11 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
+	// Load the grave
+	if((Grave = Surface::OnLoad("./graphics/grave.png")) == NULL){
+		return false;
+	}
+
 	// Name the window
 	SDL_WM_SetCaption("MapEditor",NULL);
 
@@ -72,6 +77,7 @@ bool MapEditor::OnInit() {
 	Surface::Transparent(Menu,255,0,255);
 	Surface::Transparent(TitleMenu,255,0,255);
 	Surface::Transparent(HeartBar,255,0,255);
+	Surface::Transparent(Grave,255,0,255);
 
 //==========================================================================
 // Load map tileset

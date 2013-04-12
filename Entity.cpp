@@ -44,3 +44,11 @@ void Entity::changePos(int a,int b){
 void Entity::OnCleanup(){
   SDL_FreeSurface(EntitySprite);
 }
+
+void Entity::setType(int entityType){
+	type = entityType;
+}
+
+int Entity::getType(){
+	return type;
+}
