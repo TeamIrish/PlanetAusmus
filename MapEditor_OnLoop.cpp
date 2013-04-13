@@ -16,19 +16,19 @@ void MapEditor::OnLoop() {
 	int moveSize = 5;
 	if(Camera::CameraControl.MovingLeft == true){
 		Camera::CameraControl.OnMove(moveSize,0);
-		if(!debug && CheckCollision()) Camera::CameraControl.OnMove(-moveSize,0);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(-moveSize,0);
 	}
 	if(Camera::CameraControl.MovingRight == true){
 		Camera::CameraControl.OnMove(-moveSize,0);
-		if(!debug && CheckCollision()) Camera::CameraControl.OnMove(moveSize,0);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(moveSize,0);
 	}
 	if(Camera::CameraControl.MovingUp == true){
 		Camera::CameraControl.OnMove(0,moveSize);
-		if(!debug && CheckCollision()) Camera::CameraControl.OnMove(0,-moveSize);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,-moveSize);
 	}
 	if(Camera::CameraControl.MovingDown == true){
 		Camera::CameraControl.OnMove(0,-moveSize);
-		if(!debug && CheckCollision()) Camera::CameraControl.OnMove(0,moveSize);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,moveSize);
 	}
 
 	// Check to make sure that the camera didn't move out of bounds - if so, change map view
@@ -55,16 +55,13 @@ void MapEditor::OnLoop() {
 
 //==============================================================================
 //
-bool MapEditor::CheckCollision(){
-
-  int centerX,centerY,tileX,tileY,ID;
-  centerX = -(Camera::CameraControl.GetX() - WWIDTH/2);
-  centerY = -(Camera::CameraControl.GetY() - WHEIGHT/2);
+bool MapEditor::CheckTileCollision(int centerX,int centerY,int width,int height){
+  int tileX,tileY,ID;
 
   for(int i=0;i<4;i++){ // check all four corners of the sprite
 	int mapID = 0;
-	tileX = (centerX + pow(-1,i%2)*CHARACTER_W*.4) / TILE_SIZE;
-	tileY = (centerY + (i/2)*CHARACTER_H*.25) / TILE_SIZE;  // only check bottom half of sprite, to give 3D effect
+	tileX = (centerX + pow(-1,i%2)*width*.3) / TILE_SIZE;
+	tileY = (centerY + (i/2)*height*.3) / TILE_SIZE;  // only check bottom half of sprite, to give 3D effect
 
 	if(tileX >= MAP_WIDTH){
 		tileX -= MAP_WIDTH;
@@ -97,17 +94,29 @@ bool MapEditor::CheckCollision(){
 //
 void MapEditor::SpawnEnemy(){
   string typestring = "golem.png";
+  int spawnX,spawnY;
+
   // generate random coordinates onscreen
-  int spawnX = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
-  int spawnY = -Camera::CameraControl.GetY()+WHEIGHT/2+pow(-1,rand()%2)*(rand()%(WHEIGHT/3));
+  int X = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
+  int Y = -Camera::CameraControl.GetY()+WHEIGHT/2+pow(-1,rand()%2)*(rand()%(WHEIGHT/3));
+
   // move coordinates to somewhere offscreen
-  int random=rand()%3;
-  if(random>0) spawnX += pow(-1,rand()%2)*WWIDTH;
-  if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT;
+  while(1){
+    spawnX = X;
+    spawnY = Y;
+    int random=rand()%3;
+    if(random>0) spawnX += pow(-1,rand()%2)*WWIDTH;
+    if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT;
+
+    // ensure that chosen tile is not nontraversable
+    int pixelX = X - Camera::CameraControl.GetX();
+    int pixelY = Y - Camera::CameraControl.GetY();
+    if(!CheckTileCollision(pixelX,pixelY,32,32)) break;
+  }
 
   // instantiate enemy and add to list
   Entity* tmp = new Entity(typestring,32,32,spawnX,spawnY);
-	tmp->setType(ENTITY_TYPE_ENEMY);
+  tmp->setType(ENTITY_TYPE_ENEMY);
   EntityList.push_back(tmp);
   cout<<"Entity (Enemy) Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
 }

@@ -126,7 +126,7 @@ class MapEditor : public Event {
 			 
 				void OnLoop();
 				
-				bool CheckCollision();
+				bool CheckTileCollision(int=-Camera::CameraControl.GetX()+WWIDTH/2,int=-Camera::CameraControl.GetY()+WHEIGHT/2,int=CHARACTER_W,int=CHARACTER_H);
 				void SpawnEnemy();
 				bool CheckEnemyCollisions();
 				void DeSpawnEnemies();
