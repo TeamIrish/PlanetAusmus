@@ -36,6 +36,7 @@ using namespace std;
  
 class MapEditor : public Event {
   friend class Camera;
+  friend class Objectives;
 
     private:
 

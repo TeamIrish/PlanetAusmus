@@ -44,6 +44,15 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   // generate map recursively
   RMG_Recursion(corners,tilevalue);
 
+  // set corners again to ensure world continuity
+  a=0;
+  for(int i=0;i<40;i+=39){
+    for(int j=0;j<40;j+=39){
+      tilevalue[i][j]=cornervalues[a];
+      a++;
+    }
+  }
+
   // intermix two types of trees
   for(int i=0;i<40;i++){
     for(int j=0;j<40;j++){
@@ -80,7 +89,7 @@ void MapEditor::RMG_Recursion(int pos[4],int tilevalue[40][40]){
   tilevalue[pos[2]][(pos[1]+pos[3])/2] = (tilevalue[pos[0]][pos[3]]+tilevalue[pos[2]][pos[3]])/2; // bottom edge
 
  // center takes average of four corners plus/minus random fluctuation based on distance
-  tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] = (tilevalue[pos[0]][pos[1]]+tilevalue[pos[0]][pos[3]]+tilevalue[pos[2]][pos[1]]+tilevalue[pos[2]][pos[3]])/4 + pow(-1,rand()%2)*(rand()%(pos[2]-pos[0]));
+  tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] = (tilevalue[pos[0]][pos[1]]+tilevalue[pos[0]][pos[3]]+tilevalue[pos[2]][pos[1]]+tilevalue[pos[2]][pos[3]])/4 + pow(-1,rand()%2)*((rand()%(pos[2]-pos[0])));
   if(tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] < 0) tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2]=0;
   if(tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] > 95) tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2]=95;
 

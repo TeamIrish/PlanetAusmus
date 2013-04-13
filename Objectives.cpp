@@ -17,7 +17,7 @@ Objectives::Objectives(){
 	file.close();
 	
 	CurrentObj = list[0];
-	cout << "Objectives object constructed." << endl;
+	if(MapEditor::debug) cout << "Objectives object constructed." << endl;
 }
 
 // update
