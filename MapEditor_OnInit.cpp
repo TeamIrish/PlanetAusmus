@@ -45,16 +45,10 @@ bool MapEditor::OnInit() {
 	SDL_Color XObjectiveTextColor={1,1,1}; // assign color
 	
 	// Load the Objective Background
-	/*
-	SDL_Rect ObjRect;
-	ObjRect.w = 100;
-	ObjRect.h = 30;
-	cout << "Rectangle defined." << endl;
-	Uint32 RectColor=SDL_MapRGB(Surf_Display->format,0,0,0);
-	cout << "Color set." << endl;
-	SDL_FillRect(ObjBackground, &ObjRect,RectColor);
-	cout << "Rectangle object filled." << endl;
-	*/
+	if((ObjBackground = Surface::OnLoad("./graphics/objbackground.png")) == NULL){
+		return false;
+	}
+
 	
 
 	// Load the menu
