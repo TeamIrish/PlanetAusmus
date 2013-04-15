@@ -1,6 +1,9 @@
 # Remove unnecessary compiled .o files
 *.o
 
+# Remove any temp files
+*.~
+
 # Remove anything in the maps directory
 ./maps/map*
 
