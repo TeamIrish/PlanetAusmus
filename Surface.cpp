@@ -1,4 +1,5 @@
 #include "Surface.h"
+#include <iostream>
 
 Surface::Surface(){
 }
@@ -9,8 +10,8 @@ SDL_Surface* Surface::OnLoad(const char* File) {
     SDL_Surface* Surf_Return = NULL;
  
     if((Surf_Temp = IMG_Load(File)) == NULL) {
-        return NULL;
-        cout << "An image failed to load. Is a file missing?" << endl;
+      std::cout << "An image failed to load. Is a file missing?" << std::endl;  
+			return NULL;
     }
  
 	// here we're optimizing the image - using "SDL_DisplayFormatAlpha" instead of "SDL_DisplayFormat" because the former allows us to designate a color channel, in our case bright pink, as transparent. This helps a lot when rendering our sprites

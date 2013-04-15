@@ -45,9 +45,9 @@ bool MapEditor::OnInit() {
 	SDL_Color XObjectiveTextColor={1,1,1}; // assign color
 	
 	// Load the Objective Background
-	if((ObjBackground = Surface::OnLoad("./graphics/objbackground.png")) == NULL){
+	/*if((ObjBackground = Surface::OnLoad("./graphics/objbackground.png")) == NULL){
 		return false;
-	}
+	}*/
 
 	
 
