@@ -160,3 +160,8 @@ void MapEditor::DeSpawnEnemies(){
     }
   }
 }
+
+void MapEditor::AddBullet(){
+  Bullet * tmp = new Bullet();
+  EntityList.push_back(tmp);
+}

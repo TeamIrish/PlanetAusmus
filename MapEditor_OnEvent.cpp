@@ -108,6 +108,11 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 			dispObjective = !(dispObjective);
 			break;
 
+		// shoot
+	        case SDLK_SPACE:
+		  AddBullet();
+		  break;
+
 		default:
 	  		break;
 	}

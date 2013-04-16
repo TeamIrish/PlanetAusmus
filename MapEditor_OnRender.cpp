@@ -15,16 +15,17 @@ void MapEditor::OnRender() {
     gameMap[i].OnRender(Surf_Display, Camera::CameraControl.GetX()+MAP_WIDTH*TILE_SIZE*(i%2), Camera::CameraControl.GetY()+MAP_HEIGHT*TILE_SIZE*(i/2));
   }
 
+  // render entities (enemies, bullets)
+  for(int i=0;i<EntityList.size();i++){
+    if((EntityList[i]->OnRender(Surf_Display))==false) cout<<"Error displaying entity "<<i<<endl;
+  }
+
   // render player character
 	if(Running == true){
   	Surface::OnDraw(Surf_Display,Player_Character,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2,Camera::CameraControl.playerStateX*CHARACTER_W,Camera::CameraControl.playerStateY*CHARACTER_H,CHARACTER_W,CHARACTER_H);
 	}else{
 		Surface::OnDraw(Surf_Display,Grave,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2);
 	}
-  // render enemies
-  for(int i=0;i<EntityList.size();i++){
-    if((EntityList[i]->OnRender(Surf_Display))==false) cout<<"Error displaying entity "<<i<<endl;
-  }
   
   // render objective
   if(dispObjective==true){

@@ -21,7 +21,7 @@ class Entity {
 
 	public:
 
-		Entity(string,int,int,int=MAP_WIDTH,int=MAP_HEIGHT);
+		Entity(string="",int=32,int=32,int=MAP_WIDTH,int=MAP_HEIGHT);
 		bool OnRender(SDL_Surface*);
 		int getX();
 	  int getY();
@@ -29,10 +29,11 @@ class Entity {
 	  int getH();
 	  void changePos(int,int);
 	  void OnCleanup();
+	  void OnLoop();
 		void setType(int);
 		int getType();
 
-	private:
+	protected:
 
 	  int X;
 	  int Y;

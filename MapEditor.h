@@ -30,6 +30,7 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 #include "Camera.h"
 #include "Entity.h"
 #include "Enemy.h"
+#include "Bullet.h"
 #include "Objectives.h"
 
 using namespace std;
@@ -128,6 +129,7 @@ class MapEditor : public Event {
 				
 				bool CheckTileCollision(int=-Camera::CameraControl.GetX()+WWIDTH/2,int=-Camera::CameraControl.GetY()+WHEIGHT/2,int=CHARACTER_W,int=CHARACTER_H);
 				void SpawnEnemy();
+				void AddBullet();
 				bool CheckEnemyCollisions();
 				void DeSpawnEnemies();
 			 

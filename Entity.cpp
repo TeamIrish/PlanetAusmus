@@ -41,6 +41,10 @@ void Entity::changePos(int a,int b){
   Y += b;
 }
 
+void Entity::OnLoop(){
+  
+}
+
 void Entity::OnCleanup(){
   SDL_FreeSurface(EntitySprite);
 }
