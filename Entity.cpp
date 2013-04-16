@@ -4,13 +4,16 @@
 //#include "Entity.h"
 #include "MapEditor.h"
 
-Entity::Entity(string file,int w,int h,int x,int y){
+Entity::Entity(string file,int w,int h,int x,int y,int s){
   string fullfilename = "graphics/"+file;
   EntitySprite = Surface::OnLoad(fullfilename.c_str());
+  Surface::Transparent(EntitySprite,255,0,255);
+
   width = w;
   height = h;
   X = x;
   Y = y;
+  speed = s;
   entityStateX = entityStateY = 0;
 }
 
@@ -39,10 +42,6 @@ int Entity::getH(){
 void Entity::changePos(int a,int b){
   X += a;
   Y += b;
-}
-
-void Entity::OnLoop(){
-  
 }
 
 void Entity::OnCleanup(){

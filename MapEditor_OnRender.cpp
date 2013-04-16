@@ -17,7 +17,7 @@ void MapEditor::OnRender() {
 
   // render entities (enemies, bullets)
   for(int i=0;i<EntityList.size();i++){
-    if((EntityList[i]->OnRender(Surf_Display))==false) cout<<"Error displaying entity "<<i<<endl;
+    if((EntityList[i]->OnRender(Surf_Display))==false && debug) cout<<"Error displaying entity "<<i<<endl;
   }
 
   // render player character

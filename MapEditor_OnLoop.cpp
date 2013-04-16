@@ -47,6 +47,9 @@ void MapEditor::OnLoop() {
 	// Decide whether to spawn enemy
 	if(rand()%100<1 && EntityList.size()<6) SpawnEnemy();
 
+	// Move entities
+	for(int i=0;i<EntityList.size();i++) EntityList[i]->OnLoop();
+
 	// De-spawn enemies if too far from player
 	DeSpawnEnemies();
 		
@@ -115,7 +118,7 @@ void MapEditor::SpawnEnemy(){
   }
 
   // instantiate enemy and add to list
-  Entity* tmp = new Entity(typestring,32,32,spawnX,spawnY);
+  Entity* tmp = new Enemy(typestring,32,32,spawnX,spawnY,2);
   tmp->setType(ENTITY_TYPE_ENEMY);
   EntityList.push_back(tmp);
   cout<<"Entity (Enemy) Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
@@ -154,9 +157,9 @@ void MapEditor::DeSpawnEnemies(){
     double dist = sqrt(distX*distX+distY*distY);
 
     if(dist > 1280){
+      if(debug)	cout<<"Entity "<<i<<" despawned."<<endl;
       EntityList[i]->OnCleanup();
       EntityList.erase(EntityList.begin()+i);
-      if(debug) cout<<"Enemy "<<i<<" despawned."<<endl;
     }
   }
 }

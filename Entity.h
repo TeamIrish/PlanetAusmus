@@ -21,7 +21,7 @@ class Entity {
 
 	public:
 
-		Entity(string="",int=32,int=32,int=MAP_WIDTH,int=MAP_HEIGHT);
+  Entity(string="",int=32,int=32,int=MAP_WIDTH,int=MAP_HEIGHT,int=2);
 		bool OnRender(SDL_Surface*);
 		int getX();
 	  int getY();
@@ -29,7 +29,7 @@ class Entity {
 	  int getH();
 	  void changePos(int,int);
 	  void OnCleanup();
-	  void OnLoop();
+	  virtual void OnLoop() = 0;
 		void setType(int);
 		int getType();
 
@@ -43,6 +43,7 @@ class Entity {
 		int entityStateY;
 		SDL_Surface* EntitySprite;
 		int type;
+		int speed;
 
 
 };

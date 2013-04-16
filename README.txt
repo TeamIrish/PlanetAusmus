@@ -36,6 +36,10 @@ Credits:
      can be found at: 
 	http://www.freewebs.com/yodasoda/Top%20Down%20Halo.png
 
+    -Bullet sprites were made by ~Dark-Days 
+     (http://dark-days.deviantart.com) and can be found at:
+        http://dark-days.deviantart.com/art/Bullet-Hell-Sprites-157446698
+
 ------------------------------------------------------------
 
 Installation:
@@ -46,9 +50,9 @@ Installation:
 
     -Download all files, and run the makefile
 
-    -The "grounds32.gif" tileset must be located in
-     containing folder "./tilesets/" relative to the 
-     executable file
+    -Do not remove any files from the resource subdirectories, but feel 
+     free to substitute your own sprites if you so desire. This may 
+     require changing some of the size constants in the Define.h file.
 
 ------------------------------------------------------------
 
@@ -64,7 +68,11 @@ Controls:
 
     -WASD to navigate around map
 
+    -Arrow keys to aim
+
     -Press 'm' to pull up menu
+
+    -Press 'o' to toggle display of objectives
 
     -ESC to exit
 

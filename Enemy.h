@@ -12,11 +12,13 @@
 #include "SDL/SDL_mixer.h"
 #include "Define.h"
 #include <string>
-using namespace std;
 */
+using namespace std;
 
 class Enemy : public Entity {
-
+ public:
+  Enemy(string="",int=32,int=32,int=MAP_WIDTH,int=MAP_HEIGHT,int=2);
+  void OnLoop();
 };
 
 #endif

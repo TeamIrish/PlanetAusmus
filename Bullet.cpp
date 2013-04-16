@@ -1,12 +1,6 @@
 #include "Bullet.h"
 
-Bullet::Bullet(){
-  EntitySprite = Surface::OnLoad("graphics/bullets.png");
-  width = 12;
-  height = 12;
-  X = WWIDTH/2 - Camera::CameraControl.GetX();
-  Y = WHEIGHT/2 - Camera::CameraControl.GetY();
-  entityStateX = entityStateY = 0;
+Bullet::Bullet() : Entity("bullets.png",12,12,WWIDTH/2-Camera::CameraControl.GetX(),WHEIGHT/2-Camera::CameraControl.GetY(),3){
 
   switch(Camera::CameraControl.playerStateX){
    case 0:
@@ -29,5 +23,7 @@ Bullet::Bullet(){
 }
 
 void Bullet::OnLoop(){
-  
+  X += speed * movingH;
+  Y += speed * movingV;
+  entityStateY = !entityStateY;
 }
