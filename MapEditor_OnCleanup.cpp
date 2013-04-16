@@ -21,6 +21,13 @@ void MapEditor::OnCleanup() {
 	  delete EntityList[i];
 	}
 
+	// Clean up the music/sounds
+	Mix_FreeMusic(mus);
+	Mix_FreeChunk(sfx1);
+	Mix_FreeChunk(sfx2);
+
+	Mix_CloseAudio();
+
 	// Quit out of SDL
 	SDL_Quit();
 }

@@ -24,10 +24,19 @@ bool MapEditor::OnInit() {
 //======================================================================================
 // Load the graphics
 
-	// Create window and surface
+	/*
+	Create window and surface
+	SDL_SetVideoMode(window width, window height, bit resolution [16 or 32 recommended],display flags)
+	SDL_HWSURFACE tells SDL to use hardware memory for storing images and such
+	SDL_DOUBLEBUF tells SDL to use double buffering, important to keep screen from flickering
+	another flag of interest is SDL_FULLSCREEN which makes the window go full screen
+	*/
 	if((Surf_Display = SDL_SetVideoMode(WWIDTH,WHEIGHT,32,SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL){
 		return false;
 	}
+
+	// Name the window
+	SDL_WM_SetCaption("Planet Ausmus",NULL);
 
 	// Load the tileset
 	if((Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
@@ -76,9 +85,6 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
-	// Name the window
-	SDL_WM_SetCaption("MapEditor",NULL);
-
 	// Make pink background of following surfaces transparent
 	Surface::Transparent(Player_Character,255,0,255);
 	Surface::Transparent(Menu,255,0,255);
@@ -94,7 +100,37 @@ bool MapEditor::OnInit() {
   	  return false;
   	}
 	}
-	
+
+
+//==========================================================================
+// Load sound bites and play the music
+
+	// Open audio player
+	Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
+
+	// Load the music files
+	//mus = Mix_LoadMUS("./sounds/ObstacleCourse.wav");
+	mus = Mix_LoadMUS("./sounds/002.wav");
+		// Check for errors
+		if(mus==NULL){
+		std::cout << "Error loading sounds." << std::endl;
+		return false;
+		}
+
+	// Load the sound effects
+	// http://rpg.hamsterrepublic.com/ohrrpgce/Free_Sound_Effects#Battle_Sounds
+	sfx1 = Mix_LoadWAV("./sounds/SmallExplosion.ogg");
+	sfx2 = Mix_LoadWAV("./sounds/laser01.ogg");
+		// Check for errors	
+		if(sfx1==NULL || sfx2==NULL){
+		return false;
+		}
+
+	// Play that funky music, white boy
+	if(Mix_PlayingMusic() == 0){
+	Mix_PlayMusic(mus,-1);
+	}
+
 //===============================================================================
 // if everything loaded without errors
 

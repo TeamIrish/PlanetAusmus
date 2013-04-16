@@ -61,6 +61,11 @@ class MapEditor : public Event {
 			SDL_Surface* ObjBackground;
 				bool dispObjective;
 
+			// SDL Music / Sounds
+			Mix_Music* mus;
+			Mix_Chunk* sfx1;
+			Mix_Chunk* sfx2;
+
         protected:
 			static bool debug;  // set to true with command line argument
 

@@ -42,6 +42,10 @@ MapEditor::MapEditor(string inputarg) {
 
 	Player_Character = NULL;
 	Grave = NULL;
+
+	mus = NULL;
+	sfx1 = NULL;
+	sfx2 = NULL;
 	
 	// Initialize Font objects to NULL
 	TTF_Font *XObjectiveFont = NULL;
