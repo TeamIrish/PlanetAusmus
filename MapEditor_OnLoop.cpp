@@ -45,7 +45,7 @@ void MapEditor::OnLoop() {
 	if(playerHealth < 1) Running = false;
 
 	// Decide whether to spawn enemy
-	if(rand()%100<1 && EntityList.size()<6) SpawnEnemy();
+	if(numEnemies<6 && rand()%100<1) SpawnEnemy();
 
 	// Move entities
 	for(int i=0;i<EntityList.size();i++) EntityList[i]->OnLoop();
@@ -121,7 +121,9 @@ void MapEditor::SpawnEnemy(){
   Entity* tmp = new Enemy(typestring,32,32,spawnX,spawnY,2);
   tmp->setType(ENTITY_TYPE_ENEMY);
   EntityList.push_back(tmp);
-  cout<<"Entity (Enemy) Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
+
+  numEnemies++;
+  if(debug) cout<<"Entity (Enemy) Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
 }
 
 
@@ -160,6 +162,7 @@ void MapEditor::DeSpawnEnemies(){
       if(debug)	cout<<"Entity "<<i<<" despawned."<<endl;
       EntityList[i]->OnCleanup();
       EntityList.erase(EntityList.begin()+i);
+      numEnemies--;
     }
   }
 }

@@ -51,10 +51,12 @@ MapEditor::MapEditor(string inputarg) {
 	TTF_Font *XObjectiveFont = NULL;
 		dispObjective = true;
 
+	// Other variables
 	currentTileXID=0;
 	currentTileYID=1;
 
 	playerHealth = 10;
+	numEnemies = 0;
 
 	Running = true;
 	Quit = false;

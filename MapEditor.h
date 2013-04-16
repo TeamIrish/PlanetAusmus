@@ -95,6 +95,7 @@ class MapEditor : public Event {
 			int currentTileYID;
 
 			static vector<Entity*> EntityList;
+			int numEnemies;
 
    public:
         MapEditor(string);
