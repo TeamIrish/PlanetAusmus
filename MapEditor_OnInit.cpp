@@ -128,7 +128,7 @@ bool MapEditor::OnInit() {
 
 	// Play that funky music, white boy
 	if(Mix_PlayingMusic() == 0){
-	Mix_PlayMusic(mus,-1);
+	  Mix_PlayMusic(mus,-1);
 	}
 
 //===============================================================================

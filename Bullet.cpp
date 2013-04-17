@@ -26,4 +26,10 @@ void Bullet::OnLoop(){
   X += speed * movingH;
   Y += speed * movingV;
   entityStateY = !entityStateY;
+
+  BulletCheckCollisions();
+}
+
+bool Bullet::BulletCheckCollisions(){
+  if(MapEditor::CheckTileCollision(X,Y,width,height)) speed=0;
 }

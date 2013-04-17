@@ -14,6 +14,7 @@ using namespace std;
 // initialize static variables
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
+Map MapEditor::gameMap[4];
 vector<Entity*> MapEditor::EntityList;
 bool MapEditor::runLoadMaps=false;
 bool MapEditor::debug;
@@ -139,7 +140,7 @@ int MapEditor::OnExecute() {
 //
 bool MapEditor::LoadMaps(){
   for(int i=0;i<4;i++){
-    if(gameMap[i].OnLoad("/maps/1.map",filenameLoad[i],currentTileXID,currentTileYID) == false) {
+    if(gameMap[i].OnLoad("",filenameLoad[i],currentTileXID,currentTileYID) == false) {
       cout<<"  Error loading "<<filenameLoad[i]<<endl;
       return false;
     }

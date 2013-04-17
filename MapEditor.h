@@ -76,7 +76,7 @@ class MapEditor : public Event {
 			int playerHealth;
 
 			// game map
-			Map gameMap[4];
+			static Map gameMap[4];
 
 			// filenames
 			static string filenameSave[4];
@@ -134,7 +134,7 @@ class MapEditor : public Event {
 			 
 				void OnLoop();
 				
-				bool CheckTileCollision(int=-Camera::CameraControl.GetX()+WWIDTH/2,int=-Camera::CameraControl.GetY()+WHEIGHT/2,int=CHARACTER_W,int=CHARACTER_H);
+				static bool CheckTileCollision(int=-Camera::CameraControl.GetX()+WWIDTH/2,int=-Camera::CameraControl.GetY()+WHEIGHT/2,int=CHARACTER_W,int=CHARACTER_H);
 				void SpawnEnemy();
 				void AddBullet();
 				bool CheckEnemyCollisions();

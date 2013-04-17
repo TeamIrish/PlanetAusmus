@@ -20,7 +20,7 @@ void MapEditor::OnRender() {
     if((EntityList[i]->OnRender(Surf_Display))==false && debug) cout<<"Error displaying entity "<<i<<endl;
   }
 
-  // render player character
+  // render player character (or grave if game over)
 	if(Running == true){
   	Surface::OnDraw(Surf_Display,Player_Character,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2,Camera::CameraControl.playerStateX*CHARACTER_W,Camera::CameraControl.playerStateY*CHARACTER_H,CHARACTER_W,CHARACTER_H);
 	}else{

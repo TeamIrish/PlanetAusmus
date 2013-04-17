@@ -11,7 +11,6 @@ every iteration through the game loop and makes appropriate changes to game data
 //==============================================================================
 //
 void MapEditor::OnLoop() {
-	
 	// Move camera
 	if(Camera::CameraControl.MovingLeft == true){
 		Camera::CameraControl.OnMove(moveSize,0);
@@ -43,7 +42,9 @@ void MapEditor::OnLoop() {
 	if(playerHealth < 1) Running = false;
 
 	// Decide whether to spawn enemy
-	if(numEnemies<6 && rand()%100<1) SpawnEnemy();
+	if(numEnemies<6 && rand()%100<1){
+	  SpawnEnemy();
+	}
 
 	// Move entities
 	for(int i=0;i<EntityList.size();i++) EntityList[i]->OnLoop();
@@ -56,7 +57,7 @@ void MapEditor::OnLoop() {
 
 //==============================================================================
 //
-bool MapEditor::CheckTileCollision(int centerX,int centerY,int width,int height){
+bool MapEditor::CheckTileCollision(int centerX,int centerY,int width,int height){  // arguments default to the center of the screen and the size of the player character
   int tileX,tileY,ID;
 
   for(int i=0;i<4;i++){ // check all four corners of the sprite
@@ -95,14 +96,14 @@ bool MapEditor::CheckTileCollision(int centerX,int centerY,int width,int height)
 //
 void MapEditor::SpawnEnemy(){
   string typestring = "golem.png";
-  int spawnX,spawnY;
+  int spawnX,spawnY,attempts=0;
 
   // generate random coordinates onscreen
   int X = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
   int Y = -Camera::CameraControl.GetY()+WHEIGHT/2+pow(-1,rand()%2)*(rand()%(WHEIGHT/3));
 
   // move coordinates to somewhere offscreen
-  while(1){
+  while(attempts<100){
     spawnX = X;
     spawnY = Y;
     int random=rand()%3;
@@ -113,15 +114,18 @@ void MapEditor::SpawnEnemy(){
     int pixelX = X - Camera::CameraControl.GetX();
     int pixelY = Y - Camera::CameraControl.GetY();
     if(!CheckTileCollision(pixelX,pixelY,32,32)) break;
+    attempts++;
   }
 
-  // instantiate enemy and add to list
-  Entity* tmp = new Enemy(typestring,32,32,spawnX,spawnY,2);
-  tmp->setType(ENTITY_TYPE_ENEMY);
-  EntityList.push_back(tmp);
+  if(attempts<100){
+    // instantiate enemy and add to list
+    Entity* tmp = new Enemy(typestring,32,32,spawnX,spawnY,2);
+    tmp->setType(ENTITY_TYPE_ENEMY);
+    EntityList.push_back(tmp);
 
-  numEnemies++;
-  if(debug) cout<<"Entity (Enemy) Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
+    numEnemies++;
+    if(debug) cout<<"Entity (Enemy) Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
+  }
 }
 
 
@@ -166,6 +170,7 @@ void MapEditor::DeSpawnEnemies(){
 }
 
 void MapEditor::AddBullet(){
-  Bullet * tmp = new Bullet();
+  Entity * tmp = new Bullet();
+  tmp->setType(ENTITY_TYPE_BULLET);
   EntityList.push_back(tmp);
 }
