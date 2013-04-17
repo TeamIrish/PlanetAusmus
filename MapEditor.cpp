@@ -17,6 +17,7 @@ string MapEditor::filenameLoad[4];
 vector<Entity*> MapEditor::EntityList;
 bool MapEditor::runLoadMaps=false;
 bool MapEditor::debug;
+int MapEditor::moveSize;
 // tile order: deepwater,water,sand,grass,grass,evergreen,tree,grass,grass,dirt,rock,snow,mountains,snow,rock,lava
 int MapEditor::tileX[] = {0,6,3,0,0,6,0,0,0,0,3,3,6,3,3,6};
 int MapEditor::tileY[] = {2,1,1,1,1,6,6,1,1,3,0,9,9,9,0,8};
@@ -25,7 +26,7 @@ int MapEditor::tileTypes[] = {2,2,1,1,1,2,2,1,1,1,1,1,2,1,1,2}; // 1 = traversab
 
 //==============================================================================
 //
-MapEditor::MapEditor(string inputarg) {
+MapEditor::MapEditor(string inputarg1,string inputarg2) {
 
 	// Initialize the surfaces to NULL to avoid errors
 	Surf_Display = NULL;
@@ -61,11 +62,17 @@ MapEditor::MapEditor(string inputarg) {
 	Running = true;
 	Quit = false;
 
-	if(inputarg=="debug"){
+	if(inputarg1=="debug" || inputarg2=="debug"){
 	  debug=true;
 	  cout<<"DEBUG MODE"<<endl;
 	}
 	else debug=false;
+
+	if(inputarg1=="ssh" || inputarg2=="ssh"){
+	  moveSize = 5;
+	  cout<<"SSH MODE"<<endl;
+	}
+	else moveSize = 1;
 }
 
 
@@ -153,10 +160,10 @@ void MapEditor::GameOver(){
 //==============================================================================
 //
 int main(int argc, char* argv[]) {
-  string arg;
-  if(argc>1) arg=argv[1];
-  else arg="";
+  string arg2="",arg1="";
+  if(argc>2) arg2=argv[2];
+  if(argc>1) arg1=argv[1];
 
-  MapEditor theApp(arg);
+  MapEditor theApp(arg1,arg2);
   return theApp.OnExecute();
 }

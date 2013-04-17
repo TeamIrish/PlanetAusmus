@@ -96,9 +96,10 @@ class MapEditor : public Event {
 
 			static vector<Entity*> EntityList;
 			int numEnemies;
+			static int moveSize;
 
    public:
-        MapEditor(string);
+			MapEditor(string,string);
 
         int OnExecute();
 				void GameOver();

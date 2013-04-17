@@ -8,8 +8,8 @@
 Camera Camera::CameraControl;
  
 Camera::Camera() {
-  X = -(MAP_WIDTH*TILE_SIZE-WWIDTH/2);   //-(WWIDTH/2);
-  Y = -(MAP_HEIGHT*TILE_SIZE-WHEIGHT/2); //-(WHEIGHT/2);
+  X = -(MAP_WIDTH*TILE_SIZE-WWIDTH/2);
+  Y = -(MAP_HEIGHT*TILE_SIZE-WHEIGHT/2);
  
     TargetX = TargetY = NULL;
  
@@ -18,6 +18,9 @@ Camera::Camera() {
     playerStateX = playerStateY = 0;
     facingDir = -1;
     numDirKeys = 0;
+
+    if(MapEditor::moveSize==5) animTimerMax=2; // slow down character animation in ssh mode
+    else animTimerMax=6;
 }
 
 void Camera::OnMove(int MoveX, int MoveY) {
@@ -234,7 +237,7 @@ void Camera::AnimateCharacter(){
   else if(MovingUp) playerStateX = 1;
   else{  // not in motion
     playerStateY = 0;
-    animationTimer = 3; // so that frame will change as soon as movement restarts
+    animationTimer = animTimerMax; // so that frame will change as soon as movement restarts
     if(facingDir!=-1) playerStateX = facingDir;
     return;
   }
@@ -242,7 +245,7 @@ void Camera::AnimateCharacter(){
   if(facingDir!=-1) playerStateX = facingDir;
 
   // set player animation frame
-  if(animationTimer<2) animationTimer++;
+  if(animationTimer<animTimerMax) animationTimer++;
   else{
     animationTimer = 0;
     playerStateY = (playerStateY+1) % (PLAYER_MAX_ANIM_STATE+1);

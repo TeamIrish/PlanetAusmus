@@ -13,7 +13,10 @@ Entity::Entity(string file,int w,int h,int x,int y,int s){
   height = h;
   X = x;
   Y = y;
-  speed = s;
+
+  if(MapEditor::moveSize==5) speed = 5*s; // speed up entities in ssh mode
+  else speed = s;
+
   entityStateX = entityStateY = 0;
 }
 

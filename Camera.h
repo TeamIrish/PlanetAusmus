@@ -22,6 +22,7 @@ class Camera {
         int* TargetY;
 
 	int currentMapX,currentMapY;
+	int animTimerMax;
  
     public:
         int TargetMode;

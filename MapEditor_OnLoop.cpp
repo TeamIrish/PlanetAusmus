@@ -13,7 +13,6 @@ every iteration through the game loop and makes appropriate changes to game data
 void MapEditor::OnLoop() {
 	
 	// Move camera
-	int moveSize = 5;
 	if(Camera::CameraControl.MovingLeft == true){
 		Camera::CameraControl.OnMove(moveSize,0);
 		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(-moveSize,0);
@@ -38,7 +37,6 @@ void MapEditor::OnLoop() {
 	Camera::CameraControl.AnimateCharacter();
 
 	// Check for collision with enemies
-	//if(!debug && CheckEnemyCollisions()) Running=false;
 	CheckEnemyCollisions();
 
 	// Check to see if player is dead
