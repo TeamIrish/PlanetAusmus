@@ -19,8 +19,7 @@ Camera::Camera() {
     facingDir = -1;
     numDirKeys = 0;
 
-    if(MapEditor::moveSize==5) animTimerMax=2; // slow down character animation in ssh mode
-    else animTimerMax=6;
+    animTimerMax=6;
 }
 
 void Camera::OnMove(int MoveX, int MoveY) {
@@ -250,4 +249,8 @@ void Camera::AnimateCharacter(){
     animationTimer = 0;
     playerStateY = (playerStateY+1) % (PLAYER_MAX_ANIM_STATE+1);
   }
+}
+
+void Camera::setAnimTimer(int max){
+  animTimerMax = max;
 }

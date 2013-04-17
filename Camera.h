@@ -37,6 +37,7 @@ class Camera {
 	int playerStateY; // 0=still,1-2=moving
 	int animationTimer;
 	void AnimateCharacter();
+	void setAnimTimer(int);
  
     public:
         Camera();
