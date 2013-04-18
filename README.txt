@@ -40,6 +40,13 @@ Credits:
      (http://dark-days.deviantart.com) and can be found at:
         http://dark-days.deviantart.com/art/Bullet-Hell-Sprites-157446698
 
+    -Background music credit goes to soundgenius.com; we
+     used online-convert.com to convert the .mp3 files
+     to .wav format.
+
+    -Sound effects (bullet, enemy hit) can be found at:
+     http://rpg.hamsterrepublic.com/ohrrpgce/Free_Sound_Effects#Battle_Sounds
+
 ------------------------------------------------------------
 
 Installation:
@@ -62,6 +69,8 @@ Instructions:
 
     -Run MapEditor
 
+    -Explore, and watch out for enemies
+
 ------------------------------------------------------------
 
 Controls:
@@ -73,6 +82,8 @@ Controls:
     -Press 'm' to pull up menu
 
     -Press 'o' to toggle display of objectives
+
+    -Space bar to shoot
 
     -ESC to exit
 
