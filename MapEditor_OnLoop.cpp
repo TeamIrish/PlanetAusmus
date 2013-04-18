@@ -206,6 +206,8 @@ void MapEditor::CheckBulletCollision(){
 	  				delete EntityList[i];
 						EntityList.erase(EntityList.begin() + i);
 
+						numEnemies--;
+
 						Mix_PlayChannel(-1, sfx1, 0); // Play a little noise for enemy destruction
 						//scoreNumber++; // Can increment score here if we want
 					}
