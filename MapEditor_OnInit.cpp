@@ -110,7 +110,7 @@ bool MapEditor::OnInit() {
 
 	// Load the music files
 	//mus = Mix_LoadMUS("./sounds/ObstacleCourse.wav");
-	mus = Mix_LoadMUS("./sounds/002.wav");
+	mus = Mix_LoadMUS("./sounds/be_aware.wav");
 		// Check for errors
 		if(mus==NULL){
 		std::cout << "Error loading sounds." << std::endl;
