@@ -138,7 +138,7 @@ class MapEditor : public Event {
 				static bool CheckTileCollision(int=-Camera::CameraControl.GetX()+WWIDTH/2,int=-Camera::CameraControl.GetY()+WHEIGHT/2,int=CHARACTER_W,int=CHARACTER_H);
 				void SpawnEnemy();
 				void AddBullet();
-				bool CheckEnemyCollisions();
+				bool CheckEntityCollisions();
 				void DeSpawnEntities();
 				void CheckBulletCollision();
 			 

@@ -35,8 +35,8 @@ void MapEditor::OnLoop() {
 	// Change player character state
 	Camera::CameraControl.AnimateCharacter();
 
-	// Check for collision with enemies
-	CheckEnemyCollisions();
+	// Check for collision between player character and Entities
+	CheckEntityCollisions();
 
 	// Check for collision between bullets and enemies
 	CheckBulletCollision();
@@ -132,23 +132,30 @@ void MapEditor::SpawnEnemy(){
 
 
 //==============================================================================
+//  Checks collisions between enemies and hearts (can include all items in future)
 //
-bool MapEditor::CheckEnemyCollisions(){
+bool MapEditor::CheckEntityCollisions(){
   int charX = -Camera::CameraControl.GetX()+WWIDTH/2;
   int charY = -Camera::CameraControl.GetY()+WHEIGHT/2;
 
   for(int i=0;i<EntityList.size();i++){
-		if(EntityList[i]->getType() == ENTITY_TYPE_ENEMY){
-    	int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
-    	int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
-    	if(abs(charX-EntityList[i]->getX())<Xdist && abs(charY-EntityList[i]->getY())<Ydist){
+		int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
+    int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
+		if(EntityList[i]->getType() != ENTITY_TYPE_BULLET){
+			if(abs(charX-EntityList[i]->getX())<Xdist && abs(charY-EntityList[i]->getY())<Ydist){
+				if(EntityList[i]->getType() == ENTITY_TYPE_ENEMY){    	
+					playerHealth-=2;
+					numEnemies--;
+				}
+				if(EntityList[i]->getType() == ENTITY_TYPE_HEART){
+					if(playerHealth < 10) playerHealth+=2;
+				}
 				EntityList[i]->OnCleanup();
-	  		delete EntityList[i];
+		 		delete EntityList[i];
 				EntityList.erase(EntityList.begin() + i);
-				playerHealth-=2;
 				return true;
 			}
-		}  
+		}
 	}
   return false;
 }
