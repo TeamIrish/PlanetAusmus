@@ -31,6 +31,7 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 #include "Entity.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "Heart.h"
 #include "Objectives.h"
 
 using namespace std;

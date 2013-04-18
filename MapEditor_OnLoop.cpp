@@ -197,6 +197,8 @@ void MapEditor::CheckBulletCollision(){
 					   ){}else{
 
 						// delete both - THIS MAKES THE ASSUMPTION THAT THE ENEMY WAS CREATED BEFORE THE BULLET!!
+						int enemyX = EntityList[j]->getX();
+						int enemyY = EntityList[j]->getY();
 						EntityList[j]->OnCleanup();
 	  				delete EntityList[j];
 						EntityList.erase(EntityList.begin() + j);
@@ -205,6 +207,11 @@ void MapEditor::CheckBulletCollision(){
 						EntityList[i]->OnCleanup();
 	  				delete EntityList[i];
 						EntityList.erase(EntityList.begin() + i);
+
+						// drop a heart (or any other item...)
+						Entity * tmp = new Heart(enemyX,enemyY);
+  					tmp->setType(ENTITY_TYPE_HEART);
+  					EntityList.push_back(tmp);
 
 						numEnemies--;
 
