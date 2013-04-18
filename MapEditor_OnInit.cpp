@@ -66,7 +66,7 @@ bool MapEditor::OnInit() {
 	}
 
 	// Load the title screen
-	if((TitleScreen = Surface::OnLoad("./graphics/title.png")) == NULL){
+	if((TitleScreen = Surface::OnLoad("./graphics/colorTitle.png")) == NULL){
 		return false;
 	}
 
