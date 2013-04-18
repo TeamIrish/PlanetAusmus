@@ -145,7 +145,7 @@ bool MapEditor::CheckEnemyCollisions(){
 				EntityList[i]->OnCleanup();
 	  		delete EntityList[i];
 				EntityList.erase(EntityList.begin() + i);
-				playerHealth--;
+				playerHealth-=2;
 				return true;
 			}
 		}  
