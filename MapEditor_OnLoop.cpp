@@ -46,12 +46,11 @@ void MapEditor::OnLoop() {
 	  SpawnEnemy();
 	}
 
+	// De-spawn entities if too far from player or marked for despawning
+	DeSpawnEntities();
+
 	// Move entities
 	for(int i=0;i<EntityList.size();i++) EntityList[i]->OnLoop();
-
-	// De-spawn enemies if too far from player
-	DeSpawnEnemies();
-		
 }
 
 
@@ -154,17 +153,17 @@ bool MapEditor::CheckEnemyCollisions(){
 
 //==============================================================================
 //
-void MapEditor::DeSpawnEnemies(){
+void MapEditor::DeSpawnEntities(){
   for(int i=0;i<EntityList.size();i++){
     int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
     int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
     double dist = sqrt(distX*distX+distY*distY);
 
-    if(dist > 1280){
+    if(EntityList[i]->isDestroyable() || dist > 1280){
       if(debug)	cout<<"Entity "<<i<<" despawned."<<endl;
+      if(EntityList[i]->getType()==ENTITY_TYPE_ENEMY) numEnemies--;
       EntityList[i]->OnCleanup();
       EntityList.erase(EntityList.begin()+i);
-      numEnemies--;
     }
   }
 }

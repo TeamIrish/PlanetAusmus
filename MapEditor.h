@@ -138,7 +138,7 @@ class MapEditor : public Event {
 				void SpawnEnemy();
 				void AddBullet();
 				bool CheckEnemyCollisions();
-				void DeSpawnEnemies();
+				void DeSpawnEntities();
 			 
 			  void OnRender();
 

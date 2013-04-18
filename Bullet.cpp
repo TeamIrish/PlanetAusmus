@@ -25,11 +25,22 @@ Bullet::Bullet() : Entity("bullets.png",12,12,WWIDTH/2-Camera::CameraControl.Get
 void Bullet::OnLoop(){
   X += speed * movingH;
   Y += speed * movingV;
-  entityStateY = !entityStateY;
 
-  BulletCheckCollisions();
+  if(speed==0){
+    height = 18;
+    width = 18;
+    entityStateY = 3;
+    destroy = true;
+  }
+  else if(BulletCheckCollisions()){
+    speed = 0;
+    height = 16;
+    width = 16;
+    entityStateY = 2;
+  }
+  else entityStateY = !entityStateY;
 }
 
 bool Bullet::BulletCheckCollisions(){
-  if(MapEditor::CheckTileCollision(X,Y,width,height)) speed=0;
+  return MapEditor::CheckTileCollision(X,Y,width,height);
 }

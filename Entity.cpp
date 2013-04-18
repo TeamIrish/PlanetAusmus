@@ -18,6 +18,7 @@ Entity::Entity(string file,int w,int h,int x,int y,int s){
   else speed = s;
 
   entityStateX = entityStateY = 0;
+  destroy = false;
 }
 
 bool Entity::OnRender(SDL_Surface* Display){
@@ -57,4 +58,8 @@ void Entity::setType(int entityType){
 
 int Entity::getType(){
 	return type;
+}
+
+bool Entity::isDestroyable(){
+  return destroy;
 }

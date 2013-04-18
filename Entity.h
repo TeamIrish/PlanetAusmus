@@ -32,6 +32,7 @@ class Entity {
 	  virtual void OnLoop() = 0;
 		void setType(int);
 		int getType();
+		bool isDestroyable();
 
 	protected:
 
@@ -44,6 +45,7 @@ class Entity {
 		SDL_Surface* EntitySprite;
 		int type;
 		int speed;
+		bool destroy; // set to true when entity should be removed
 
 
 };
