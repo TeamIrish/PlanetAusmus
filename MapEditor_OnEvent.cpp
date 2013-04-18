@@ -114,13 +114,6 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 		  AddBullet();
 		  break;
 
-		// TESTING 'EXPLOSION SOUND EFFECT
-		// EVENTUALLY SHOULD BE MOVED TO ONLOOP()
-		// WHEN BULLET HITS MONSTER
-		case SDLK_k:
-			Mix_PlayChannel(-1, sfx1, 0);
-			break;
-
 		default:
 	  		break;
 	}

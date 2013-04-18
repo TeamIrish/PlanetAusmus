@@ -139,6 +139,7 @@ class MapEditor : public Event {
 				void AddBullet();
 				bool CheckEnemyCollisions();
 				void DeSpawnEntities();
+				void CheckBulletCollision();
 			 
 			  void OnRender();
 

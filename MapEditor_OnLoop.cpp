@@ -38,6 +38,9 @@ void MapEditor::OnLoop() {
 	// Check for collision with enemies
 	CheckEnemyCollisions();
 
+	// Check for collision between bullets and enemies
+	CheckBulletCollision();
+
 	// Check to see if player is dead
 	if(playerHealth < 1) Running = false;
 
@@ -168,8 +171,46 @@ void MapEditor::DeSpawnEntities(){
   }
 }
 
+//==============================================================================
+//
 void MapEditor::AddBullet(){
   Entity * tmp = new Bullet();
   tmp->setType(ENTITY_TYPE_BULLET);
   EntityList.push_back(tmp);
+}
+
+//==============================================================================
+//
+void MapEditor::CheckBulletCollision(){
+	for(int i=0;i<EntityList.size();i++){
+		if(EntityList[i]->getType() == ENTITY_TYPE_BULLET){
+			for(int j=0;j<EntityList.size();j++){
+				if(EntityList[j]->getType() == ENTITY_TYPE_ENEMY){
+					if( // Rectangle 1′s bottom edge is higher than Rectangle 2′s top edge
+						( (EntityList[i]->getY()+EntityList[i]->getH()) < (EntityList[j]->getY()) )  ||
+						// Rectangle 1′s top edge is lower than Rectangle 2′s bottom edge
+						( (EntityList[i]->getY()) > ((EntityList[j]->getY())+EntityList[j]->getH()) )  ||
+						// Rectangle 1′s left edge is to the right of Rectangle 2′s right edge.
+						( ((EntityList[i]->getX())) > ((EntityList[j]->getX())+EntityList[i]->getW()) )  ||
+						// Rectangle 1′s right edge is to the left of Rectangle 2′s left edge
+						( (EntityList[i]->getX()+EntityList[i]->getW()) < (EntityList[j]->getX()) )
+					   ){}else{
+
+						// delete both - THIS MAKES THE ASSUMPTION THAT THE ENEMY WAS CREATED BEFORE THE BULLET!!
+						EntityList[j]->OnCleanup();
+	  				delete EntityList[j];
+						EntityList.erase(EntityList.begin() + j);
+						i--;
+
+						EntityList[i]->OnCleanup();
+	  				delete EntityList[i];
+						EntityList.erase(EntityList.begin() + i);
+
+						Mix_PlayChannel(-1, sfx1, 0); // Play a little noise for enemy destruction
+						//scoreNumber++; // Can increment score here if we want
+					}
+				}
+			}
+		}
+	}
 }
