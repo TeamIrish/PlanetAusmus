@@ -8,6 +8,7 @@ class Heart : public Entity {
  public:
   Heart(int,int);
   void OnLoop();
+  void onHit();
 };
 
 #endif

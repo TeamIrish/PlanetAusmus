@@ -34,6 +34,7 @@ class Entity {
 		void setType(int);
 		int getType();
 		bool isDestroyable();
+		virtual void onHit() = 0;
 
 	protected:
 

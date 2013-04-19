@@ -124,9 +124,7 @@ void MapEditor::SpawnEnemy(){
     if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT;
 
     // ensure that chosen tile is not nontraversable
-    int pixelX = X - Camera::CameraControl.GetX();
-    int pixelY = Y - Camera::CameraControl.GetY();
-    if(!CheckTileCollision(pixelX,pixelY,32,32)) break;
+    if(!CheckTileCollision(spawnX,spawnY,32,32)) break;
     attempts++;
   }
 
@@ -150,11 +148,11 @@ bool MapEditor::CheckEntityCollisions(){
   int charY = -Camera::CameraControl.GetY()+WHEIGHT/2;
 
   for(int i=0;i<EntityList.size();i++){
-		int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
+    int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
     int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
 		if(EntityList[i]->getType() != ENTITY_TYPE_BULLET){
 			if( abs(charX - EntityList[i]->getX()) < Xdist && abs(charY - EntityList[i]->getY()) < Ydist ){
-				if(EntityList[i]->getType() == ENTITY_TYPE_ENEMY){    	
+				if(EntityList[i]->getType() == ENTITY_TYPE_ENEMY){
 					playerHealth-=2;
 					numEnemies--;
 				}
@@ -201,43 +199,37 @@ void MapEditor::AddBullet(){
 //
 void MapEditor::CheckBulletCollision(){
 	for(int i=0;i<EntityList.size();i++){
-		if(EntityList[i]->getType() == ENTITY_TYPE_BULLET){
-			for(int j=0;j<EntityList.size();j++){
-				if(EntityList[j]->getType() == ENTITY_TYPE_ENEMY){
-					if( // Rectangle 1′s bottom edge is higher than Rectangle 2′s top edge
-						( (EntityList[i]->getY()+EntityList[i]->getH()) < (EntityList[j]->getY()) )  ||
-						// Rectangle 1′s top edge is lower than Rectangle 2′s bottom edge
-						( (EntityList[i]->getY()) > ((EntityList[j]->getY())+EntityList[j]->getH()) )  ||
-						// Rectangle 1′s left edge is to the right of Rectangle 2′s right edge.
-						( ((EntityList[i]->getX())) > ((EntityList[j]->getX())+EntityList[i]->getW()) )  ||
-						// Rectangle 1′s right edge is to the left of Rectangle 2′s left edge
-						( (EntityList[i]->getX()+EntityList[i]->getW()) < (EntityList[j]->getX()) )
-					   ){}else{
+	  if(EntityList[i]->getType() == ENTITY_TYPE_BULLET){
+	     int X1 = EntityList[i]->getX();
+	     int Y1 = EntityList[i]->getY();
+	     int W1 = EntityList[i]->getW();
+	     int H1 = EntityList[i]->getH();
+	     for(int j=0;j<EntityList.size();j++){
+	       if(EntityList[j]->getType() == ENTITY_TYPE_ENEMY){
+		 int X2 = EntityList[j]->getX();
+		 int Y2 = EntityList[j]->getY();
+		 int W2 = EntityList[j]->getW();
+		 int H2 = EntityList[j]->getH();
 
-						// delete both - THIS MAKES THE ASSUMPTION THAT THE ENEMY WAS CREATED BEFORE THE BULLET!!
-						int enemyX = EntityList[j]->getX();
-						int enemyY = EntityList[j]->getY();
-						EntityList[j]->OnCleanup();
-	  				delete EntityList[j];
-						EntityList.erase(EntityList.begin() + j);
-						i--;
+		 if( (abs(X1-X2) < (W1+W2)/2) && (abs(Y1-Y2) < (H1+H2)/2) ) {
+		   // delete both; using onHit allows death animations
+		   EntityList[i]->onHit();
+		   EntityList[j]->onHit();
 
-						EntityList[i]->OnCleanup();
-	  				delete EntityList[i];
-						EntityList.erase(EntityList.begin() + i);
+		   // drop a heart (or any other item...)
+		   if(rand()%2 ){
+		     Entity * tmp = new Heart(X2,Y2);
+		     tmp->setType(ENTITY_TYPE_HEART);
+		     EntityList.push_back(tmp);
+		   }
 
-						// drop a heart (or any other item...)
-						Entity * tmp = new Heart(enemyX,enemyY);
-  					tmp->setType(ENTITY_TYPE_HEART);
-  					EntityList.push_back(tmp);
+		   numEnemies--;
 
-						numEnemies--;
-
-						Mix_PlayChannel(-1, sfx1, 0); // Play a little noise for enemy destruction
-						//scoreNumber++; // Can increment score here if we want
-					}
-				}
-			}
-		}
+		   Mix_PlayChannel(-1, sfx1, 0); // Play a little noise for enemy destruction
+		   //scoreNumber++; // Can increment score here if we want
+		 }
+	       }
+	     }
+	  }
 	}
 }

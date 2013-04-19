@@ -29,10 +29,10 @@ void Enemy::OnLoop()
 	switch( entityStateX )
 	{
 		case ENEMY_DOWN:
-			Y += width / 4; // move
+			Y += speed; // move
 
 			// check for non-traversable tile collisions
-			if(MapEditor::CheckTileCollision(X, Y, width, height)) Y -= width / 4; // undo the move
+			if(MapEditor::CheckTileCollision(X, Y, width, height)) Y -= speed; // undo the move
 			// set next state pseudo-randomly
 			if( randNum < 27 ) entityStateX = ENEMY_DOWN;
 			else if( randNum == 27 ) entityStateX = ENEMY_RIGHT;
@@ -41,10 +41,10 @@ void Enemy::OnLoop()
 			break;
 
 		case ENEMY_RIGHT:
-			X += width / 4; // move
+			X += speed; // move
 
 			// check for non-traversable tile collisions
-			if(MapEditor::CheckTileCollision(X, Y, width, height)) X -= width / 4; // undo the move
+			if(MapEditor::CheckTileCollision(X, Y, width, height)) X -= speed; // undo the move
 			// set next state pseudo-randomly
 			if( randNum < 27 ) entityStateX = ENEMY_RIGHT;
 			else if( randNum == 27 ) entityStateX = ENEMY_DOWN;
@@ -53,10 +53,10 @@ void Enemy::OnLoop()
 			break;
 
 		case ENEMY_UP:
-			Y -= width / 4; // move
+			Y -= speed; // move
 
 			// check for non-traversable tile collisions
-			if(MapEditor::CheckTileCollision(X, Y, width, height)) Y += width / 4; // undo the move
+			if(MapEditor::CheckTileCollision(X, Y, width, height)) Y += speed; // undo the move
 			// set next state pseudo-randomly
 			if( randNum < 27 ) entityStateX = ENEMY_UP;
 			else if( randNum == 27 ) entityStateX = ENEMY_LEFT;
@@ -65,10 +65,10 @@ void Enemy::OnLoop()
 			break;
 
 		case ENEMY_LEFT:
-			X -= width / 4; // move
+			X -= speed; // move
 
 			// check for non-traversable tile collisions
-			if(MapEditor::CheckTileCollision(X, Y, width, height)) X += width / 4; // undo the move
+			if(MapEditor::CheckTileCollision(X, Y, width, height)) X += speed; // undo the move
 			// set next state pseudo-randomly
 			if( randNum < 27 ) entityStateX = ENEMY_LEFT;
 			else if( randNum == 27 ) entityStateX = ENEMY_RIGHT;
@@ -94,4 +94,8 @@ void Enemy::OnLoop()
 	// shift animation frame
 	if( entityStateY < NUM_FRAMES - 1 ) entityStateY++;
 	else entityStateY = 0;
+}
+
+void Enemy::onHit(){
+  destroy = true;
 }

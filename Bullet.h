@@ -9,6 +9,7 @@ class Bullet : public Entity {
   Bullet();
   void OnLoop();
   bool BulletCheckCollisions();
+  void onHit();
  private:
   int movingV; // 1=down, -1=up
   int movingH; // 1=right, -1=left

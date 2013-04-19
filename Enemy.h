@@ -19,6 +19,7 @@ class Enemy : public Entity {
  public:
   Enemy(string="",int=32,int=32,int=MAP_WIDTH,int=MAP_HEIGHT,int=2);
   void OnLoop();
+  void onHit();
 };
 
 #endif

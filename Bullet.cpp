@@ -33,14 +33,18 @@ void Bullet::OnLoop(){
     destroy = true;
   }
   else if(BulletCheckCollisions()){
-    speed = 0;
-    height = 16;
-    width = 16;
-    entityStateY = 2;
+    onHit();
   }
   else entityStateY = !entityStateY;
 }
 
 bool Bullet::BulletCheckCollisions(){
   return MapEditor::CheckTileCollision(X,Y,width,height);
+}
+
+void Bullet::onHit(){
+    speed = 0;
+    height = 16;
+    width = 16;
+    entityStateY = 2;
 }
