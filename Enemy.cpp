@@ -31,6 +31,8 @@ void Enemy::OnLoop()
 		case ENEMY_DOWN:
 			Y += width / 4; // move
 
+			// check for non-traversable tile collisions
+			if(MapEditor::CheckTileCollision(X + width/2, Y + height/2, width, height)) Y -= width / 4; // undo the move
 			// set next state pseudo-randomly
 			if( randNum < 27 ) entityStateX = ENEMY_DOWN;
 			else if( randNum == 27 ) entityStateX = ENEMY_RIGHT;
@@ -41,6 +43,8 @@ void Enemy::OnLoop()
 		case ENEMY_RIGHT:
 			X += width / 4; // move
 
+			// check for non-traversable tile collisions
+			if(MapEditor::CheckTileCollision(X + width/2, Y + height/2, width, height)) X -= width / 4; // undo the move
 			// set next state pseudo-randomly
 			if( randNum < 27 ) entityStateX = ENEMY_RIGHT;
 			else if( randNum == 27 ) entityStateX = ENEMY_DOWN;
@@ -51,6 +55,8 @@ void Enemy::OnLoop()
 		case ENEMY_UP:
 			Y -= width / 4; // move
 
+			// check for non-traversable tile collisions
+			if(MapEditor::CheckTileCollision(X + width/2, Y + height/2, width, height)) Y += width / 4; // undo the move
 			// set next state pseudo-randomly
 			if( randNum < 27 ) entityStateX = ENEMY_UP;
 			else if( randNum == 27 ) entityStateX = ENEMY_LEFT;
@@ -61,6 +67,8 @@ void Enemy::OnLoop()
 		case ENEMY_LEFT:
 			X -= width / 4; // move
 
+			// check for non-traversable tile collisions
+			if(MapEditor::CheckTileCollision(X + width/2, Y + height/2, width, height)) X += width / 4; // undo the move
 			// set next state pseudo-randomly
 			if( randNum < 27 ) entityStateX = ENEMY_LEFT;
 			else if( randNum == 27 ) entityStateX = ENEMY_RIGHT;

@@ -10,21 +10,25 @@ every iteration through the game loop and makes appropriate changes to game data
 
 //==============================================================================
 //
-void MapEditor::OnLoop() {
+void MapEditor::OnLoop()
+{
 	// Move camera
-	if(Camera::CameraControl.MovingLeft == true){
+	if(Camera::CameraControl.MovingLeft == true){ // the camera is moving left
 		Camera::CameraControl.OnMove(moveSize,0);
 		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(-moveSize,0);
 	}
-	if(Camera::CameraControl.MovingRight == true){
+
+	if(Camera::CameraControl.MovingRight == true){ // the camera is moving right
 		Camera::CameraControl.OnMove(-moveSize,0);
 		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(moveSize,0);
 	}
-	if(Camera::CameraControl.MovingUp == true){
+
+	if(Camera::CameraControl.MovingUp == true){ // the camera is moving up
 		Camera::CameraControl.OnMove(0,moveSize);
 		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,-moveSize);
 	}
-	if(Camera::CameraControl.MovingDown == true){
+
+	if(Camera::CameraControl.MovingDown == true){ // the camera is moving down
 		Camera::CameraControl.OnMove(0,-moveSize);
 		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,moveSize);
 	}
@@ -59,37 +63,44 @@ void MapEditor::OnLoop() {
 
 //==============================================================================
 //
-bool MapEditor::CheckTileCollision(int centerX,int centerY,int width,int height){  // arguments default to the center of the screen and the size of the player character
-  int tileX,tileY,ID;
+// arguments default to the center of the screen and the size of the player character
+bool MapEditor::CheckTileCollision(int centerX, int centerY, int width, int height)
+{  
+  int tileX, tileY, ID;
+	
+	// check all four corners of the sprite
+  for(int i = 0; i < 4; i++) { 
+		int mapID = 0;
+		tileX = (centerX + pow(-1,i%2)*width*.3) / TILE_SIZE;
+		tileY = (centerY + (i/2)*height*.3) / TILE_SIZE;  // only check bottom half of sprite, to give 3D effect
+	
+		if(tileX >= MAP_WIDTH){
+			tileX -= MAP_WIDTH;
+			mapID += 1;
+		}
 
-  for(int i=0;i<4;i++){ // check all four corners of the sprite
-	int mapID = 0;
-	tileX = (centerX + pow(-1,i%2)*width*.3) / TILE_SIZE;
-	tileY = (centerY + (i/2)*height*.3) / TILE_SIZE;  // only check bottom half of sprite, to give 3D effect
-
-	if(tileX >= MAP_WIDTH){
-		tileX -= MAP_WIDTH;
-		mapID += 1;
-	}
-	if(tileY >= MAP_HEIGHT){
-		tileY -= MAP_HEIGHT;
-		mapID += 2;
-	}
-
-	//cout<<"Tile "<<X<<","<<Y<<": "<<"(mapID = "<<mapID<<"): ";
-	ID = tileY*MAP_WIDTH + tileX;
-
-	if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_TRAVERSABLE){
-		//cout<<"Traversable"<<endl;
-		continue;
-	}else if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_NON_TRAVERSABLE){
-		//cout<<"Non-traversable"<<endl;
-		return true;
-	}else{
-		//cout<<"Other."<<endl;
-		continue;
-	}
+		if(tileY >= MAP_HEIGHT){
+			tileY -= MAP_HEIGHT;
+			mapID += 2;
+		}
+	
+		//cout<<"Tile "<<X<<","<<Y<<": "<<"(mapID = "<<mapID<<"): ";
+		ID = tileY*MAP_WIDTH + tileX;
+	
+		if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_TRAVERSABLE) {
+			//cout<<"Traversable"<<endl;
+			continue;
+		}
+		else if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_NON_TRAVERSABLE) {
+			//cout<<"Non-traversable"<<endl;
+			return true;
+		}
+		else {
+			//cout<<"Other."<<endl;
+			continue;
+		}
   }
+
   return false;
 }
 
@@ -142,7 +153,7 @@ bool MapEditor::CheckEntityCollisions(){
 		int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
     int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
 		if(EntityList[i]->getType() != ENTITY_TYPE_BULLET){
-			if(abs(charX-EntityList[i]->getX())<Xdist && abs(charY-EntityList[i]->getY())<Ydist){
+			if( abs(charX - EntityList[i]->getX()) < Xdist && abs(charY - EntityList[i]->getY()) < Ydist ){
 				if(EntityList[i]->getType() == ENTITY_TYPE_ENEMY){    	
 					playerHealth-=2;
 					numEnemies--;
