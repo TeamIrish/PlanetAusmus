@@ -27,5 +27,6 @@
 #define HEARTBAR_H 32
 #define HALFHEART_W 16 
 
+#define FRAMES_PER_SECOND 20
 
 #endif

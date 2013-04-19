@@ -33,6 +33,7 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 #include "Bullet.h"
 #include "Heart.h"
 #include "Objectives.h"
+#include "Timer.h"
 
 using namespace std;
  
@@ -66,6 +67,9 @@ class MapEditor : public Event {
 			Mix_Music* mus;
 			Mix_Chunk* sfx1;
 			Mix_Chunk* sfx2;
+
+			// timer for regulating frame rate
+			Timer fps;
 
         protected:
 			static bool debug;  // set to true with command line argument

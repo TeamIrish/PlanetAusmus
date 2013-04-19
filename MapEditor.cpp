@@ -106,6 +106,9 @@ int MapEditor::OnExecute() {
 
 	// Main game loop
 	while(Running){
+		// start the timer to regulate the frame rate
+		fps.start();
+
 		// check for events (user input), pass one at a time to OnEvent(
 		while(SDL_PollEvent(&Event)){
 			OnEvent(&Event);
@@ -123,6 +126,9 @@ int MapEditor::OnExecute() {
 
 		// Render the output
 		OnRender();
+		
+		// delay for frame rate if needed
+		fps.delay_if_needed();
 	}
 
 	OnSave(); // doesn't actually do anything anymore... might later, though, if we actually save stuff
