@@ -12,10 +12,10 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   int tilevalue[40][40] = {{0}};
   int corners[4] = {0,0,39,39};
   // reference arrays: tileX and tileY in class header
-  // tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
+  // tile order: deepwater,water,sand,grass,grass,evergreen,tree,grass,grass,dirt,rock,snow,mountains,snow,rock,lava
 
   // set unspecified corner values
-  for(int i=0;i<4;i++){
+  for(int i=3;i>=0;i--){  // check backwards so that first corner of first map is definitely grass
     if(cornervalues[i]==-1){  // check other corners if unspecified
       for(int j=0;j<4;j++){
 	if(cornervalues[j]!=-1){
@@ -25,7 +25,10 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
 	  break;
 	}
       }
-      if(cornervalues[i]==-1) cornervalues[i]=rand()%96; // if still unspecified (should only happen to first corner of first map), set to random
+      if(cornervalues[i]==-1){
+	cornervalues[i]=50; // if still unspecified (should only happen to first corner of first map), set to grass
+	if(debug) cout<<"  Set map corner arbitrarily..."<<endl;
+      }
     }
   }
 
@@ -41,17 +44,28 @@ void MapEditor::RandomMapGenerate(string savename,int cornervalues[4]){
   // generate map recursively
   RMG_Recursion(corners,tilevalue);
 
-  // intermix two types of trees
-  for(int i=0;i<40;i++){
-    for(int j=0;j<40;j++){
-      if(tilevalue[i][j]/6==9 && rand()%2) tilevalue[i][j]+=6;
-      else if(tilevalue[i][j]/6==10 && rand()%2) tilevalue[i][j]-=6;
+  // set corners again to ensure world continuity
+  a=0;
+  for(int i=0;i<40;i+=39){
+    for(int j=0;j<40;j+=39){
+      tilevalue[i][j]=cornervalues[a];
+      a++;
     }
   }
 
-  for(int i=0;i<40;i+=39)
-    for(int j=0;j<40;j+=39)
-      cout<<"   Corner value: "<<tilevalue[i][j]<<endl;
+  // intermix two types of trees
+  for(int i=0;i<40;i++){
+    for(int j=0;j<40;j++){
+      if(tilevalue[i][j]/6==5 && rand()%2) tilevalue[i][j]+=6;
+      else if(tilevalue[i][j]/6==6 && rand()%2) tilevalue[i][j]-=6;
+    }
+  }
+
+  if(debug)
+    for(int i=0;i<40;i+=39)
+      for(int j=0;j<40;j+=39)
+	cout<<"   Corner value: "<<tilevalue[i][j]<<endl;
+
   // write to file
   ofstream fptr;
   fptr.open(savename.c_str());
@@ -75,7 +89,7 @@ void MapEditor::RMG_Recursion(int pos[4],int tilevalue[40][40]){
   tilevalue[pos[2]][(pos[1]+pos[3])/2] = (tilevalue[pos[0]][pos[3]]+tilevalue[pos[2]][pos[3]])/2; // bottom edge
 
  // center takes average of four corners plus/minus random fluctuation based on distance
-  tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] = (tilevalue[pos[0]][pos[1]]+tilevalue[pos[0]][pos[3]]+tilevalue[pos[2]][pos[1]]+tilevalue[pos[2]][pos[3]])/4 + pow(-1,rand()%2)*(rand()%(pos[2]-pos[0]));
+  tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] = (tilevalue[pos[0]][pos[1]]+tilevalue[pos[0]][pos[3]]+tilevalue[pos[2]][pos[1]]+tilevalue[pos[2]][pos[3]])/4 + pow(-1,rand()%2)*((rand()%(pos[2]-pos[0])));
   if(tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] < 0) tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2]=0;
   if(tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2] > 95) tilevalue[(pos[0]+pos[2])/2][(pos[1]+pos[3])/2]=95;
 

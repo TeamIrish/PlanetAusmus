@@ -1,38 +1,87 @@
+/*
+Team: Matt Rundle, Benjamin Laws, Matt Mahan, Paul Kennedy
+File: MapEditor.cpp
+
+This is the implementation file for the MapEditor class, which is the 'overarching' class of the program.
+*/
+
 #include "MapEditor.h"
 #include "Camera.h"
 #include <iostream>
 using namespace std;
 
+//==============================================================================
 // initialize static variables
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
-vector<Enemy*> MapEditor::EnemyList;
+Map MapEditor::gameMap[4];
+vector<Entity*> MapEditor::EntityList;
 bool MapEditor::runLoadMaps=false;
-// tile order: lava,rock,snow,mountains,snow,rock,dirt,grass,grass,tree,evergreen,grass,grass,sand,water,deepwater
-int MapEditor::tileX[] = {6,3,3,6,3,3,0,0,0,0,6,0,0,3,6,0};
-int MapEditor::tileY[] = {8,0,9,9,9,0,3,1,1,6,6,1,1,1,1,2};
-int MapEditor::tileTypes[] = {2,1,1,2,1,1,1,1,1,2,2,1,1,1,2,2}; // 1 = traversable, 2 = non-traversable
+bool MapEditor::debug;
+int MapEditor::moveSize;
+// tile order: deepwater,water,sand,grass,grass,evergreen,tree,grass,grass,dirt,rock,snow,mountains,snow,rock,lava
+int MapEditor::tileX[] = {0,6,3,0,0,6,0,0,0,0,3,3,6,3,3,6};
+int MapEditor::tileY[] = {2,1,1,1,1,6,6,1,1,3,0,9,9,9,0,8};
+int MapEditor::tileTypes[] = {2,2,1,1,1,2,2,1,1,1,1,1,2,1,1,2}; // 1 = traversable, 2 = non-traversable
 
-MapEditor::MapEditor() {
+
+//==============================================================================
+//
+MapEditor::MapEditor(string inputarg1,string inputarg2) {
+
 	// Initialize the surfaces to NULL to avoid errors
 	Surf_Display = NULL;
-	Control_Display = NULL;
 	Tileset = NULL;
-	Selector =  NULL;
+	Objective=NULL;
+	ObjBackground=NULL;
 	Menu = NULL;
 		dispMenu = false;
 	HeartBar = NULL;
+	TitleScreen = NULL;
+		dispTitle = true;
+	TitleMenu = NULL;
+		dispTitleMenu = false;
 
 	Player_Character = NULL;
+	Grave = NULL;
 
+	mus = NULL;
+	sfx1 = NULL;
+	sfx2 = NULL;
+	
+	// Initialize Font objects to NULL
+	TTF_Font *XObjectiveFont = NULL;
+		dispObjective = true;
+
+	// Other variables
 	currentTileXID=0;
 	currentTileYID=1;
 
+	playerHealth = 10;
+	numEnemies = 0;
+
 	Running = true;
 	Quit = false;
+
+	if(inputarg1=="debug" || inputarg2=="debug"){
+	  debug=true;
+	  cout<<"DEBUG MODE"<<endl;
+	}
+	else debug=false;
+
+	if(inputarg1=="ssh" || inputarg2=="ssh"){
+	  moveSize = 5;
+	  Camera::CameraControl.setAnimTimer(2);
+	  cout<<"SSH MODE"<<endl;
+	}
+	else moveSize = 1;
 }
 
+
+//==============================================================================
+//
 int MapEditor::OnExecute() {
+
   srand(time(NULL));
 
   Camera::CameraControl.ChangeMapView();
@@ -43,11 +92,24 @@ int MapEditor::OnExecute() {
 	}
 
 	SDL_Event Event;
+	ObjPtr = new Objectives; 
 
+	// Enter into the title screen view
+	while(dispTitle == true){
+		while(SDL_PollEvent(&Event)){
+			OnEvent(&Event);
+		}
+		Surface::OnDraw(Surf_Display,TitleScreen,0,0);
+		if(dispTitleMenu) Surface::OnDraw(Surf_Display,TitleMenu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
+		SDL_Flip(Surf_Display);
+	}
+
+	// Main game loop
 	while(Running){
 		// check for events (user input), pass one at a time to OnEvent(
 		while(SDL_PollEvent(&Event)){
 			OnEvent(&Event);
+			if(Event.type == SDL_QUIT) Quit = true;
 		}
 		
 		// Manipulate data
@@ -58,6 +120,7 @@ int MapEditor::OnExecute() {
 	    LoadMaps(); // HAVING ERRORS
 	    runLoadMaps=false;
 	  }
+
 		// Render the output
 		OnRender();
 	}
@@ -72,9 +135,12 @@ int MapEditor::OnExecute() {
 	return 0;
 }
 
+
+//==============================================================================
+//
 bool MapEditor::LoadMaps(){
   for(int i=0;i<4;i++){
-    if(gameMap[i].OnLoad("/maps/1.map",filenameLoad[i],currentTileXID,currentTileYID) == false) {
+    if(gameMap[i].OnLoad("",filenameLoad[i],currentTileXID,currentTileYID) == false) {
       cout<<"  Error loading "<<filenameLoad[i]<<endl;
       return false;
     }
@@ -82,6 +148,9 @@ bool MapEditor::LoadMaps(){
   return true;
 }
 
+
+//==============================================================================
+//
 void MapEditor::GameOver(){
   SDL_Event Event;
   while(!Quit){
@@ -89,8 +158,14 @@ void MapEditor::GameOver(){
   }
 }
 
-int main(int argc, char* argv[]) {
 
-    MapEditor theApp;
-    return theApp.OnExecute();
+//==============================================================================
+//
+int main(int argc, char* argv[]) {
+  string arg2="",arg1="";
+  if(argc>2) arg2=argv[2];
+  if(argc>1) arg1=argv[1];
+
+  MapEditor theApp(arg1,arg2);
+  return theApp.OnExecute();
 }

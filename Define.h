@@ -13,9 +13,12 @@
 
 #define NUM_TILES 16
 
-#define CHARACTER_W 40
-#define CHARACTER_H 40
+#define CHARACTER_W 28
+#define CHARACTER_H 32
 #define PLAYER_MAX_ANIM_STATE 3
+
+#define OBJ_FONT_SIZE 28
+#define OBJ_FONT_TYPE "./fonts/future.ttf"
 
 #define MENU_W 600
 #define MENU_H 400
@@ -23,5 +26,6 @@
 #define HEARTBAR_W 160
 #define HEARTBAR_H 32
 #define HALFHEART_W 16 
+
 
 #endif

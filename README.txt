@@ -32,9 +32,20 @@ Credits:
      foray into SDL. We used his SDL game tutorials to help
      us develop the initial structure of this game.
 
-    -Placeholder character sprite, originally from
-     Pokemon Blue, can be found at:
-     http://spriters-resource.com/gameboy/pokerb/sheet/8728
+    -Character sprite credit goes to Placky (plackys@hotmail.com), and 
+     can be found at: 
+	http://www.freewebs.com/yodasoda/Top%20Down%20Halo.png
+
+    -Bullet sprites were made by ~Dark-Days 
+     (http://dark-days.deviantart.com) and can be found at:
+        http://dark-days.deviantart.com/art/Bullet-Hell-Sprites-157446698
+
+    -Background music credit goes to soundgenius.com; we
+     used online-convert.com to convert the .mp3 files
+     to .wav format.
+
+    -Sound effects (bullet, enemy hit) can be found at:
+     http://rpg.hamsterrepublic.com/ohrrpgce/Free_Sound_Effects#Battle_Sounds
 
 ------------------------------------------------------------
 
@@ -46,9 +57,9 @@ Installation:
 
     -Download all files, and run the makefile
 
-    -The "grounds32.gif" tileset must be located in
-     containing folder "./tilesets/" relative to the 
-     executable file
+    -Do not remove any files from the resource subdirectories, but feel 
+     free to substitute your own sprites if you so desire. This may 
+     require changing some of the size constants in the Define.h file.
 
 ------------------------------------------------------------
 
@@ -58,13 +69,21 @@ Instructions:
 
     -Run MapEditor
 
+    -Explore, and watch out for enemies
+
 ------------------------------------------------------------
 
 Controls:
 
     -WASD to navigate around map
 
+    -Arrow keys to aim
+
     -Press 'm' to pull up menu
+
+    -Press 'o' to toggle display of objectives
+
+    -Space bar to shoot
 
     -ESC to exit
 

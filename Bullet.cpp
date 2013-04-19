@@ -1,21 +1,46 @@
 #include "Bullet.h"
 
-bool Bullet::OnLoad() {
+Bullet::Bullet() : Entity("bullets.png",12,12,WWIDTH/2-Camera::CameraControl.GetX(),WHEIGHT/2-Camera::CameraControl.GetY(),3){
 
-	Type = ENTITY_TYPE_BULLET;
+  switch(Camera::CameraControl.playerStateX){
+   case 0:
+     movingV = 1;
+     movingH = 0;
+     break;
+   case 1:
+     movingV = -1;
+     movingH = 0;
+     break;
+   case 2:
+     movingV = 0;
+     movingH = -1;
+     break;
+   case 3:
+     movingV = 0;
+     movingH = 1;
+     break;
+  }
+}
 
-	if((Surf_Entity = CSurface::OnLoad("./gfx/bullet.png")) == NULL) {
-		return false;
-	}
+void Bullet::OnLoop(){
+  X += speed * movingH;
+  Y += speed * movingV;
 
-	CSurface::Transparent(Surf_Entity, 255, 0, 255);
+  if(speed==0){
+    height = 18;
+    width = 18;
+    entityStateY = 3;
+    destroy = true;
+  }
+  else if(BulletCheckCollisions()){
+    speed = 0;
+    height = 16;
+    width = 16;
+    entityStateY = 2;
+  }
+  else entityStateY = !entityStateY;
+}
 
-	this->Width = 10;
-	this->Height = 5;
-
-	this->xVel = .3;
-
-	Anim_Control.MaxFrames = 1;
-
-	return true;
+bool Bullet::BulletCheckCollisions(){
+  return MapEditor::CheckTileCollision(X,Y,width,height);
 }
