@@ -22,7 +22,7 @@ class Entity {
 
 	public:
 
-  Entity(string="",int=32,int=32,int=MAP_WIDTH,int=MAP_HEIGHT,int=2);
+  Entity( string="", int=32, int=32, int=MAP_WIDTH, int=MAP_HEIGHT, int=2);
 		bool OnRender(SDL_Surface*);
 		int getX();
 	  int getY();
