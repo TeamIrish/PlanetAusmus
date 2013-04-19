@@ -100,7 +100,7 @@ int MapEditor::OnExecute() {
 			OnEvent(&Event);
 		}
 		Surface::OnDraw(Surf_Display,TitleScreen,0,0);
-		if(dispTitleMenu) Surface::OnDraw(Surf_Display,TitleMenu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
+		if(dispTitleMenu) Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W)/2, (WHEIGHT-MENU_H) / 2);
 		SDL_Flip(Surf_Display);
 	}
 
@@ -110,7 +110,7 @@ int MapEditor::OnExecute() {
 		fps.start();
 
 		// check for events (user input), pass one at a time to OnEvent(
-		while(SDL_PollEvent(&Event)){
+		while( SDL_PollEvent(&Event) ){
 			OnEvent(&Event);
 			if(Event.type == SDL_QUIT) Quit = true;
 		}
@@ -146,7 +146,7 @@ int MapEditor::OnExecute() {
 //
 bool MapEditor::LoadMaps(){
   for(int i=0;i<4;i++){
-    if(gameMap[i].OnLoad("",filenameLoad[i],currentTileXID,currentTileYID) == false) {
+    if( gameMap[i].OnLoad( "", filenameLoad[i], currentTileXID, currentTileYID ) == false ) {
       cout<<"  Error loading "<<filenameLoad[i]<<endl;
       return false;
     }
@@ -169,9 +169,9 @@ void MapEditor::GameOver(){
 //
 int main(int argc, char* argv[]) {
   string arg2="",arg1="";
-  if(argc>2) arg2=argv[2];
-  if(argc>1) arg1=argv[1];
+  if(argc>2) arg2 = argv[2];
+  if(argc>1) arg1 = argv[1];
 
-  MapEditor theApp(arg1,arg2);
+  MapEditor theApp(arg1, arg2);
   return theApp.OnExecute();
 }

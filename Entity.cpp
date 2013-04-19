@@ -4,17 +4,17 @@
 //#include "Entity.h"
 #include "MapEditor.h"
 
-Entity::Entity(string file,int w,int h,int x,int y,int s){
-  string fullfilename = "graphics/"+file;
-  EntitySprite = Surface::OnLoad(fullfilename.c_str());
-  Surface::Transparent(EntitySprite,255,0,255);
+Entity::Entity(string file, int w, int h, int x, int y, int s){
+  string fullfilename = "graphics/" + file;
+  EntitySprite = Surface::OnLoad( fullfilename.c_str() );
+  Surface::Transparent(EntitySprite, 255, 0, 255);
 
   width = w;
   height = h;
   X = x;
   Y = y;
 
-  if(MapEditor::moveSize==5) speed = 5*s; // speed up entities in ssh mode
+  if(MapEditor::moveSize==5) speed = 5 * s; // speed up entities in ssh mode
   else speed = s;
 
   entityStateX = entityStateY = 0;
@@ -22,7 +22,9 @@ Entity::Entity(string file,int w,int h,int x,int y,int s){
 }
 
 bool Entity::OnRender(SDL_Surface* Display){
-  if(Surface::OnDraw(Display,EntitySprite,X+Camera::CameraControl.GetX()-width/2,Y+Camera::CameraControl.GetY()-height/2,entityStateX*width,entityStateY*height,width,height) == false) return false;
+  if( Surface::OnDraw( Display, EntitySprite, X + Camera::CameraControl.GetX() - width/2, Y + Camera::CameraControl.GetY() - height/2, entityStateX * width, entityStateY * height, width, height) == false ) {
+		return false;
+	}
 
   return true;
 }
