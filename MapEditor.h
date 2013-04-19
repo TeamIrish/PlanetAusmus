@@ -100,7 +100,7 @@ class MapEditor : public Event {
 			int currentTileYID;
 
 			static vector<Entity*> EntityList;
-			int numEnemies;
+			static int numEnemies;
 			static int moveSize;
 
    public:

@@ -39,6 +39,12 @@ void MapEditor::OnLoop()
 	// Change player character state
 	Camera::CameraControl.AnimateCharacter();
 
+	// De-spawn entities if too far from player or marked for despawning
+	DeSpawnEntities();
+
+	// Move entities and animate
+	for(int i=0;i<EntityList.size();i++) EntityList[i]->OnLoop();
+
 	// Check for collision between player character and Entities
 	CheckEntityCollisions();
 
@@ -49,15 +55,8 @@ void MapEditor::OnLoop()
 	if(playerHealth < 1) Running = false;
 
 	// Decide whether to spawn enemy
-	if(numEnemies<6 && rand()%100<1){
-	  SpawnEnemy();
-	}
+	if(numEnemies<6 && rand()%100<1) SpawnEnemy();
 
-	// De-spawn entities if too far from player or marked for despawning
-	DeSpawnEntities();
-
-	// Move entities
-	for(int i=0;i<EntityList.size();i++) EntityList[i]->OnLoop();
 }
 
 
@@ -130,7 +129,7 @@ void MapEditor::SpawnEnemy(){
 
   if(attempts<100){
     // instantiate enemy and add to list
-    Entity* tmp = new Enemy(typestring,32,32,spawnX,spawnY,2);
+    Entity* tmp = new Enemy(typestring,32,32,spawnX,spawnY,1,3);
     tmp->setType(ENTITY_TYPE_ENEMY);
     EntityList.push_back(tmp);
 
@@ -212,18 +211,9 @@ void MapEditor::CheckBulletCollision(){
 		 int H2 = EntityList[j]->getH();
 
 		 if( (abs(X1-X2) < (W1+W2)/2) && (abs(Y1-Y2) < (H1+H2)/2) ) {
-		   // delete both; using onHit allows death animations
+		   // delete both; using onHit allows health and death animation
 		   EntityList[i]->onHit();
 		   EntityList[j]->onHit();
-
-		   // drop a heart (or any other item...)
-		   if(rand()%2 ){
-		     Entity * tmp = new Heart(X2,Y2);
-		     tmp->setType(ENTITY_TYPE_HEART);
-		     EntityList.push_back(tmp);
-		   }
-
-		   numEnemies--;
 
 		   Mix_PlayChannel(-1, sfx1, 0); // Play a little noise for enemy destruction
 		   //scoreNumber++; // Can increment score here if we want

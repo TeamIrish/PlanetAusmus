@@ -15,9 +15,10 @@ const int ENEMY_LEFT = 3;
 // number of frames in the enemy's animation cycle
 const int NUM_FRAMES = 4;
 
-Enemy::Enemy( string file, int w, int h, int x, int y, int s )
-	: Entity( file, w, h, x, y, s )
-{ }
+Enemy::Enemy( string file, int w, int h, int x, int y, int s, int hits )
+	: Entity( file, w, h, x, y, s ){
+  health = hits;
+}
 
 // randomly select enemy's next move, biased towards current direction
 void Enemy::OnLoop()
@@ -97,5 +98,17 @@ void Enemy::OnLoop()
 }
 
 void Enemy::onHit(){
-  destroy = true;
+  entityStateY = 4;
+
+  if(--health <= 0){
+    destroy = true;
+    // drop a heart (or any other item...)
+    if(rand()%2){
+      Entity * tmp = new Heart(X,Y);
+      tmp->setType(ENTITY_TYPE_HEART);
+      MapEditor::EntityList.push_back(tmp);
+    }
+
+    MapEditor::numEnemies--;
+  }
 }

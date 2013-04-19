@@ -17,9 +17,11 @@ using namespace std;
 
 class Enemy : public Entity {
  public:
-  Enemy(string="",int=32,int=32,int=MAP_WIDTH,int=MAP_HEIGHT,int=2);
+  Enemy(string="",int=32,int=32,int=MAP_WIDTH,int=MAP_HEIGHT,int=1,int=3);
   void OnLoop();
   void onHit();
+ private:
+  int health;
 };
 
 #endif
