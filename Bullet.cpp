@@ -32,13 +32,13 @@ void Bullet::OnLoop(){
     entityStateY = 3;
     destroy = true;
   }
-  else if(BulletCheckCollisions()){
+  else if(BulletCheckCollisions()==TILE_TYPE_NON_TRAVERSABLE){
     onHit();
   }
   else entityStateY = !entityStateY;
 }
 
-bool Bullet::BulletCheckCollisions(){
+int Bullet::BulletCheckCollisions(){
   return MapEditor::CheckTileCollision(X,Y,width,height);
 }
 

@@ -8,7 +8,7 @@ class Bullet : public Entity {
  public:
   Bullet();
   void OnLoop();
-  bool BulletCheckCollisions();
+  int BulletCheckCollisions();
   void onHit();
  private:
   int movingV; // 1=down, -1=up

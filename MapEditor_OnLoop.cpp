@@ -63,9 +63,9 @@ void MapEditor::OnLoop()
 //==============================================================================
 //
 // arguments default to the center of the screen and the size of the player character
-bool MapEditor::CheckTileCollision(int centerX, int centerY, int width, int height)
-{  
-  int tileX, tileY, ID;
+int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int height)
+{  // returns 0 for traversable, 1 for shootable, 2 for neither
+  int tileX, tileY, ID, returnvalue=0;
 	
 	// check all four corners of the sprite
   for(int i = 0; i < 4; i++) { 
@@ -85,22 +85,29 @@ bool MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heig
 	
 		//cout<<"Tile "<<X<<","<<Y<<": "<<"(mapID = "<<mapID<<"): ";
 		ID = tileY*MAP_WIDTH + tileX;
-	
-		if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_TRAVERSABLE) {
+		int tiletype = gameMap[mapID].TileList[ID].TypeID;
+
+		if(tiletype == TILE_TYPE_TRAVERSABLE) {
 			//cout<<"Traversable"<<endl;
 			continue;
 		}
-		else if(gameMap[mapID].TileList[ID].TypeID == TILE_TYPE_NON_TRAVERSABLE) {
+		else if(tiletype == TILE_TYPE_NON_TRAVERSABLE) {
 			//cout<<"Non-traversable"<<endl;
-			return true;
+		        return TILE_TYPE_NON_TRAVERSABLE; // 3
+		}
+		else if(tiletype == TILE_TYPE_SHOOTABLE){
+			//cout<<"Shootable."<<endl;
+		        returnvalue = 1;
+			continue;
 		}
 		else {
 			//cout<<"Other."<<endl;
+		        returnvalue = 1;
 			continue;
 		}
   }
 
-  return false;
+  return returnvalue;
 }
 
 
