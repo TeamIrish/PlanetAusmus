@@ -17,6 +17,7 @@ string MapEditor::filenameLoad[4];
 Map MapEditor::gameMap[4];
 vector<Entity*> MapEditor::EntityList;
 bool MapEditor::runLoadMaps=false;
+bool MapEditor::runAddChests[4];
 bool MapEditor::debug;
 int MapEditor::moveSize;
 int MapEditor::numEnemies;
@@ -60,6 +61,8 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 
 	playerHealth = 10;
 	numEnemies = 0;
+
+	for(int i=0;i<4;i++) runAddChests[i] = false;
 
 	Running = true;
 	Quit = false;
@@ -121,8 +124,13 @@ int MapEditor::OnExecute() {
 
 	  // switch map view if necessary
 	  if(runLoadMaps==true){
-	    LoadMaps(); // HAVING ERRORS
-	    runLoadMaps=false;
+	    LoadMaps();
+	    for(int i=0;i<4;i++){ // add chests only if player has not come to this map before
+	      if(runAddChests[i]){
+		AddChests();
+		runAddChests[i] = false;
+	      }
+	    }
 	  }
 
 		// Render the output
@@ -155,6 +163,24 @@ bool MapEditor::LoadMaps(){
   return true;
 }
 
+void MapEditor::AddChests(){
+      // Add chests
+      while(rand()%10 < 2){
+	int chestX,chestY,attempts=0;
+	while(attempts<100){
+	  chestX = rand()%MAP_WIDTH*TILE_SIZE;
+	  chestY = rand()%MAP_HEIGHT*TILE_SIZE;
+	  if(!CheckTileCollision(chestX,chestY,16,16)) break;
+	  attempts++;
+	}
+	if(attempts<100){
+	  Entity * tmp = new Chest(chestX,chestY);
+	  tmp->setType(ENTITY_TYPE_CHEST);
+	  EntityList.push_back(tmp);
+	  if(debug) cout<<"Entity (chest) spawned: "<<chestX/TILE_SIZE<<","<<chestY/TILE_SIZE<<endl;
+	}
+      }
+}
 
 //==============================================================================
 //

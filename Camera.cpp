@@ -118,6 +118,7 @@ bool Camera::ChangeMapView(){
       if(MapEditor::debug) cout<<"Generating file "<<MapEditor::filenameLoad[i]<<endl;
       GetCornerValues(mapXCoord,mapYCoord,corners);
       MapEditor::RandomMapGenerate(MapEditor::filenameLoad[i],corners);
+      MapEditor::runAddChests[i] = true;
     }
     file.close();
   }

@@ -158,18 +158,21 @@ bool MapEditor::CheckEntityCollisions(){
     int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
 		if(EntityList[i]->getType() != ENTITY_TYPE_BULLET){
 			if( abs(charX - EntityList[i]->getX()) < Xdist && abs(charY - EntityList[i]->getY()) < Ydist ){
-				if(EntityList[i]->getType() == ENTITY_TYPE_ENEMY){
+			        int type = EntityList[i]->getType();
+				if(type == ENTITY_TYPE_ENEMY){
 					playerHealth-=2;
 					Camera::CameraControl.playerStateY=4;
 					numEnemies--;
 				}
-				if(EntityList[i]->getType() == ENTITY_TYPE_HEART){
+				else if(type == ENTITY_TYPE_HEART){
 					if(playerHealth < 10) playerHealth+=2;
 				}
-				EntityList[i]->OnCleanup();
-		 		delete EntityList[i];
-				EntityList.erase(EntityList.begin() + i);
-				return true;
+				if(type != ENTITY_TYPE_CHEST){
+				  EntityList[i]->OnCleanup();
+				  delete EntityList[i];
+				  EntityList.erase(EntityList.begin() + i);
+				  return true;
+				}
 			}
 		}
 	}
@@ -181,15 +184,17 @@ bool MapEditor::CheckEntityCollisions(){
 //
 void MapEditor::DeSpawnEntities(){
   for(int i=0;i<EntityList.size();i++){
-    int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
-    int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
-    double dist = sqrt(distX*distX+distY*distY);
+    if(EntityList[i]->getType() != ENTITY_TYPE_CHEST){
+      int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
+      int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
+      double dist = sqrt(distX*distX+distY*distY);
 
-    if(EntityList[i]->isDestroyable() || dist > 1280){
-      if(debug)	cout<<"Entity "<<i<<" despawned."<<endl;
-      if(EntityList[i]->getType()==ENTITY_TYPE_ENEMY) numEnemies--;
-      EntityList[i]->OnCleanup();
-      EntityList.erase(EntityList.begin()+i);
+      if(EntityList[i]->isDestroyable() || dist > 1280){
+	if(debug) cout<<"Entity "<<i<<" despawned."<<endl;
+	if(EntityList[i]->getType()==ENTITY_TYPE_ENEMY) numEnemies--;
+	EntityList[i]->OnCleanup();
+	EntityList.erase(EntityList.begin()+i);
+      }
     }
   }
 }

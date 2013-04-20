@@ -17,7 +17,7 @@ const int NUM_FRAMES = 4;
 
 Enemy::Enemy( string file, int w, int h, int x, int y, int s, int hits )
 	: Entity( file, w, h, x, y, s ){
-  health = hits;
+  health = 2 * hits; // each bullet decreases health by 2
 }
 
 // randomly select enemy's next move, biased towards current direction
@@ -100,7 +100,8 @@ void Enemy::OnLoop()
 void Enemy::onHit(){
   entityStateY = 4;
 
-  if(--health <= 0){
+  health--;  // each bullet actually decreases health by 2, because of the two frames that it stays in contact with the enemy
+  if(health <= 0){
     destroy = true;
     // drop a heart (or any other item...)
     if(rand()%2){

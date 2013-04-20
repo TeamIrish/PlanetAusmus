@@ -32,6 +32,7 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Heart.h"
+#include "Chest.h"
 #include "Objectives.h"
 #include "Timer.h"
 
@@ -110,7 +111,10 @@ class MapEditor : public Event {
 				void GameOver();
 
 				bool LoadMaps(); // called after every change of map view
+				void AddChests(); // called the first time any map is loaded
+
 				static bool runLoadMaps;
+				static bool runAddChests[4];
 
 				static void RandomMapGenerate(string="randomMap.map", int[4]=NULL);
 				static void RMG_Recursion(int[],int[][40]);
