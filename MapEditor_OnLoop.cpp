@@ -153,6 +153,7 @@ bool MapEditor::CheckEntityCollisions(){
 			if( abs(charX - EntityList[i]->getX()) < Xdist && abs(charY - EntityList[i]->getY()) < Ydist ){
 				if(EntityList[i]->getType() == ENTITY_TYPE_ENEMY){
 					playerHealth-=2;
+					Camera::CameraControl.playerStateY=4;
 					numEnemies--;
 				}
 				if(EntityList[i]->getType() == ENTITY_TYPE_HEART){
