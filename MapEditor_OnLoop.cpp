@@ -160,7 +160,7 @@ void MapEditor::SpawnEnemy(){
 
   if(attempts<100){
     // instantiate enemy and add to list
-    Entity * tmp = new Enemy(typestring,enemyW,enemyH,spawnX,spawnY,1,5);
+    Entity * tmp = new Enemy(typestring,enemyW,enemyH,spawnX,spawnY,speed,hitpoints);
     tmp->setType(ENTITY_TYPE_ENEMY);
     EntityList.push_back(tmp);
 

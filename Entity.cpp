@@ -14,7 +14,7 @@ Entity::Entity(string file, int w, int h, int x, int y, int s){
   X = x;
   Y = y;
 
-  if(MapEditor::moveSize==5) speed = 5 * s; // speed up entities in ssh mode
+  if(MapEditor::moveSize==6) speed = 4 * s; // speed up entities in ssh mode
   else speed = s;
 
   entityStateX = entityStateY = 0;

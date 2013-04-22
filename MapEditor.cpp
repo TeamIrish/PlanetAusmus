@@ -74,11 +74,11 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	else debug=false;
 
 	if(inputarg1=="ssh" || inputarg2=="ssh"){
-	  moveSize = 5;
+	  moveSize = 6;
 	  Camera::CameraControl.setAnimTimer(2);
 	  cout<<"SSH MODE"<<endl;
 	}
-	else moveSize = 1;
+	else moveSize = 2;
 }
 
 
