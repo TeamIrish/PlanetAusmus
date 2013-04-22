@@ -115,11 +115,35 @@ int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heigh
 //
 void MapEditor::SpawnEnemy(){
   string typestring;
-  int spawnX,spawnY,attempts=0;
+  int spawnX,spawnY,attempts=0,enemyW,enemyH;
 
   // generate random coordinates onscreen
   int X = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
   int Y = -Camera::CameraControl.GetY()+WHEIGHT/2+pow(-1,rand()%2)*(rand()%(WHEIGHT/3));
+
+  // set enemy parameters
+  int choose = rand()%10; // decides which type of enemy
+  int speed,hitpoints;
+  if(choose<2){ // golem
+    typestring = "golem.png";
+    enemyW = enemyH = 64;
+    speed = 1;
+    hitpoints = 5;
+  }
+  else if(choose<6){ // skeleton
+    typestring = "skeleton.png";
+    enemyW = 26;
+    enemyH = 34;
+    speed = 2;
+    hitpoints = 3;
+  }
+  else{ // skull
+    typestring = "skull.png";
+    enemyW = 16;
+    enemyH = 22;
+    speed = 3;
+    hitpoints = 1;
+  }
 
   // move coordinates to somewhere offscreen
   while(attempts<100){
@@ -130,26 +154,13 @@ void MapEditor::SpawnEnemy(){
     if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT;
 
     // ensure that chosen tile is not nontraversable
-    if(!CheckTileCollision(spawnX,spawnY,32,32)) break;
+    if(!CheckTileCollision(spawnX,spawnY,enemyW,enemyH)) break;
     attempts++;
   }
 
   if(attempts<100){
     // instantiate enemy and add to list
-    int choose = rand()%10;
-    Entity * tmp;
-    if(choose<2){
-      typestring = "golem.png";
-      tmp = new Enemy(typestring,64,64,spawnX,spawnY,1,5);
-    }
-    else if(choose<6){
-      typestring = "skeleton.png";
-      tmp = new Enemy(typestring,26,34,spawnX,spawnY,2,3);
-    }
-    else{
-      typestring = "skull.png";
-      tmp = new Enemy(typestring,16,22,spawnX,spawnY,3,1);
-    }
+    Entity * tmp = new Enemy(typestring,enemyW,enemyH,spawnX,spawnY,1,5);
     tmp->setType(ENTITY_TYPE_ENEMY);
     EntityList.push_back(tmp);
 
