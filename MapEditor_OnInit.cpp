@@ -22,6 +22,24 @@ bool MapEditor::OnInit() {
 	
 
 //======================================================================================
+// Load from savefile, if any
+	ifstream loadfile("maps/save.txt");
+	if(loadfile){
+	  int loadX,loadY;
+	  loadfile>>playerHealth;
+	  loadfile>>Camera::CameraControl.currentMapX;
+	  loadfile>>Camera::CameraControl.currentMapY;
+	  loadfile>>loadX>>loadY;
+	  Camera::CameraControl.SetPos(loadX,loadY);
+
+	  if(debug) cout<<"Savefile loaded."<<endl;
+
+	  // get rid of loadfile, so that player starts over upon death
+	  remove("maps/save.txt");
+	}
+
+
+//======================================================================================
 // Load the graphics
 
 	/*

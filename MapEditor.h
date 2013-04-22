@@ -22,6 +22,7 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <cstdio>
 
 #include "Define.h"
 #include "Event.h"
@@ -96,7 +97,7 @@ class MapEditor : public Event {
 
 	public: // need to make get/set functions for these
 
-			// current tile choice
+			// current tile choice; don't think we need anymore
 			int currentTileXID;
 			int currentTileYID;
 

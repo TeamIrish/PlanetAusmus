@@ -88,12 +88,12 @@ int MapEditor::OnExecute() {
 
   srand(time(NULL));
 
-  Camera::CameraControl.ChangeMapView();
-
 	// Initialize the game; if it fails, return error code and close program
 	if(OnInit() == false){
 		return -1;
 	}
+
+	Camera::CameraControl.ChangeMapView();
 
 	SDL_Event Event;
 	ObjPtr = new Objectives; 
@@ -140,9 +140,8 @@ int MapEditor::OnExecute() {
 		fps.delay_if_needed();
 	}
 
-	OnSave(); // doesn't actually do anything anymore... might later, though, if we actually save stuff
-
-	GameOver();
+	if(playerHealth > 0) OnSave(); // doesn't actually do anything anymore... might later, though, if we actually save stuff
+	else GameOver();
 
 	// Clean up trash
 	OnCleanup();

@@ -21,10 +21,10 @@ class Camera {
         int* TargetX;
         int* TargetY;
 
-	int currentMapX,currentMapY;
 	int animTimerMax;
  
     public:
+	int currentMapX,currentMapY;
         int TargetMode;
 	bool MovingRight;
 	bool MovingLeft;
@@ -38,6 +38,7 @@ class Camera {
 	int animationTimer;
 	void AnimateCharacter();
 	void setAnimTimer(int);
+	void setCurrentMaps(int,int);
  
     public:
         Camera();
