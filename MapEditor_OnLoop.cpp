@@ -114,7 +114,7 @@ int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heigh
 //==============================================================================
 //
 void MapEditor::SpawnEnemy(){
-  string typestring = "golem.png";
+  string typestring;
   int spawnX,spawnY,attempts=0;
 
   // generate random coordinates onscreen
@@ -136,7 +136,20 @@ void MapEditor::SpawnEnemy(){
 
   if(attempts<100){
     // instantiate enemy and add to list
-    Entity* tmp = new Enemy(typestring,32,32,spawnX,spawnY,1,3);
+    int choose = rand()%10;
+    Entity * tmp;
+    if(choose<2){
+      typestring = "golem.png";
+      tmp = new Enemy(typestring,64,64,spawnX,spawnY,1,5);
+    }
+    else if(choose<6){
+      typestring = "skeleton.png";
+      tmp = new Enemy(typestring,26,34,spawnX,spawnY,2,3);
+    }
+    else{
+      typestring = "skull.png";
+      tmp = new Enemy(typestring,16,22,spawnX,spawnY,3,1);
+    }
     tmp->setType(ENTITY_TYPE_ENEMY);
     EntityList.push_back(tmp);
 
