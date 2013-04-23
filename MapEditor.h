@@ -68,6 +68,7 @@ class MapEditor : public Event {
 			// SDL Music / Sounds
 			Mix_Music* mus;
 			Mix_Chunk* sfx2;
+			Mix_Chunk* healSound;
 
 			// timer for regulating frame rate
 			Timer fps;

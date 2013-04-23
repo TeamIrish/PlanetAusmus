@@ -171,8 +171,10 @@ bool MapEditor::OnInit() {
 	// http://rpg.hamsterrepublic.com/ohrrpgce/Free_Sound_Effects#Battle_Sounds
 	sfx1 = Mix_LoadWAV("./sounds/SmallExplosion.ogg");
 	sfx2 = Mix_LoadWAV("./sounds/laser01.ogg");
+	healSound = Mix_LoadWAV("./sounds/Heal8-Bit.ogg");
 		// Check for errors	
-		if(sfx1==NULL || sfx2==NULL){
+		if(sfx1==NULL || sfx2==NULL || healSound==NULL){
+		cout << "here";
 		return false;
 		}
 
