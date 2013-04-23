@@ -9,6 +9,7 @@ class Heart : public Entity {
   Heart(int,int);
   void OnLoop();
   void onHit();
+  void OnSave(ofstream &);
 };
 
 #endif

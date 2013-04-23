@@ -67,7 +67,6 @@ class MapEditor : public Event {
 
 			// SDL Music / Sounds
 			Mix_Music* mus;
-			Mix_Chunk* sfx1;
 			Mix_Chunk* sfx2;
 
 			// timer for regulating frame rate
@@ -78,6 +77,7 @@ class MapEditor : public Event {
 
 
 	public:
+			static Mix_Chunk* sfx1; // static so that Bullet can access and play whenever destroyed
 	
 			// player health
 			int playerHealth;

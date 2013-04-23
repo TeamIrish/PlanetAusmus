@@ -66,13 +66,12 @@ void MapEditor::OnLoop()
 int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int height)
 {  // returns 0 for traversable, 1 for shootable, 2 for neither
   int tileX, tileY, ID, returnvalue=0;
-	
-	// check all four corners of the sprite
+  // check all four corners of the sprite
   for(int i = 0; i < 4; i++) { 
 		int mapID = 0;
 		tileX = (centerX + pow(-1,i%2)*width*.3) / TILE_SIZE;
 		tileY = (centerY + (i/2)*height*.3) / TILE_SIZE;  // only check bottom half of sprite, to give 3D effect
-	
+
 		if(tileX >= MAP_WIDTH){
 			tileX -= MAP_WIDTH;
 			mapID += 1;
@@ -82,31 +81,36 @@ int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heigh
 			tileY -= MAP_HEIGHT;
 			mapID += 2;
 		}
-	
+
 		//cout<<"Tile "<<X<<","<<Y<<": "<<"(mapID = "<<mapID<<"): ";
 		ID = tileY*MAP_WIDTH + tileX;
-		int tiletype = gameMap[mapID].TileList[ID].TypeID;
 
-		if(tiletype == TILE_TYPE_TRAVERSABLE) {
-			//cout<<"Traversable"<<endl;
-			continue;
+		if(mapID<4 && ID>=0 && ID<MAP_HEIGHT*MAP_WIDTH){
+		  int tiletype = gameMap[mapID].TileList[ID].TypeID;
+		  if(tiletype == TILE_TYPE_TRAVERSABLE) {
+		    //cout<<"Traversable"<<endl;
+		    continue;
+		  }
+		  else if(tiletype == TILE_TYPE_NON_TRAVERSABLE) {
+		    //cout<<"Non-traversable"<<endl;
+		    return TILE_TYPE_NON_TRAVERSABLE; // 3
+		  }
+		  else if(tiletype == TILE_TYPE_SHOOTABLE){
+		    //cout<<"Shootable."<<endl;
+		    returnvalue = 1;
+		    continue;
+		  }
+		  else {
+		    //cout<<"Other."<<endl;
+		    returnvalue = 1;
+		    continue;
+		  }
 		}
-		else if(tiletype == TILE_TYPE_NON_TRAVERSABLE) {
-			//cout<<"Non-traversable"<<endl;
-		        return TILE_TYPE_NON_TRAVERSABLE; // 3
-		}
-		else if(tiletype == TILE_TYPE_SHOOTABLE){
-			//cout<<"Shootable."<<endl;
-		        returnvalue = 1;
-			continue;
-		}
-		else {
-			//cout<<"Other."<<endl;
-		        returnvalue = 1;
-			continue;
+		else{
+		  if(debug) cout<<"Entity out of tile collision checking range."<<endl;
+		  return TILE_TYPE_NON_TRAVERSABLE;
 		}
   }
-
   return returnvalue;
 }
 
@@ -127,21 +131,21 @@ void MapEditor::SpawnEnemy(){
   if(choose<2){ // golem
     typestring = "golem.png";
     enemyW = enemyH = 64;
-    speed = 1;
+    speed = 3;
     hitpoints = 5;
   }
   else if(choose<6){ // skeleton
     typestring = "skeleton.png";
     enemyW = 26;
     enemyH = 34;
-    speed = 2;
+    speed = 6;
     hitpoints = 3;
   }
   else{ // skull
     typestring = "skull.png";
     enemyW = 16;
     enemyH = 22;
-    speed = 3;
+    speed = 9;
     hitpoints = 1;
   }
 
@@ -241,7 +245,8 @@ void MapEditor::CheckBulletCollision(){
 	     int W1 = EntityList[i]->getW();
 	     int H1 = EntityList[i]->getH();
 	     for(unsigned int j = 0; j < EntityList.size(); ++j) {
-	       if(EntityList[j]->getType() == ENTITY_TYPE_ENEMY) {
+	       int tmptype = EntityList[j]->getType();
+	       if(tmptype == ENTITY_TYPE_ENEMY || tmptype == ENTITY_TYPE_CHEST) {
 		 int X2 = EntityList[j]->getX();
 		 int Y2 = EntityList[j]->getY();
 		 int W2 = EntityList[j]->getW();
@@ -252,7 +257,6 @@ void MapEditor::CheckBulletCollision(){
 		   EntityList[i]->onHit();
 		   EntityList[j]->onHit();
 
-		   Mix_PlayChannel(-1, sfx1, 0); // Play a little noise for enemy destruction
 		   //scoreNumber++; // Can increment score here if we want
 		 }
 	       }

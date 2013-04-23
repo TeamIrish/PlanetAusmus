@@ -9,8 +9,7 @@ class Chest : public Entity {
   Chest(int,int);
   void OnLoop();
   void onHit();
- private:
-  bool opened;
+  void OnSave(ofstream &);
 };
 
 #endif

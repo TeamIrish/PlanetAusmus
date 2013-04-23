@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-Bullet::Bullet() : Entity("bullets.png",12,12,WWIDTH/2-Camera::CameraControl.GetX(),WHEIGHT/2-Camera::CameraControl.GetY(),3){
+Bullet::Bullet() : Entity("bullets.png",12,12,WWIDTH/2-Camera::CameraControl.GetX(),WHEIGHT/2-Camera::CameraControl.GetY(),9){
 
   switch(Camera::CameraControl.playerStateX){
    case 0:
@@ -47,4 +47,7 @@ void Bullet::onHit(){
     height = 16;
     width = 16;
     entityStateY = 2;
+    Mix_PlayChannel(-1, MapEditor::sfx1, 0); // Play a little noise for bullet destruction
 }
+
+void Bullet::OnSave(ofstream &){}

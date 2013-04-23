@@ -104,7 +104,7 @@ void Enemy::onHit(){
   if(health <= 0){
     destroy = true;
     // drop a heart (or any other item...)
-    if(rand()%2){
+    if(rand()%4==3){
       Entity * tmp = new Heart(X,Y);
       tmp->setType(ENTITY_TYPE_HEART);
       MapEditor::EntityList.push_back(tmp);
@@ -112,4 +112,14 @@ void Enemy::onHit(){
 
     MapEditor::numEnemies--;
   }
+}
+
+void Enemy::OnSave(ofstream & savefile){
+  savefile<<spritefilename<<endl;
+  savefile<<width<<endl;
+  savefile<<height<<endl;
+  savefile<<X<<endl<<Y<<endl;
+  savefile<<speed<<endl;
+  savefile<<type<<endl;
+  savefile<<health<<endl;
 }

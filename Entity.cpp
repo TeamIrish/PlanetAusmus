@@ -5,17 +5,17 @@
 #include "MapEditor.h"
 
 Entity::Entity(string file, int w, int h, int x, int y, int s){
-  string fullfilename = "graphics/" + file;
+  spritefilename = file; // necessary to store w/o "graphics/" for saving/loading
+  string fullfilename = "graphics/"+file;
   EntitySprite = Surface::OnLoad( fullfilename.c_str() );
+  if(!EntitySprite) cout<<"EntitySprite ("<<fullfilename.c_str()<<") load failure."<<endl;
   Surface::Transparent(EntitySprite, 255, 0, 255);
 
   width = w;
   height = h;
   X = x;
   Y = y;
-
-  if(MapEditor::moveSize==6) speed = 4 * s; // speed up entities in ssh mode
-  else speed = s;
+  speed = s;
 
   entityStateX = entityStateY = 0;
   destroy = false;

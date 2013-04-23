@@ -19,7 +19,7 @@ Camera::Camera() {
     facingDir = -1;
     numDirKeys = 0;
 
-    animTimerMax=6;
+    animTimerMax=2;
 }
 
 void Camera::OnMove(int MoveX, int MoveY) {

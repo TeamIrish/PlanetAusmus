@@ -10,9 +10,13 @@ void MapEditor::OnSave() {
     return;
   }
 
+  // player state
   savefile<<playerHealth<<endl;
   savefile<<Camera::CameraControl.currentMapX<<endl;
   savefile<<Camera::CameraControl.currentMapY<<endl;
   savefile<<Camera::CameraControl.GetX()<<endl;
   savefile<<Camera::CameraControl.GetY()<<endl;
+
+  // entities
+  for(unsigned int i=0;i<EntityList.size();i++) EntityList[i]->OnSave(savefile);
 }

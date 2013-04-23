@@ -2,13 +2,7 @@
 	#define ENTITY_H_
 
 #include "MapEditor.h"
-/*
-#include "SDL/SDL.h"
-#include "SDL/SDL_mixer.h"
-#include "Define.h"
-#include <string>
-using namespace std;
-*/
+
 enum {
 	ENTITY_TYPE_NONE = 0,
 
@@ -36,6 +30,7 @@ class Entity {
 		int getType();
 		bool isDestroyable();
 		virtual void onHit() = 0;
+		virtual void OnSave(ofstream &) = 0;
 
 	protected:
 
@@ -46,6 +41,7 @@ class Entity {
 		int entityStateX;
 		int entityStateY;
 		SDL_Surface* EntitySprite;
+		string spritefilename;
 		int type;
 		int speed;
 		bool destroy; // set to true when entity should be removed

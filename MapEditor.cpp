@@ -21,6 +21,7 @@ bool MapEditor::runAddChests[4];
 bool MapEditor::debug;
 int MapEditor::moveSize;
 int MapEditor::numEnemies;
+Mix_Chunk* MapEditor::sfx1;
 // tile order: deepwater,water,sand,grass,grass,evergreen,tree,grass,grass,dirt,rock,snow,mountains,snow,rock,lava
 int MapEditor::tileX[] = {0,6,3,0,0,6,0,0,0,0,3,3,6,3,3,6};
 int MapEditor::tileY[] = {2,1,1,1,1,6,6,1,1,3,0,9,9,9,0,8};
@@ -73,12 +74,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	}
 	else debug=false;
 
-	if(inputarg1=="ssh" || inputarg2=="ssh"){
-	  moveSize = 6;
-	  Camera::CameraControl.setAnimTimer(2);
-	  cout<<"SSH MODE"<<endl;
-	}
-	else moveSize = 2;
+	moveSize = 6;
 }
 
 
@@ -92,8 +88,6 @@ int MapEditor::OnExecute() {
 	if(OnInit() == false){
 		return -1;
 	}
-
-	Camera::CameraControl.ChangeMapView();
 
 	SDL_Event Event;
 	ObjPtr = new Objectives; 

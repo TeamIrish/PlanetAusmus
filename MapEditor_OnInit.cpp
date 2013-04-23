@@ -25,12 +25,44 @@ bool MapEditor::OnInit() {
 // Load from savefile, if any
 	ifstream loadfile("maps/save.txt");
 	if(loadfile){
+	  // player state
 	  int loadX,loadY;
 	  loadfile>>playerHealth;
 	  loadfile>>Camera::CameraControl.currentMapX;
 	  loadfile>>Camera::CameraControl.currentMapY;
 	  loadfile>>loadX>>loadY;
 	  Camera::CameraControl.SetPos(loadX,loadY);
+
+	  // entities
+	  while(!loadfile.eof()){
+	    string spritefile;
+	    int w,h,X,Y,s,type,health;
+	    Entity * tmp;
+	    loadfile>>spritefile>>w>>h>>X>>Y>>s>>type;
+	    if(spritefile=="") break;
+
+	    switch(type){
+	    case ENTITY_TYPE_ENEMY:
+	      loadfile>>health;
+	      tmp = new Enemy(spritefile,w,h,X,Y,s,health/2);
+	      break;
+	    case ENTITY_TYPE_BULLET:
+	      continue;
+	    case ENTITY_TYPE_ITEM:
+	      continue;
+	    case ENTITY_TYPE_HEART:
+	      tmp = new Heart(X,Y);
+	      break;
+	    case ENTITY_TYPE_CHEST:
+	      tmp = new Chest(X,Y);
+	      break;
+	    default:
+	      if(debug) cout<<"Error loading saved entity..."<<endl;
+	      continue;
+	    }
+	    tmp->setType(type);
+	    EntityList.push_back(tmp);
+	  }
 
 	  if(debug) cout<<"Savefile loaded."<<endl;
 
@@ -76,8 +108,6 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
-	
-
 	// Load the menu
 	if((Menu = Surface::OnLoad("./graphics/menu.png")) == NULL){
 		return false;
@@ -113,10 +143,12 @@ bool MapEditor::OnInit() {
 //==========================================================================
 // Load map tileset
 
+	Camera::CameraControl.ChangeMapView();
+	LoadMaps();
 	for(int i=0;i<4;i++){
-  	if((gameMap[i].Surf_Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
-  	  return false;
-  	}
+	  if((gameMap[i].Surf_Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
+	    return false;
+	  }
 	}
 
 

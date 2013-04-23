@@ -7,18 +7,18 @@ Surface::Surface(){
 // simple static function that will load a surface for us
 SDL_Surface* Surface::OnLoad(const char* File) {
     SDL_Surface* Surf_Temp = NULL;
-    SDL_Surface* Surf_Return = NULL;
+    //SDL_Surface* Surf_Return = NULL;
  
     if((Surf_Temp = IMG_Load(File)) == NULL) {
-      std::cout << "An image failed to load. Is a file missing?" << std::endl;  
+      std::cout << "An image ("<<File<<") failed to load. Is a file missing?" << std::endl;  
 			return NULL;
     }
  
 	// here we're optimizing the image - using "SDL_DisplayFormatAlpha" instead of "SDL_DisplayFormat" because the former allows us to designate a color channel, in our case bright pink, as transparent. This helps a lot when rendering our sprites
-    Surf_Return = SDL_DisplayFormatAlpha(Surf_Temp);
-    SDL_FreeSurface(Surf_Temp);
+    //Surf_Return = SDL_DisplayFormatAlpha(Surf_Temp); // not sure why, but this was returning NULL when loading an enemy from the save file, and removing it didn't hurt anything, so...
+    //SDL_FreeSurface(Surf_Temp);
  
-    return Surf_Return;
+    return Surf_Temp;//Return;
 }
 
 /*

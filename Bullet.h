@@ -10,6 +10,7 @@ class Bullet : public Entity {
   void OnLoop();
   int BulletCheckCollisions();
   void onHit();
+  void OnSave(ofstream &);
  private:
   int movingV; // 1=down, -1=up
   int movingH; // 1=right, -1=left
