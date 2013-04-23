@@ -23,60 +23,50 @@ Enemy::Enemy( string file, int w, int h, int x, int y, int s, int hits )
 // randomly select enemy's next move, biased towards current direction
 void Enemy::OnLoop()
 {
-	// random number to determine enemy's direction
-	int randNum = rand() % 30;
-
-	// move and set next state depending on current state
+	// move depending on current state
 	switch( entityStateX )
 	{
 		case ENEMY_DOWN:
 			Y += speed; // move
-
 			// check for non-traversable tile collisions
 			if(MapEditor::CheckTileCollision(X, Y, width, height)) Y -= speed; // undo the move
-			// set next state pseudo-randomly
-			if( randNum < 27 ) entityStateX = ENEMY_DOWN;
-			else if( randNum == 27 ) entityStateX = ENEMY_RIGHT;
-			else if( randNum == 28 ) entityStateX = ENEMY_UP;
-			else if( randNum == 29 ) entityStateX = ENEMY_LEFT;
 			break;
-
 		case ENEMY_RIGHT:
 			X += speed; // move
-
 			// check for non-traversable tile collisions
 			if(MapEditor::CheckTileCollision(X, Y, width, height)) X -= speed; // undo the move
-			// set next state pseudo-randomly
-			if( randNum < 27 ) entityStateX = ENEMY_RIGHT;
-			else if( randNum == 27 ) entityStateX = ENEMY_DOWN;
-			else if( randNum == 28 ) entityStateX = ENEMY_LEFT;
-			else if( randNum == 29 ) entityStateX = ENEMY_UP;
 			break;
-
 		case ENEMY_UP:
 			Y -= speed; // move
-
 			// check for non-traversable tile collisions
 			if(MapEditor::CheckTileCollision(X, Y, width, height)) Y += speed; // undo the move
-			// set next state pseudo-randomly
-			if( randNum < 27 ) entityStateX = ENEMY_UP;
-			else if( randNum == 27 ) entityStateX = ENEMY_LEFT;
-			else if( randNum == 28 ) entityStateX = ENEMY_RIGHT;
-			else if( randNum == 29 ) entityStateX = ENEMY_DOWN;
 			break;
-
 		case ENEMY_LEFT:
 			X -= speed; // move
-
 			// check for non-traversable tile collisions
 			if(MapEditor::CheckTileCollision(X, Y, width, height)) X += speed; // undo the move
-			// set next state pseudo-randomly
-			if( randNum < 27 ) entityStateX = ENEMY_LEFT;
-			else if( randNum == 27 ) entityStateX = ENEMY_RIGHT;
-			else if( randNum == 28 ) entityStateX = ENEMY_UP;
-			else if( randNum == 29 ) entityStateX = ENEMY_DOWN;
-			break;
 	}
+
+	// determine relative position of enemy and player
+	int directionToPlayerX,directionToPlayerY;
+	if(X > WWIDTH/2-Camera::CameraControl.GetX()) directionToPlayerX = ENEMY_LEFT;
+	else directionToPlayerX = ENEMY_RIGHT;
+	if(Y > WHEIGHT/2-Camera::CameraControl.GetY()) directionToPlayerY = ENEMY_UP;
+	else directionToPlayerY = ENEMY_DOWN;
+	// (advanced tracking)
+	if(abs(X-WWIDTH/2-Camera::CameraControl.GetX()) < width+CHARACTER_W) directionToPlayerX = directionToPlayerY;
+	if(abs(Y-WHEIGHT/2-Camera::CameraControl.GetY()) < height+CHARACTER_H) directionToPlayerY = directionToPlayerX;
+
+	// random number to determine enemy's direction
+	int randNum = rand() % 30;
+	// set next state pseudo-randomly
+	if( randNum==22 || randNum==23 ) entityStateX = directionToPlayerX;
+	else if( randNum==24 || randNum==25 ) entityStateX = directionToPlayerY;
+	else if( randNum == 26 ) entityStateX = ENEMY_RIGHT;
+	else if( randNum == 27 ) entityStateX = ENEMY_RIGHT;
+	else if( randNum == 28 ) entityStateX = ENEMY_UP;
+	else if( randNum == 29 ) entityStateX = ENEMY_LEFT;
+	// else continue in same direction as currently
 
 	// make sure the enemy is in bounds
 	if( X < width/2 ) { // too far left
@@ -93,8 +83,7 @@ void Enemy::OnLoop()
 	}
 
 	// shift animation frame
-	if( entityStateY < NUM_FRAMES - 1 ) entityStateY++;
-	else entityStateY = 0;
+	entityStateY = ++entityStateY%NUM_FRAMES;
 }
 
 void Enemy::onHit(){
