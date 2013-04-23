@@ -15,8 +15,8 @@ void MapEditor::OnCleanup() {
 	SDL_FreeSurface(ObjBackground);
 
 	
-	for(int i=0;i<4;i++) SDL_FreeSurface(gameMap[i].Surf_Tileset);
-	for(int i=0;i<MapEditor::EntityList.size();i++){
+	for(int i = 0; i < 4; ++i) SDL_FreeSurface(gameMap[i].Surf_Tileset);
+	for(unsigned int i = 0; i < MapEditor::EntityList.size(); ++i) {
 	  EntityList[i]->OnCleanup();
 	  delete EntityList[i];
 	}

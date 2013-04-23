@@ -43,7 +43,7 @@ void MapEditor::OnLoop()
 	DeSpawnEntities();
 
 	// Move entities and animate
-	for(int i=0;i<EntityList.size();i++) EntityList[i]->OnLoop();
+	for(unsigned int i = 0; i < EntityList.size(); ++i) EntityList[i]->OnLoop();
 
 	// Check for collision between player character and Entities
 	CheckEntityCollisions();
@@ -177,7 +177,7 @@ bool MapEditor::CheckEntityCollisions(){
   int charX = -Camera::CameraControl.GetX()+WWIDTH/2;
   int charY = -Camera::CameraControl.GetY()+WHEIGHT/2;
 
-  for(int i=0;i<EntityList.size();i++){
+  for(unsigned int i = 0; i < EntityList.size(); ++i) {
     int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
     int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
 		if(EntityList[i]->getType() != ENTITY_TYPE_BULLET){
@@ -207,7 +207,7 @@ bool MapEditor::CheckEntityCollisions(){
 //==============================================================================
 //
 void MapEditor::DeSpawnEntities(){
-  for(int i=0;i<EntityList.size();i++){
+  for(unsigned int i = 0; i < EntityList.size(); ++i) {
     if(EntityList[i]->getType() != ENTITY_TYPE_CHEST){
       int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
       int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
@@ -234,14 +234,14 @@ void MapEditor::AddBullet(){
 //==============================================================================
 //
 void MapEditor::CheckBulletCollision(){
-	for(int i=0;i<EntityList.size();i++){
+	for(unsigned int i = 0; i < EntityList.size(); ++i) {
 	  if(EntityList[i]->getType() == ENTITY_TYPE_BULLET){
 	     int X1 = EntityList[i]->getX();
 	     int Y1 = EntityList[i]->getY();
 	     int W1 = EntityList[i]->getW();
 	     int H1 = EntityList[i]->getH();
-	     for(int j=0;j<EntityList.size();j++){
-	       if(EntityList[j]->getType() == ENTITY_TYPE_ENEMY){
+	     for(unsigned int j = 0; j < EntityList.size(); ++j) {
+	       if(EntityList[j]->getType() == ENTITY_TYPE_ENEMY) {
 		 int X2 = EntityList[j]->getX();
 		 int Y2 = EntityList[j]->getY();
 		 int W2 = EntityList[j]->getW();
