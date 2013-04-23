@@ -50,6 +50,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	mus = NULL;
 	sfx1 = NULL;
 	sfx2 = NULL;
+	healSound = NULL;
 	
 	// Initialize Font objects to NULL
 	TTF_Font *XObjectiveFont = NULL;

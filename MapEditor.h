@@ -69,6 +69,7 @@ class MapEditor : public Event {
 			Mix_Music* mus;
 			Mix_Chunk* sfx1;
 			Mix_Chunk* sfx2;
+			Mix_Chunk* healSound;
 
 			// timer for regulating frame rate
 			Timer fps;

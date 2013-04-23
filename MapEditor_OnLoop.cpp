@@ -189,6 +189,7 @@ bool MapEditor::CheckEntityCollisions(){
 					numEnemies--;
 				}
 				else if(type == ENTITY_TYPE_HEART){
+					Mix_PlayChannel(-1, healSound, 0);
 					if(playerHealth < 10) playerHealth+=2;
 				}
 				if(type != ENTITY_TYPE_CHEST){
