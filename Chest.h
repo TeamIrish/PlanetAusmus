@@ -10,6 +10,9 @@ class Chest : public Entity {
   void OnLoop();
   void onHit();
   void OnSave(ofstream &);
+  void OpenChest();
+ private:
+  int counter;  // used for opening animation
 };
 
 #endif

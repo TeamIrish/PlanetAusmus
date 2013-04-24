@@ -24,6 +24,7 @@ class Entity {
 	  int getW();
 	  int getH();
 	  void changePos(int,int);
+	  void changeState(int,int);
 	  void OnCleanup();
 	  virtual void OnLoop() = 0;
 		void setType(int);

@@ -28,6 +28,8 @@ bool MapEditor::OnInit() {
 	  // player state
 	  int loadX,loadY;
 	  loadfile>>playerHealth;
+	  loadfile>>Camera::CameraControl.playerStateX;
+	  loadfile>>Camera::CameraControl.playerStateY;
 	  loadfile>>Camera::CameraControl.currentMapX;
 	  loadfile>>Camera::CameraControl.currentMapY;
 	  loadfile>>loadX>>loadY;
@@ -36,9 +38,9 @@ bool MapEditor::OnInit() {
 	  // entities
 	  while(!loadfile.eof()){
 	    string spritefile;
-	    int w,h,X,Y,s,type,health;
+	    int w,h,X,Y,s,type,health,stateX,stateY;
 	    Entity * tmp;
-	    loadfile>>spritefile>>w>>h>>X>>Y>>s>>type;
+	    loadfile>>spritefile>>w>>h>>X>>Y>>s>>type>>stateX>>stateY;
 	    if(spritefile=="") break;
 
 	    switch(type){
@@ -61,6 +63,7 @@ bool MapEditor::OnInit() {
 	      continue;
 	    }
 	    tmp->setType(type);
+	    tmp->changeState(stateX,stateY);
 	    EntityList.push_back(tmp);
 	  }
 

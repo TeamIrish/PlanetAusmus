@@ -55,7 +55,7 @@ void MapEditor::OnLoop()
 	if(playerHealth < 1) Running = false;
 
 	// Decide whether to spawn enemy
-	if(numEnemies<6 && rand()%100<1) SpawnEnemy();
+	if(numEnemies<10 && rand()%500<1) SpawnEnemy();
 
 }
 
@@ -196,6 +196,10 @@ bool MapEditor::CheckEntityCollisions(){
 					Mix_PlayChannel(-1, healSound, 0);
 					if(playerHealth < 10) playerHealth+=2;
 				}
+				else if(type == ENTITY_TYPE_CHEST){
+				  dynamic_cast<Chest*>(EntityList[i])->OpenChest();
+				}
+				// don't put an else here; need to remove anything other than a chest that the player touches
 				if(type != ENTITY_TYPE_CHEST){
 				  EntityList[i]->OnCleanup();
 				  delete EntityList[i];

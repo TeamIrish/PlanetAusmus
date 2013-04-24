@@ -12,6 +12,8 @@ void MapEditor::OnSave() {
 
   // player state
   savefile<<playerHealth<<endl;
+  savefile<<Camera::CameraControl.playerStateX<<endl;
+  savefile<<Camera::CameraControl.playerStateY<<endl;
   savefile<<Camera::CameraControl.currentMapX<<endl;
   savefile<<Camera::CameraControl.currentMapY<<endl;
   savefile<<Camera::CameraControl.GetX()<<endl;

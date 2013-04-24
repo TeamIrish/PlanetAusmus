@@ -13,4 +13,5 @@ void Heart::OnSave(ofstream & savefile){
   savefile<<X<<endl<<Y<<endl;
   savefile<<speed<<endl;
   savefile<<type<<endl;
+  savefile<<entityStateX<<endl<<entityStateY<<endl;
 }

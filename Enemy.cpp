@@ -111,4 +111,5 @@ void Enemy::OnSave(ofstream & savefile){
   savefile<<speed<<endl;
   savefile<<type<<endl;
   savefile<<health<<endl;
+  savefile<<entityStateX<<endl<<entityStateY<<endl;
 }

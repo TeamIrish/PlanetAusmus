@@ -50,6 +50,11 @@ void Entity::changePos(int a,int b){
   Y += b;
 }
 
+void Entity::changeState(int a,int b){
+  entityStateX = a;
+  entityStateY = b;
+}
+
 void Entity::OnCleanup(){
   SDL_FreeSurface(EntitySprite);
 }
