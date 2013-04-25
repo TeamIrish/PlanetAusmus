@@ -22,7 +22,8 @@ Bullet::Bullet() : Entity("bullets.png",12,12,WWIDTH/2-Camera::CameraControl.Get
   }
 }
 
-void Bullet::OnLoop(){
+void Bullet::OnLoop()
+{
   X += speed * movingH;
   Y += speed * movingV;
 

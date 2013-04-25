@@ -13,6 +13,7 @@ void MapEditor::OnCleanup() {
 	SDL_FreeSurface(TitleMenu);
 	SDL_FreeSurface(Grave);
 	SDL_FreeSurface(ObjBackground);
+	SDL_FreeSurface(Surface_NumPlayerBullets);
 
 	
 	for(int i = 0; i < 4; ++i) SDL_FreeSurface(gameMap[i].Surf_Tileset);
