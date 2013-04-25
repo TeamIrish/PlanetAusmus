@@ -19,6 +19,9 @@ void MapEditor::OnSave() {
   savefile<<Camera::CameraControl.GetX()<<endl;
   savefile<<Camera::CameraControl.GetY()<<endl;
 
+  // gems collected
+  for(int i=0;i<5;i++) savefile<<gotGem[i]<<endl;
+
   // entities
   for(unsigned int i=0;i<EntityList.size();i++) EntityList[i]->OnSave(savefile);
 }

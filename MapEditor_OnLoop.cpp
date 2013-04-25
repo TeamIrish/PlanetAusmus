@@ -55,7 +55,7 @@ void MapEditor::OnLoop()
 	if(playerHealth < 1) Running = false;
 
 	// Decide whether to spawn enemy
-	if(numEnemies<10 && rand()%500<1) SpawnEnemy();
+	if(numEnemies<10 && rand()%100<1) SpawnEnemy();
 
 }
 

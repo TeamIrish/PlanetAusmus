@@ -46,6 +46,11 @@ void MapEditor::OnRender() {
 		Surface::OnDraw(Surf_Display,Menu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
 	}
 
+	// Render the collected gems
+	for(int i=0;i<5;i++){
+	  if(gotGem[i]) Surface::OnDraw(Surf_Display,Gems,WWIDTH-HEARTBAR_W+i*32,HEARTBAR_H,i*32,0,32,32);
+	}
+
   // Refresh the buffer and display Surf_Display to screen
   SDL_Flip(Surf_Display);
 }
