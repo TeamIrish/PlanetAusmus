@@ -84,6 +84,7 @@ bool MapEditor::OnInit() {
 	SDL_DOUBLEBUF tells SDL to use double buffering, important to keep screen from flickering
 	another flag of interest is SDL_FULLSCREEN which makes the window go full screen
 	*/
+
 	if((Surf_Display = SDL_SetVideoMode(WWIDTH,WHEIGHT,32,SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL){
 		return false;
 	}
@@ -106,6 +107,10 @@ bool MapEditor::OnInit() {
 	if(XObjectiveFont==NULL) cout << "Error loading font." << endl;
 	SDL_Color XObjectiveTextColor={1,1,1}; // assign color
 	
+	// Load Bullet Display Font
+	BulletDisplayFont = TTF_OpenFont(BULLET_DISPLAY_FONT_TYPE, BULLET_DISPLAY_FONT_SIZE);  // open font with given size
+	if(BulletDisplayFont == NULL) cout << "Error loading font." << endl;
+
 	// Load the Objective Background
 	if((ObjBackground = Surface::OnLoad("./graphics/objbackground.png")) == NULL){
 		return false;
@@ -148,6 +153,7 @@ bool MapEditor::OnInit() {
 
 	Camera::CameraControl.ChangeMapView();
 	LoadMaps();
+
 	for(int i=0;i<4;i++){
 	  if((gameMap[i].Surf_Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
 	    return false;
@@ -164,31 +170,29 @@ bool MapEditor::OnInit() {
 	// Load the music files
 	//mus = Mix_LoadMUS("./sounds/ObstacleCourse.wav");
 	mus = Mix_LoadMUS("./sounds/be_aware.wav");
-		// Check for errors
-		if(mus==NULL){
+
+	// Check for errors
+	if(mus==NULL) {
 		std::cout << "Error loading sounds." << std::endl;
 		return false;
-		}
+	}
 
 	// Load the sound effects
 	// http://rpg.hamsterrepublic.com/ohrrpgce/Free_Sound_Effects#Battle_Sounds
 	sfx1 = Mix_LoadWAV("./sounds/SmallExplosion.ogg");
 	sfx2 = Mix_LoadWAV("./sounds/laser01.ogg");
 	healSound = Mix_LoadWAV("./sounds/Heal8-Bit.ogg");
-		// Check for errors	
-		if(sfx1==NULL || sfx2==NULL || healSound==NULL){
+
+	// Check for errors	
+	if(sfx1==NULL || sfx2==NULL || healSound==NULL) {
 		cout << "here";
 		return false;
-		}
-
-	// Play that funky music, white boy
-	if(Mix_PlayingMusic() == 0){
-	  Mix_PlayMusic(mus,-1);
 	}
 
-//===============================================================================
-// if everything loaded without errors
+	// Play that funky music, white boy
+	if(Mix_PlayingMusic() == 0) Mix_PlayMusic(mus,-1);
 
-return true;
+	// if everything loaded without errors
+	return true;
 
 }

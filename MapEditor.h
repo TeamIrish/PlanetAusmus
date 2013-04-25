@@ -63,6 +63,7 @@ class MapEditor : public Event {
 			SDL_Surface* Grave;
 			SDL_Surface* Objective;
 			SDL_Surface* ObjBackground;
+			SDL_Surface* Surface_NumPlayerBullets;
 				bool dispObjective;
 
 			// SDL Music / Sounds
@@ -83,6 +84,9 @@ class MapEditor : public Event {
 			// player health
 			int playerHealth;
 
+			// number of player's bullets
+			int numPlayerBullets;
+
 			// game map
 			static Map gameMap[4];
 
@@ -92,6 +96,7 @@ class MapEditor : public Event {
 	
 			// Fonts
 			TTF_Font *XObjectiveFont;
+			TTF_Font *BulletDisplayFont;
 			SDL_Color XObjectiveTextColor;	
 	
 			Objectives *ObjPtr;

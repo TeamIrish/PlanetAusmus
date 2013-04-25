@@ -34,10 +34,11 @@ void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
 }
 
 //==============================================================================
-void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
-       	switch(sym) {
-
-	        case SDLK_LEFT:
+void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
+{
+	switch(sym) {
+	
+		case SDLK_LEFT:
 		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 2;
 		  break;
@@ -52,7 +53,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 		  Camera::CameraControl.facingDir = 1;
 		  break;
 
-        	case SDLK_DOWN:
+		case SDLK_DOWN:
 		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 0;
 		  break;
@@ -99,9 +100,9 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 			break;
 
 		case SDLK_ESCAPE:
-		            if(Running) OnStop();
+			if(Running) OnStop();
 			else OnExit();
-	   		break;
+			break;
 
 		// Objective (toggle on and off)
 		case SDLK_o:
@@ -109,13 +110,16 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 			break;
 
 		// shoot
-	        case SDLK_SPACE:
-			Mix_PlayChannel(-1, sfx2, 0); // laser noise, yo
-		  AddBullet();
+		case SDLK_SPACE:
+			if(numPlayerBullets > 0) { // only if the player has any bullets left
+				Mix_PlayChannel(-1, sfx2, 0); // laser noise, yo
+		  	AddBullet();
+				numPlayerBullets--; // decrement number of player's bullets
+			}
 		  break;
 
 		default:
-	  		break;
+			break;
 	}
 }
 

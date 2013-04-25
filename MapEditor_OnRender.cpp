@@ -7,6 +7,7 @@ rendering of graphics to the screen each iteration through the game loop.
 */
 
 #include "MapEditor.h"
+#include <string>
  
 void MapEditor::OnRender() {
 
@@ -37,6 +38,13 @@ void MapEditor::OnRender() {
 
 	// Render the heart bar
 	Surface::OnDraw(Surf_Display,HeartBar,WWIDTH-HEARTBAR_W,0,0,HEARTBAR_H*(10-playerHealth),HEARTBAR_W,HEARTBAR_H);
+
+	// render display of number of player's bullets underneath the heart bar
+	stringstream numBulletsStringStream;
+	numBulletsStringStream << numPlayerBullets;
+	Surface_NumPlayerBullets = TTF_RenderText_Solid(BulletDisplayFont, (numBulletsStringStream.str()).c_str(), XObjectiveTextColor);
+	if(Surface_NumPlayerBullets == NULL) cout << "Error displaying number of player's bullets." << endl;
+	Surface::OnDraw(Surf_Display, Surface_NumPlayerBullets, WWIDTH - 30, HEARTBAR_H + 5);
 
 	// Render the menu (conditionally)
 	if(dispMenu == true) Surface::OnDraw(Surf_Display,Menu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);

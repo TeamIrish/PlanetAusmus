@@ -62,6 +62,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	currentTileYID=1;
 
 	playerHealth = 10;
+	numPlayerBullets = 50;
 	numEnemies = 0;
 
 	for(int i=0;i<4;i++) runAddChests[i] = false;
@@ -95,11 +96,15 @@ int MapEditor::OnExecute() {
 
 	// Enter into the title screen view
 	while(dispTitle == true){
+
 		while(SDL_PollEvent(&Event)){
 			OnEvent(&Event);
 		}
+
 		Surface::OnDraw(Surf_Display,TitleScreen,0,0);
-		if(dispTitleMenu) Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W)/2, (WHEIGHT-MENU_H) / 2);
+
+		if(dispTitleMenu)
+			Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W)/2, (WHEIGHT-MENU_H) / 2);
 		SDL_Flip(Surf_Display);
 	}
 
@@ -119,14 +124,17 @@ int MapEditor::OnExecute() {
 
 	  // switch map view if necessary
 	  if(runLoadMaps==true){
-	    LoadMaps();
-	    for(int i=0;i<4;i++){ // add chests only if player has not come to this map before
-	      if(runAddChests[i]){
-		AddChests();
-		runAddChests[i] = false;
-	      }
-	    }
-	  }
+			LoadMaps();
+
+			// add chests only if player has not come to this map before
+			for(int i=0;i<4;i++) { 
+				if(runAddChests[i]){
+					AddChests();
+
+					runAddChests[i] = false;
+				}
+			}
+		}
 
 		// Render the output
 		OnRender();
@@ -147,47 +155,54 @@ int MapEditor::OnExecute() {
 
 //==============================================================================
 //
-bool MapEditor::LoadMaps(){
-  for(int i=0;i<4;i++){
-    if( gameMap[i].OnLoad("", filenameLoad[i], currentTileXID, currentTileYID) == false ) {
-      cout << "  Error loading " << filenameLoad[i] << endl;
+bool MapEditor::LoadMaps()
+{
+  for(int i=0;i<4;i++) {
+		if( gameMap[i].OnLoad("", filenameLoad[i], currentTileXID, currentTileYID) == false ) {
+			cout << "  Error loading " << filenameLoad[i] << endl;
       return false;
-    }
-  }
-  return true;
+		}
+	}
+	return true;
 }
 
-void MapEditor::AddChests(){
-      // Add chests
-      while(rand()%10 < 2){
-	int chestX,chestY,attempts=0;
-	while(attempts<100){
-	  chestX = rand()%MAP_WIDTH*TILE_SIZE;
-	  chestY = rand()%MAP_HEIGHT*TILE_SIZE;
-	  if(!CheckTileCollision(chestX,chestY,16,16)) break;
-	  attempts++;
+void MapEditor::AddChests()
+{
+	// Add chests
+	while(rand()%10 < 2) {
+		int chestX,chestY,attempts=0;
+		
+		while(attempts<100) {
+			chestX = rand()%MAP_WIDTH*TILE_SIZE;
+			chestY = rand()%MAP_HEIGHT*TILE_SIZE;
+
+			if(!CheckTileCollision(chestX,chestY,16,16)) break;
+
+			attempts++;
+		}
+		
+		if(attempts < 100) {
+			Entity* tmp = new Chest(chestX, chestY);
+			tmp->setType(ENTITY_TYPE_CHEST);
+			EntityList.push_back(tmp);
+			if(debug) cout << "Entity (chest) spawned: " << chestX/TILE_SIZE << "," << chestY/TILE_SIZE << endl;
+		}
 	}
-	if(attempts<100){
-	  Entity * tmp = new Chest(chestX,chestY);
-	  tmp->setType(ENTITY_TYPE_CHEST);
-	  EntityList.push_back(tmp);
-	  if(debug) cout<<"Entity (chest) spawned: "<<chestX/TILE_SIZE<<","<<chestY/TILE_SIZE<<endl;
-	}
-      }
 }
 
 //==============================================================================
 //
 void MapEditor::GameOver(){
   SDL_Event Event;
-  while(!Quit){
-    while(SDL_PollEvent(&Event)) OnEvent(&Event);
-  }
-}
 
+  while(!Quit) {
+    while(SDL_PollEvent(&Event)) OnEvent(&Event);
+	}
+}
 
 //==============================================================================
 //
+// main function; calls OnExecute to run game loop
 int main(int argc, char* argv[]) {
   string arg2="",arg1="";
   if(argc>2) arg2 = argv[2];
