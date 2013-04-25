@@ -128,23 +128,19 @@ class MapEditor : public Event {
 
     public:
 
+				// initialization method
 				bool OnInit();
  
+ 				// event handling and related methods
         void OnEvent(SDL_Event* Event);
-
-				// When left mouse button clicks, gets position 
-				void OnLButtonDown(int mX, int mY);
-
+				void OnLButtonDown(int mX, int mY); // When left mouse button clicks, gets position 
 				void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
-
 				void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode);
-
 				void OnStop();
-
 				void OnExit();
 			 
+				// game data logic and related methods
 				void OnLoop();
-				
 				static int CheckTileCollision(int=-Camera::CameraControl.GetX()+WWIDTH/2,int=-Camera::CameraControl.GetY()+WHEIGHT/2,int=CHARACTER_W,int=CHARACTER_H);
 				void SpawnEnemy();
 				void AddBullet();
@@ -152,10 +148,13 @@ class MapEditor : public Event {
 				void DeSpawnEntities();
 				void CheckBulletCollision();
 			 
+			 	// rendering method
 			  void OnRender();
 
+				// saving method
 				void OnSave();
 
+				// cleanup method
 			  void OnCleanup();
 
 };

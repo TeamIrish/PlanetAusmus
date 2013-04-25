@@ -17,18 +17,16 @@ void MapEditor::OnRender() {
 
   // render entities (enemies, bullets)
   for(int i=EntityList.size()-1;i>=0;i--){
-    if((EntityList[i]->OnRender(Surf_Display))==false && debug) cout<<"Error displaying entity "<<i<<endl;
+    if( (EntityList[i]->OnRender(Surf_Display)) == false && debug) cout << "Error displaying entity " << i << endl;
   }
 
   // render player character (or grave if game over)
-	if(playerHealth>0){
+	if(playerHealth > 0) { // if the player is not dead
   	Surface::OnDraw(Surf_Display,Player_Character,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2,Camera::CameraControl.playerStateX*CHARACTER_W,Camera::CameraControl.playerStateY*CHARACTER_H,CHARACTER_W,CHARACTER_H);
-	}else{
-		Surface::OnDraw(Surf_Display,Grave,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2);
-	}
+	} else Surface::OnDraw(Surf_Display,Grave,(WWIDTH-CHARACTER_W)/2,(WHEIGHT-CHARACTER_H)/2);
   
   // render objective
-  if(dispObjective==true){
+  if(dispObjective) {
   	stringstream Current;
   	Current << ObjPtr->CurrentObj; // making the c string
   	Objective=TTF_RenderText_Solid(XObjectiveFont,(Current.str()).c_str(), XObjectiveTextColor);
@@ -37,14 +35,11 @@ void MapEditor::OnRender() {
   	Surface::OnDraw(Surf_Display,Objective,1,1);
   }
 
-
 	// Render the heart bar
 	Surface::OnDraw(Surf_Display,HeartBar,WWIDTH-HEARTBAR_W,0,0,HEARTBAR_H*(10-playerHealth),HEARTBAR_W,HEARTBAR_H);
 
 	// Render the menu (conditionally)
-	if(dispMenu == true){
-		Surface::OnDraw(Surf_Display,Menu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
-	}
+	if(dispMenu == true) Surface::OnDraw(Surf_Display,Menu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
 
   // Refresh the buffer and display Surf_Display to screen
   SDL_Flip(Surf_Display);
