@@ -15,6 +15,7 @@ using namespace std;
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
 int MapEditor::playerHealth;
+int MapEditor::numPlayerBullets;
 bool MapEditor::gotGem[5];
 Map MapEditor::gameMap[4];
 vector<Entity*> MapEditor::EntityList;
@@ -58,7 +59,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	healSound = NULL;
 	
 	// Initialize Font objects to NULL
-	TTF_Font *XObjectiveFont = NULL;
+	XObjectiveFont = NULL;
 		dispObjective = true;
 
 	// Other variables

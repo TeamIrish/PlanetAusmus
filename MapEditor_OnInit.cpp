@@ -108,7 +108,11 @@ bool MapEditor::OnInit() {
 	// Load Objective Font
  	XObjectiveFont = TTF_OpenFont(OBJ_FONT_TYPE,OBJ_FONT_SIZE); // assign the font and size, which are assigned Define.h
 	if(XObjectiveFont==NULL) cout << "Error loading font." << endl;
-	SDL_Color XObjectiveTextColor={1,1,1}; // assign color
+	
+	// assign font color
+	XObjectiveTextColor.r = 1;
+	XObjectiveTextColor.g = 1;
+	XObjectiveTextColor.b = 1;
 	
 	// Load Bullet Display Font
 	BulletDisplayFont = TTF_OpenFont(BULLET_DISPLAY_FONT_TYPE, BULLET_DISPLAY_FONT_SIZE);  // open font with given size

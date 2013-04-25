@@ -24,12 +24,18 @@ void Chest::OnSave(ofstream & savefile){
 void Chest::OpenChest(){
   if(entityStateY==0){ // closed
     int choose = rand()%11;
+
     if(choose<3){
       entityStateY=1; // heart
       MapEditor::playerHealth += 2;
       if(MapEditor::playerHealth>10) MapEditor::playerHealth=10;
     }
-    else if(choose<6) entityStateY=2; // bullet
+
+    else if(choose<6) {
+			entityStateY=2; // bullet
+			MapEditor::numPlayerBullets += 50;
+		}
+
     else if(choose==6){
       entityStateY=3; // blue gem
       MapEditor::gotGem[0] = true;

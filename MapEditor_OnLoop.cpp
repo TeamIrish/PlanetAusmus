@@ -127,9 +127,7 @@ int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heigh
 
 //==============================================================================
 //
-void MapEditor::SpawnEnemy(){
-  string typestring;
-  int spawnX,spawnY,attempts=0,enemyW,enemyH;
+void MapEditor::SpawnEnemy(){ string typestring; int spawnX,spawnY,attempts=0,enemyW,enemyH;
 
   // generate random coordinates onscreen
   int X = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
@@ -302,9 +300,9 @@ void MapEditor::CheckBulletCollision(){
 						EntityList[j]->onHit();
 						
 						//scoreNumber++; // Can increment score here if we want
-					} // end if (collision detected)
-				} // end if (entity is enemy or chest)
-			} // end for (all entities)
-	  } // end if (entity is bullet)
-	} // end for(all entities)
-} // end CheckBulletCollision()
+					}
+				}
+			}
+	  }
+	}
+}

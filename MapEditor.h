@@ -86,7 +86,7 @@ class MapEditor : public Event {
 			static int playerHealth;
 
 			// number of player's bullets
-			int numPlayerBullets;
+			static int numPlayerBullets;
 
 			// game map
 			static Map gameMap[4];
