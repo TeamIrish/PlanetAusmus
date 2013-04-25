@@ -20,8 +20,8 @@
 #define OBJ_FONT_SIZE 28
 #define OBJ_FONT_TYPE "./fonts/future.ttf"
 
-#define BULLET_DISPLAY_FONT_SIZE 12
-#define BULLET_DISPLAY_FONT_TYPE "./fonts/future.ttf"
+#define BULLET_DISPLAY_FONT_SIZE 18
+#define BULLET_DISPLAY_FONT_TYPE "./fonts/DejaVuSans.ttf"
 
 #define MENU_W 600
 #define MENU_H 400

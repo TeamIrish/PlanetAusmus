@@ -39,17 +39,20 @@ void MapEditor::OnRender() {
 	// Render the heart bar
 	Surface::OnDraw(Surf_Display,HeartBar,WWIDTH-HEARTBAR_W,0,0,HEARTBAR_H*(10-playerHealth),HEARTBAR_W,HEARTBAR_H);
 
-	// render display of number of player's bullets underneath the heart bar
+	/* render display of number of player's bullets */
+	// create a string stream to store the number
 	stringstream numBulletsStringStream;
 	numBulletsStringStream << numPlayerBullets;
+
+	// render the number
 	Surface_NumPlayerBullets = TTF_RenderText_Solid(BulletDisplayFont, (numBulletsStringStream.str()).c_str(), XObjectiveTextColor);
 	if(Surface_NumPlayerBullets == NULL) cout << "Error displaying number of player's bullets." << endl;
-	Surface::OnDraw(Surf_Display, Surface_NumPlayerBullets, WWIDTH - 30, HEARTBAR_H + 5);
+	Surface::OnDraw(Surf_Display, Surface_NumPlayerBullets, WWIDTH - 30, WHEIGHT - 30);
 
-	// Render the menu (conditionally)
+	/* Render the menu (conditionally) */
 	if(dispMenu == true) Surface::OnDraw(Surf_Display,Menu,(WWIDTH-MENU_W)/2,(WHEIGHT-MENU_H)/2);
 
-	// Render the collected gems
+	/* render the collected gems */
 	for(int i=0;i<5;i++){
 	  if(gotGem[i]) Surface::OnDraw(Surf_Display,Gems,WWIDTH-HEARTBAR_W+i*32,HEARTBAR_H,i*32,0,32,32);
 	}

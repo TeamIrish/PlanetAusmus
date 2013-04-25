@@ -38,12 +38,14 @@ void Bullet::OnLoop(){
   else entityStateY = !entityStateY;
 }
 
-int Bullet::BulletCheckCollisions(){
+int Bullet::BulletCheckCollisions()
+{
   return MapEditor::CheckTileCollision(X,Y,width,height);
 }
 
-void Bullet::onHit(){
-  if(speed!=0){  // ensures that both frames of bullet hit animation are played
+void Bullet::onHit()
+{
+  if(speed!=0) { // ensures that both frames of bullet hit animation are played
     speed = 0;
     height = 16;
     width = 16;
