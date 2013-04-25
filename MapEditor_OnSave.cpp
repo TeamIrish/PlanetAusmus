@@ -18,6 +18,7 @@ void MapEditor::OnSave() {
   savefile<<Camera::CameraControl.currentMapY<<endl;
   savefile<<Camera::CameraControl.GetX()<<endl;
   savefile<<Camera::CameraControl.GetY()<<endl;
+  savefile<<numPlayerBullets<<endl;
 
   // gems collected
   for(int i=0;i<5;i++) savefile<<gotGem[i]<<endl;

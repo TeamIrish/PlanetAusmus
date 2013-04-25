@@ -34,6 +34,7 @@ bool MapEditor::OnInit() {
 	  loadfile>>Camera::CameraControl.currentMapY;
 	  loadfile>>loadX>>loadY;
 	  Camera::CameraControl.SetPos(loadX,loadY);
+	  loadfile>>numPlayerBullets;
 
 	  // gems collected
 	  for(int i=0;i<5;i++) loadfile>>gotGem[i];
@@ -143,6 +144,11 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
+	// Load the bullet indicator
+	if((BulletIndicator = Surface::OnLoad("./graphics/bullets.png")) == NULL){
+		return false;
+	}
+
 	// Load the gem indicators
 	if((Gems = Surface::OnLoad("./graphics/jewels.png")) == NULL){
 		return false;
@@ -158,6 +164,7 @@ bool MapEditor::OnInit() {
 	Surface::Transparent(Menu,255,0,255);
 	Surface::Transparent(TitleMenu,255,0,255);
 	Surface::Transparent(HeartBar,255,0,255);
+	Surface::Transparent(BulletIndicator,255,0,255);
 	Surface::Transparent(Gems,255,0,255);
 	Surface::Transparent(Grave,255,0,255);
 

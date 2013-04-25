@@ -56,6 +56,8 @@ void MapEditor::OnRender() {
 	Surface_NumPlayerBullets = TTF_RenderText_Solid(BulletDisplayFont, (numBulletsStringStream.str()).c_str(), XObjectiveTextColor);
 	if(Surface_NumPlayerBullets == NULL) cout << "Error displaying number of player's bullets." << endl;
 
+	// blit the bullet indicator
+	Surface::OnDraw(Surf_Display,BulletIndicator,WWIDTH - 45,WHEIGHT - 25,0,0,12,12);
 	// blit the bullet number display surface
 	Surface::OnDraw(Surf_Display, Surface_NumPlayerBullets, WWIDTH - 30, WHEIGHT - 30);
 

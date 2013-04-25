@@ -55,6 +55,7 @@ class MapEditor : public Event {
 				bool dispMenu;
 			SDL_Surface* HeartBar;
 			SDL_Surface* Gems;
+			SDL_Surface* BulletIndicator;
 			SDL_Surface* TitleScreen;
 				bool dispTitle;
 			SDL_Surface* TitleMenu;

@@ -43,6 +43,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	Menu = NULL;
 		dispMenu = false;
 	HeartBar = NULL;
+	BulletIndicator = NULL;
 	Gems = NULL;
 	for(int i=0;i<5;i++) gotGem[i] = false;
 	TitleScreen = NULL;
@@ -67,7 +68,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	currentTileYID=1;
 
 	playerHealth = 10;
-	numPlayerBullets = 50;
+	numPlayerBullets = 0;
 	numEnemies = 0;
 
 	for(int i=0;i<4;i++) runAddChests[i] = false;

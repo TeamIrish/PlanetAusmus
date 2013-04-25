@@ -6,7 +6,8 @@ Heart::Heart(int enemyX, int enemyY) : Entity("hearts.png",32,32,enemyX,enemyY,0
 
 void Heart::OnLoop(){
   counter++;
-  if(counter>1000) destroy=true;
+  // make disappear after 20 sec.
+  if(counter>400) destroy=true;
 }
 
 void Heart::onHit(){}
