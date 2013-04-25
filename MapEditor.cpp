@@ -67,8 +67,8 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	currentTileXID=0;
 	currentTileYID=1;
 
-	playerHealth = 10;
-	numPlayerBullets = 0;
+	playerHealth = INIT_PLAYER_HEALTH;
+	numPlayerBullets = INIT_PLAYER_BULLETS;
 	numEnemies = 0;
 
 	for(int i=0;i<4;i++) runAddChests[i] = false;
