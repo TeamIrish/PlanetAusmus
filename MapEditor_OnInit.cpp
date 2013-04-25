@@ -35,6 +35,9 @@ bool MapEditor::OnInit() {
 	  loadfile>>loadX>>loadY;
 	  Camera::CameraControl.SetPos(loadX,loadY);
 
+	  // gems collected
+	  for(int i=0;i<5;i++) loadfile>>gotGem[i];
+
 	  // entities
 	  while(!loadfile.eof()){
 	    string spritefile;
@@ -136,6 +139,11 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
+	// Load the gem indicators
+	if((Gems = Surface::OnLoad("./graphics/jewels.png")) == NULL){
+		return false;
+	}
+
 	// Load the grave
 	if((Grave = Surface::OnLoad("./graphics/grave.png")) == NULL){
 		return false;
@@ -146,6 +154,7 @@ bool MapEditor::OnInit() {
 	Surface::Transparent(Menu,255,0,255);
 	Surface::Transparent(TitleMenu,255,0,255);
 	Surface::Transparent(HeartBar,255,0,255);
+	Surface::Transparent(Gems,255,0,255);
 	Surface::Transparent(Grave,255,0,255);
 
 //==========================================================================

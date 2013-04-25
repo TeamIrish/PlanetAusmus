@@ -14,6 +14,8 @@ using namespace std;
 // initialize static variables
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
+int MapEditor::playerHealth;
+bool MapEditor::gotGem[5];
 Map MapEditor::gameMap[4];
 vector<Entity*> MapEditor::EntityList;
 bool MapEditor::runLoadMaps=false;
@@ -40,6 +42,8 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	Menu = NULL;
 		dispMenu = false;
 	HeartBar = NULL;
+	Gems = NULL;
+	for(int i=0;i<5;i++) gotGem[i] = false;
 	TitleScreen = NULL;
 		dispTitle = true;
 	TitleMenu = NULL;

@@ -54,6 +54,7 @@ class MapEditor : public Event {
 			SDL_Surface* Menu;
 				bool dispMenu;
 			SDL_Surface* HeartBar;
+			SDL_Surface* Gems;
 			SDL_Surface* TitleScreen;
 				bool dispTitle;
 			SDL_Surface* TitleMenu;
@@ -82,7 +83,7 @@ class MapEditor : public Event {
 			static Mix_Chunk* sfx1; // static so that Bullet can access and play whenever destroyed
 	
 			// player health
-			int playerHealth;
+			static int playerHealth;
 
 			// number of player's bullets
 			int numPlayerBullets;
@@ -122,6 +123,7 @@ class MapEditor : public Event {
 
 				static bool runLoadMaps;
 				static bool runAddChests[4];
+			        static bool gotGem[5];
 
 				static void RandomMapGenerate(string="randomMap.map", int[4]=NULL);
 				static void RMG_Recursion(int[],int[][40]);

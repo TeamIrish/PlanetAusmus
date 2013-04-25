@@ -10,6 +10,8 @@ class Heart : public Entity {
   void OnLoop();
   void onHit();
   void OnSave(ofstream &);
+ private:
+  int counter;
 };
 
 #endif

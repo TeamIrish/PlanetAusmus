@@ -55,21 +55,29 @@ void MapEditor::OnLoop()
 	if(playerHealth < 1) Running = false;
 
 	// Decide whether to spawn enemy
-	if(numEnemies<10 && rand()%500<1) SpawnEnemy();
+	if(numEnemies<10 && rand()%100<1) SpawnEnemy();
+
 }
 
 
 //==============================================================================
 //
 // arguments default to the center of the screen and the size of the player character
-// returns 0 for traversable, 1 for shootable, 2 for neither
 int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int height)
-{ 
-  
-	int tileX, tileY, ID, returnvalue=0;
+{  // returns 0 for traversable, 1 for shootable, 2 for neither
+  // check chests
+  for(unsigned int i=0;i<EntityList.size();i++){
+    if(EntityList[i]->getType()==ENTITY_TYPE_CHEST){
+      if(abs(centerX-EntityList[i]->getX())<(width+EntityList[i]->getW())/3
+	 && abs(centerY+height/4-EntityList[i]->getY())<(height/2+EntityList[i]->getH())/2){
+	return 2;
+      }
+    }
+  }
 
-  // check all four corners of the sprite
-  for(int i = 0; i < 4; i++) { 
+  // check tiles
+  int tileX, tileY, ID, returnvalue=0;
+  for(int i = 0; i < 4; i++) {   // check all four corners of the sprite
 		int mapID = 0;
 		tileX = (centerX + pow(-1,i%2)*width*.3) / TILE_SIZE;
 		tileY = (centerY + (i/2)*height*.3) / TILE_SIZE;  // only check bottom half of sprite, to give 3D effect
@@ -119,25 +127,24 @@ int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heigh
 
 //==============================================================================
 //
-void MapEditor::SpawnEnemy()
-{
+void MapEditor::SpawnEnemy(){
   string typestring;
-  int spawnX, spawnY, attempts = 0, enemyW, enemyH;
+  int spawnX,spawnY,attempts=0,enemyW,enemyH;
 
   // generate random coordinates onscreen
-  int X = -Camera::CameraControl.GetX() + WWIDTH/2 + pow(-1, rand() % 2) * (rand() % (WWIDTH/3));
-  int Y = -Camera::CameraControl.GetY() + WHEIGHT/2 + pow(-1, rand() % 2) * (rand() % (WHEIGHT/3));
+  int X = -Camera::CameraControl.GetX()+WWIDTH/2+pow(-1,rand()%2)*(rand()%(WWIDTH/3));
+  int Y = -Camera::CameraControl.GetY()+WHEIGHT/2+pow(-1,rand()%2)*(rand()%(WHEIGHT/3));
 
   // set enemy parameters
   int choose = rand()%10; // decides which type of enemy
-  int speed, hitpoints;
-  if(choose < 2) { // golem
+  int speed,hitpoints;
+  if(choose<2){ // golem
     typestring = "golem.png";
     enemyW = enemyH = 64;
     speed = 3;
     hitpoints = 5;
   }
-  else if(choose < 6) { // skeleton
+  else if(choose<6){ // skeleton
     typestring = "skeleton.png";
     enemyW = 26;
     enemyH = 34;
@@ -157,8 +164,8 @@ void MapEditor::SpawnEnemy()
     spawnX = X;
     spawnY = Y;
     int random=rand()%3;
-    if(random>0) spawnX += pow(-1,rand()%2)*WWIDTH;
-    if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT;
+    if(random>0) spawnX += pow(-1,rand()%2)*WWIDTH*1.5;
+    if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT*1.5;
 
     // ensure that chosen tile is not nontraversable
     if(!CheckTileCollision(spawnX,spawnY,enemyW,enemyH)) break;
@@ -167,7 +174,7 @@ void MapEditor::SpawnEnemy()
 
   if(attempts<100){
     // instantiate enemy and add to list
-    Entity* tmp = new Enemy(typestring, enemyW, enemyH, spawnX, spawnY, speed, hitpoints);
+    Entity * tmp = new Enemy(typestring,enemyW,enemyH,spawnX,spawnY,speed,hitpoints);
     tmp->setType(ENTITY_TYPE_ENEMY);
     EntityList.push_back(tmp);
 
@@ -175,6 +182,7 @@ void MapEditor::SpawnEnemy()
     if(debug) cout<<"Entity (Enemy) Spawned: "<<spawnX/TILE_SIZE<<","<<spawnY/TILE_SIZE<<endl;
   }
 }
+
 
 //==============================================================================
 //  Checks collisions between player and entities
@@ -214,12 +222,7 @@ bool MapEditor::CheckEntityCollisions()
 				}
 
 				// for a chest
-				else if(type == ENTITY_TYPE_CHEST)
-					dynamic_cast<Chest*>(EntityList[i])->OpenChest();
-
-				// for a bullet
-				else if(type == ENTITY_TYPE_BULLET) 
-					numPlayerBullets += 50; // add to the player's bullets
+				else if(type == ENTITY_TYPE_CHEST) dynamic_cast<Chest*>(EntityList[i])->OpenChest();
 
 				// remove anything other than a chest that the player touches
 				if(type != ENTITY_TYPE_CHEST){
@@ -242,13 +245,12 @@ void MapEditor::DeSpawnEntities()
 	for(unsigned int i = 0; i < EntityList.size(); ++i) {
 		// for all non-chest entities
 		if(EntityList[i]->getType() != ENTITY_TYPE_CHEST){
-
 			// get distance from player
 			int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
 			int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
 			double dist = sqrt(distX*distX+distY*distY);
 
-			// if the entity is destroyable or the distance > 1280
+			// if the entity is destroyable and the distance > 1280
 			if(EntityList[i]->isDestroyable() || dist > 1280) {
 				if(debug) cout << "Entity " << i << " despawned." << endl; // debug message
 
@@ -286,9 +288,7 @@ void MapEditor::CheckBulletCollision(){
 			
 			// cycle through entities looking for enemies and chests
 			for(unsigned int j = 0; j < EntityList.size(); ++j) {
-
-				// temporary variable for entity type
-				int tmptype = EntityList[j]->getType(); 
+				int tmptype = EntityList[j]->getType(); // temporary variable for entity type
 				
 				if(tmptype == ENTITY_TYPE_ENEMY || tmptype == ENTITY_TYPE_CHEST) {
 					int X2 = EntityList[j]->getX();
@@ -302,9 +302,9 @@ void MapEditor::CheckBulletCollision(){
 						EntityList[j]->onHit();
 						
 						//scoreNumber++; // Can increment score here if we want
-					}
-				}
-			}
-	  }
-	}
-}
+					} // end if (collision detected)
+				} // end if (entity is enemy or chest)
+			} // end for (all entities)
+	  } // end if (entity is bullet)
+	} // end for(all entities)
+} // end CheckBulletCollision()

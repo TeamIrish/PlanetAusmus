@@ -1,8 +1,13 @@
 #include "Heart.h"
 
-Heart::Heart(int enemyX, int enemyY) : Entity("hearts.png",32,32,enemyX,enemyY,0){}
+Heart::Heart(int enemyX, int enemyY) : Entity("hearts.png",32,32,enemyX,enemyY,0){
+  counter=0;
+}
 
-void Heart::OnLoop(){}
+void Heart::OnLoop(){
+  counter++;
+  if(counter>1000) destroy=true;
+}
 
 void Heart::onHit(){}
 
