@@ -19,7 +19,7 @@ int MapEditor::numPlayerBullets;
 bool MapEditor::gotGem[5];
 Map MapEditor::gameMap[4];
 vector<Entity*> MapEditor::EntityList;
-bool MapEditor::runLoadMaps=false;
+bool MapEditor::runLoadMaps;
 bool MapEditor::runAddChests[4];
 bool MapEditor::debug;
 int MapEditor::moveSize;
@@ -71,6 +71,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	numPlayerBullets = 0;
 	numEnemies = 0;
 
+	runLoadMaps = false;
 	for(int i=0;i<4;i++) runAddChests[i] = false;
 
 	Running = true;
@@ -135,8 +136,7 @@ int MapEditor::OnExecute() {
 			// add chests only if player has not come to this map before
 			for(int i=0;i<4;i++) { 
 				if(runAddChests[i]){
-					AddChests();
-
+					AddChests(i);
 					runAddChests[i] = false;
 				}
 			}
@@ -172,19 +172,19 @@ bool MapEditor::LoadMaps()
 	return true;
 }
 
-void MapEditor::AddChests()
+void MapEditor::AddChests(int mapID)
 {
 	// Add chests
 	while(rand()%10 < 2) {
 		int chestX,chestY,attempts=0;
 		
 		while(attempts<100) {
-			chestX = rand()%MAP_WIDTH*TILE_SIZE;
-			chestY = rand()%MAP_HEIGHT*TILE_SIZE;
+		  chestX = (mapID%2)*MAP_WIDTH*TILE_SIZE + rand()%MAP_WIDTH*TILE_SIZE;
+		  chestY = (mapID/2)*MAP_HEIGHT*TILE_SIZE + rand()%MAP_HEIGHT*TILE_SIZE;
 
-			if(!CheckTileCollision(chestX,chestY,16,16)) break;
+		  if(!CheckTileCollision(chestX,chestY,16,16)) break;
 
-			attempts++;
+		  attempts++;
 		}
 		
 		if(attempts < 100) {

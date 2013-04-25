@@ -69,7 +69,7 @@ void Enemy::OnLoop()
 	// else continue in same direction as currently
 
 	// make sure the enemy is in bounds
-	if( X < width/2 ) { // too far left
+	/*if( X < width/2 ) { // too far left
 		X = width/2;
 	}
 	if( (X + width/2) > (2 * MAP_WIDTH * TILE_SIZE) ) { // too far right
@@ -80,7 +80,7 @@ void Enemy::OnLoop()
 	}
 	if( (Y + height) > (2 * MAP_HEIGHT * TILE_SIZE) ) { // too far down
 		Y = 2* MAP_HEIGHT * TILE_SIZE - height;
-	}
+		}*/
 
 	// shift animation frame
 	entityStateY = ++entityStateY%NUM_FRAMES;

@@ -91,6 +91,15 @@ void Camera::CheckBounds(){
 	    MapEditor::EntityList[i]->changePos(0,-MAP_WIDTH*TILE_SIZE);
 	  ChangeMapView();
 	}
+
+	// despawn enemies that are off the loaded maps
+	for(unsigned int i = 0;i<MapEditor::EntityList.size(); i++){
+	  if(MapEditor::EntityList[i]->getType()==ENTITY_TYPE_ENEMY){
+	    int entX = MapEditor::EntityList[i]->getX();
+	    int entY = MapEditor::EntityList[i]->getY();
+	    if((entX<0 || entX>2*MAP_WIDTH*TILE_SIZE) && (entY<0 || entY>2*MAP_HEIGHT*TILE_SIZE)) MapEditor::EntityList[i]->makeDestroyable();
+	  }
+	}
 }
 
 
@@ -102,12 +111,12 @@ bool Camera::ChangeMapView(){
   int corners[4];
 
   for(int i=0;i<4;i++){
-    mapXCoord = currentMapX+(i%2);  // allows wrap from 999 to 0 and vice versa
+    mapXCoord = currentMapX+(i%2);
     ss<<setw(3)<<setfill('0')<<mapXCoord;
     Xstr = ss.str(); // save in string
     ss.str("");  // clear stream
 
-    mapYCoord = currentMapY+(i/2);  // allows wrap from 999 to 0 and vice versa
+    mapYCoord = currentMapY+(i/2);
     ss<<setw(3)<<setfill('0')<<mapYCoord;
     Ystr = ss.str();
     ss.str("");  // clear stream

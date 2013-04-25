@@ -55,7 +55,7 @@ void MapEditor::OnLoop()
 	if(playerHealth < 1) Running = false;
 
 	// Decide whether to spawn enemy
-	if(numEnemies<10 && rand()%100<1) SpawnEnemy();
+	if(numEnemies<20 && rand()%50<1) SpawnEnemy();
 
 }
 
@@ -248,19 +248,19 @@ void MapEditor::DeSpawnEntities()
 			int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
 			double dist = sqrt(distX*distX+distY*distY);
 
-			// if the entity is destroyable and the distance > 1280
+			// if the entity is marked for destroying or the distance > 1280
 			if(EntityList[i]->isDestroyable() || dist > 1280) {
-				if(debug) cout << "Entity " << i << " despawned." << endl; // debug message
-
 				// decrement numEnemies if the entity is an enemy
 				if( EntityList[i]->getType() == ENTITY_TYPE_ENEMY ) numEnemies--;
 
 				// despawn the enemy
 				EntityList[i]->OnCleanup();
 				EntityList.erase( EntityList.begin() + i );
-      }
-    }
-  }
+
+				if(debug) cout << "Entity " << i << " despawned." << endl; // debug message
+			}
+		}
+	}
 }
 
 //==============================================================================

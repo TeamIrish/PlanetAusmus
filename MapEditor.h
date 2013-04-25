@@ -120,7 +120,7 @@ class MapEditor : public Event {
 				void GameOver();
 
 				bool LoadMaps(); // called after every change of map view
-				void AddChests(); // called the first time any map is loaded
+				void AddChests(int); // called the first time any map is loaded
 
 				static bool runLoadMaps;
 				static bool runAddChests[4];
