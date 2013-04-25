@@ -175,58 +175,81 @@ void MapEditor::SpawnEnemy(){
 
 
 //==============================================================================
-//  Checks collisions between enemies and hearts (can include all items in future)
-//
-bool MapEditor::CheckEntityCollisions(){
-  int charX = -Camera::CameraControl.GetX()+WWIDTH/2;
-  int charY = -Camera::CameraControl.GetY()+WHEIGHT/2;
+//  Checks collisions between player and entities
+bool MapEditor::CheckEntityCollisions()
+{
+	// character coordinates
+  int charX = -Camera::CameraControl.GetX() + WWIDTH/2;
+  int charY = -Camera::CameraControl.GetY() + WHEIGHT/2;
 
+	// for all entities
   for(unsigned int i = 0; i < EntityList.size(); ++i) {
-    int Xdist = (CHARACTER_W*.9 + EntityList[i]->getW())/2;
-    int Ydist = (CHARACTER_H*.9 + EntityList[i]->getH())/2;
-		if(EntityList[i]->getType() != ENTITY_TYPE_BULLET){
+		// get the distance values
+    int Xdist = ( CHARACTER_W*0.9 + EntityList[i]->getW() ) / 2;
+    int Ydist = ( CHARACTER_H*0.9 + EntityList[i]->getH() ) / 2;
+		
+		// for all entities except bullets
+		if(EntityList[i]->getType() != ENTITY_TYPE_BULLET) { 
+			// if there is a collision
 			if( abs(charX - EntityList[i]->getX()) < Xdist && abs(charY - EntityList[i]->getY()) < Ydist ){
-			        int type = EntityList[i]->getType();
+				int type = EntityList[i]->getType(); // entity type
+
+				// for an enemy
 				if(type == ENTITY_TYPE_ENEMY){
+					// hurt the player
 					playerHealth-=2;
 					Camera::CameraControl.playerStateY=4;
+
+					// decrement numEnemies because it dies
 					numEnemies--;
 				}
-				else if(type == ENTITY_TYPE_HEART){
+
+				// for a heart
+				else if(type == ENTITY_TYPE_HEART) {
+					// increment player health and play sound
 					Mix_PlayChannel(-1, healSound, 0);
 					if(playerHealth < 10) playerHealth+=2;
 				}
-				else if(type == ENTITY_TYPE_CHEST){
-				  dynamic_cast<Chest*>(EntityList[i])->OpenChest();
-				}
-				// don't put an else here; need to remove anything other than a chest that the player touches
+
+				// for a chest
+				else if(type == ENTITY_TYPE_CHEST) dynamic_cast<Chest*>(EntityList[i])->OpenChest();
+
+				// remove anything other than a chest that the player touches
 				if(type != ENTITY_TYPE_CHEST){
-				  EntityList[i]->OnCleanup();
-				  delete EntityList[i];
-				  EntityList.erase(EntityList.begin() + i);
-				  return true;
+				  EntityList[i]->OnCleanup(); // clean up surface
+				  delete EntityList[i]; // deallocate memory
+				  EntityList.erase(EntityList.begin() + i); // erase the pointer from EntityList vector
+				  return true; // collision detected
 				}
 			}
 		}
 	}
-  return false;
+  return false; // no collision detected
 }
 
 
 //==============================================================================
 //
-void MapEditor::DeSpawnEntities(){
-  for(unsigned int i = 0; i < EntityList.size(); ++i) {
-    if(EntityList[i]->getType() != ENTITY_TYPE_CHEST){
-      int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
-      int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
-      double dist = sqrt(distX*distX+distY*distY);
+void MapEditor::DeSpawnEntities()
+{
+	for(unsigned int i = 0; i < EntityList.size(); ++i) {
+		// for all non-chest entities
+		if(EntityList[i]->getType() != ENTITY_TYPE_CHEST){
+			// get distance from player
+			int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
+			int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
+			double dist = sqrt(distX*distX+distY*distY);
 
-      if(EntityList[i]->isDestroyable() || dist > 1280){
-	if(debug) cout<<"Entity "<<i<<" despawned."<<endl;
-	if(EntityList[i]->getType()==ENTITY_TYPE_ENEMY) numEnemies--;
-	EntityList[i]->OnCleanup();
-	EntityList.erase(EntityList.begin()+i);
+			// if the entity is destroyable and the distance > 1280
+			if(EntityList[i]->isDestroyable() || dist > 1280) {
+				if(debug) cout << "Entity " << i << " despawned." << endl; // debug message
+
+				// decrement numEnemies if the entity is an enemy
+				if( EntityList[i]->getType() == ENTITY_TYPE_ENEMY ) numEnemies--;
+
+				// despawn the enemy
+				EntityList[i]->OnCleanup();
+				EntityList.erase( EntityList.begin() + i );
       }
     }
   }
@@ -234,7 +257,8 @@ void MapEditor::DeSpawnEntities(){
 
 //==============================================================================
 //
-void MapEditor::AddBullet(){
+void MapEditor::AddBullet()
+{
   Entity * tmp = new Bullet();
   tmp->setType(ENTITY_TYPE_BULLET);
   EntityList.push_back(tmp);
@@ -243,29 +267,34 @@ void MapEditor::AddBullet(){
 //==============================================================================
 //
 void MapEditor::CheckBulletCollision(){
+	// cycle through entities looking for bullets
 	for(unsigned int i = 0; i < EntityList.size(); ++i) {
-	  if(EntityList[i]->getType() == ENTITY_TYPE_BULLET){
-	     int X1 = EntityList[i]->getX();
-	     int Y1 = EntityList[i]->getY();
-	     int W1 = EntityList[i]->getW();
-	     int H1 = EntityList[i]->getH();
-	     for(unsigned int j = 0; j < EntityList.size(); ++j) {
-	       int tmptype = EntityList[j]->getType();
-	       if(tmptype == ENTITY_TYPE_ENEMY || tmptype == ENTITY_TYPE_CHEST) {
-		 int X2 = EntityList[j]->getX();
-		 int Y2 = EntityList[j]->getY();
-		 int W2 = EntityList[j]->getW();
-		 int H2 = EntityList[j]->getH();
+		if(EntityList[i]->getType() == ENTITY_TYPE_BULLET){
+			// record bullet coordinates and size
+			int X1 = EntityList[i]->getX();
+			int Y1 = EntityList[i]->getY();
+			int W1 = EntityList[i]->getW();
+			int H1 = EntityList[i]->getH();
+			
+			// cycle through entities looking for enemies and chests
+			for(unsigned int j = 0; j < EntityList.size(); ++j) {
+				int tmptype = EntityList[j]->getType(); // temporary variable for entity type
+				
+				if(tmptype == ENTITY_TYPE_ENEMY || tmptype == ENTITY_TYPE_CHEST) {
+					int X2 = EntityList[j]->getX();
+					int Y2 = EntityList[j]->getY();
+					int W2 = EntityList[j]->getW();
+					int H2 = EntityList[j]->getH();
 
-		 if( (abs(X1-X2) < (W1+W2)/2) && (abs(Y1-Y2) < (H1+H2)/2) ) {
-		   // delete both; using onHit allows health and death animation
-		   EntityList[i]->onHit();
-		   EntityList[j]->onHit();
-
-		   //scoreNumber++; // Can increment score here if we want
-		 }
-	       }
-	     }
-	  }
-	}
-}
+					if( (abs(X1-X2) < (W1+W2)/2) && (abs(Y1-Y2) < (H1+H2)/2) ) {
+						// delete both; using onHit allows health and death animation
+						EntityList[i]->onHit();
+						EntityList[j]->onHit();
+						
+						//scoreNumber++; // Can increment score here if we want
+					} // end if (collision detected)
+				} // end if (entity is enemy or chest)
+			} // end for (all entities)
+	  } // end if (entity is bullet)
+	} // end for(all entities)
+} // end CheckBulletCollision()
