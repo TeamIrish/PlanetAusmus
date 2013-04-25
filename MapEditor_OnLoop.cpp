@@ -65,9 +65,19 @@ void MapEditor::OnLoop()
 // arguments default to the center of the screen and the size of the player character
 int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int height)
 {  // returns 0 for traversable, 1 for shootable, 2 for neither
+  // check chests
+  for(unsigned int i=0;i<EntityList.size();i++){
+    if(EntityList[i]->getType()==ENTITY_TYPE_CHEST){
+      if(abs(centerX-EntityList[i]->getX())<(width+EntityList[i]->getW())/3
+	 && abs(centerY+height/4-EntityList[i]->getY())<(height/2+EntityList[i]->getH())/2){
+	return 2;
+      }
+    }
+  }
+
+  // check tiles
   int tileX, tileY, ID, returnvalue=0;
-  // check all four corners of the sprite
-  for(int i = 0; i < 4; i++) { 
+  for(int i = 0; i < 4; i++) {   // check all four corners of the sprite
 		int mapID = 0;
 		tileX = (centerX + pow(-1,i%2)*width*.3) / TILE_SIZE;
 		tileY = (centerY + (i/2)*height*.3) / TILE_SIZE;  // only check bottom half of sprite, to give 3D effect
@@ -154,8 +164,8 @@ void MapEditor::SpawnEnemy(){
     spawnX = X;
     spawnY = Y;
     int random=rand()%3;
-    if(random>0) spawnX += pow(-1,rand()%2)*WWIDTH;
-    if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT;
+    if(random>0) spawnX += pow(-1,rand()%2)*WWIDTH*1.5;
+    if(random<2) spawnY += pow(-1,rand()%2)*WHEIGHT*1.5;
 
     // ensure that chosen tile is not nontraversable
     if(!CheckTileCollision(spawnX,spawnY,enemyW,enemyH)) break;

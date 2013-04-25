@@ -58,14 +58,14 @@ void Enemy::OnLoop()
 	if(abs(Y-WHEIGHT/2-Camera::CameraControl.GetY()) < height+CHARACTER_H) directionToPlayerY = directionToPlayerX;
 
 	// random number to determine enemy's direction
-	int randNum = rand() % 30;
+	int randNum = rand() % 40;
 	// set next state pseudo-randomly
-	if( randNum==22 || randNum==23 ) entityStateX = directionToPlayerX;
-	else if( randNum==24 || randNum==25 ) entityStateX = directionToPlayerY;
-	else if( randNum == 26 ) entityStateX = ENEMY_RIGHT;
-	else if( randNum == 27 ) entityStateX = ENEMY_RIGHT;
-	else if( randNum == 28 ) entityStateX = ENEMY_UP;
-	else if( randNum == 29 ) entityStateX = ENEMY_LEFT;
+	if( randNum == 39 ) entityStateX = ENEMY_LEFT;
+	else if( randNum == 38 ) entityStateX = ENEMY_UP;
+	else if( randNum == 37 ) entityStateX = ENEMY_RIGHT;
+	else if( randNum == 36 ) entityStateX = ENEMY_RIGHT;
+	else if( randNum>28 ) entityStateX = directionToPlayerY;
+	else if( randNum>21 ) entityStateX = directionToPlayerX;
 	// else continue in same direction as currently
 
 	// make sure the enemy is in bounds
@@ -110,6 +110,6 @@ void Enemy::OnSave(ofstream & savefile){
   savefile<<X<<endl<<Y<<endl;
   savefile<<speed<<endl;
   savefile<<type<<endl;
-  savefile<<health<<endl;
   savefile<<entityStateX<<endl<<entityStateY<<endl;
+  savefile<<health<<endl;
 }
