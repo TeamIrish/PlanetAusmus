@@ -35,7 +35,7 @@ void Chest::OpenChest(){
 			entityStateY=2; // bullet
 			MapEditor::numPlayerBullets += 50;
 			if(MapEditor::numPlayerBullets > 99) MapEditor::numPlayerBullets = 99;
-		}
+    }
 
     else if(choose==6){
       entityStateY=3; // blue gem
@@ -57,5 +57,7 @@ void Chest::OpenChest(){
       entityStateY=7; // purple gem
       MapEditor::gotGem[4] = true;
     }
+
+    MapEditor::CheckEndConditions();
   }
 }

@@ -12,6 +12,7 @@ using namespace std;
 
 //==============================================================================
 // initialize static variables
+bool MapEditor::Running;
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
 int MapEditor::playerHealth;
@@ -149,7 +150,8 @@ int MapEditor::OnExecute() {
 		fps.delay_if_needed();
 	}
 
-	if(playerHealth > 0) OnSave(); // doesn't actually do anything anymore... might later, though, if we actually save stuff
+	if(CheckEndConditions()) Win();
+	else if(playerHealth > 0) OnSave();
 	else GameOver();
 
 	// Clean up trash
@@ -198,12 +200,32 @@ void MapEditor::AddChests(int mapID)
 
 //==============================================================================
 //
+bool MapEditor::CheckEndConditions(){
+  for(int i=0;i<5;i++){
+    if(gotGem[i]==false) return false;
+  }
+  Running = false;
+  return true;
+}
+
 void MapEditor::GameOver(){
   SDL_Event Event;
 
+  // insert display of "game over" graphic here
+
   while(!Quit) {
     while(SDL_PollEvent(&Event)) OnEvent(&Event);
-	}
+  }
+}
+
+void MapEditor::Win(){
+  SDL_Event Event;
+
+  //insert display of "you win" graphic here  
+
+  while(!Quit) {
+    while(SDL_PollEvent(&Event)) OnEvent(&Event);
+  }
 }
 
 //==============================================================================

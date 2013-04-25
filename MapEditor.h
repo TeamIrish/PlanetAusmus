@@ -45,7 +45,7 @@ class MapEditor : public Event {
 
     private:
 
-			bool Running;
+			static bool Running;
 			bool Quit;
 
 			// SDL surfaces
@@ -117,7 +117,10 @@ class MapEditor : public Event {
 			MapEditor(string,string);
 
         int OnExecute();
+
+			       	static bool CheckEndConditions();
 				void GameOver();
+				void Win();
 
 				bool LoadMaps(); // called after every change of map view
 				void AddChests(int); // called the first time any map is loaded
