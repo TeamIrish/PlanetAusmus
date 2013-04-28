@@ -54,6 +54,8 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 
 	Player_Character = NULL;
 	Grave = NULL;
+	GameOverText = NULL;
+	YouWinText = NULL;
 
 	mus = NULL;
 	sfx1 = NULL;
@@ -211,8 +213,6 @@ bool MapEditor::CheckEndConditions(){
 void MapEditor::GameOver(){
   SDL_Event Event;
 
-  // insert display of "game over" graphic here
-
   while(!Quit) {
     while(SDL_PollEvent(&Event)) OnEvent(&Event);
   }
@@ -221,7 +221,9 @@ void MapEditor::GameOver(){
 void MapEditor::Win(){
   SDL_Event Event;
 
-  //insert display of "you win" graphic here  
+  // display of "you win" graphic
+  Surface::OnDraw(Surf_Display,YouWinText,WWIDTH/2-225,WHEIGHT/2-130);
+  SDL_Flip(Surf_Display);
 
   while(!Quit) {
     while(SDL_PollEvent(&Event)) OnEvent(&Event);

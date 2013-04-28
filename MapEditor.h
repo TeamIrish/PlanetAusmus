@@ -68,6 +68,9 @@ class MapEditor : public Event {
 			SDL_Surface* Surface_NumPlayerBullets;
 				bool dispObjective;
 
+			SDL_Surface* GameOverText;
+			SDL_Surface* YouWinText;
+
 			// SDL Music / Sounds
 			Mix_Music* mus;
 			Mix_Chunk* sfx2;
@@ -152,6 +155,7 @@ class MapEditor : public Event {
 			 
 				// game data logic and related methods
 				void OnLoop();
+				void MoveCamera();
 				static int CheckTileCollision(int=-Camera::CameraControl.GetX()+WWIDTH/2,int=-Camera::CameraControl.GetY()+WHEIGHT/2,int=CHARACTER_W,int=CHARACTER_H);
 				void SpawnEnemy();
 				void AddBullet();

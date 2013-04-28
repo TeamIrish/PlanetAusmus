@@ -159,6 +159,16 @@ bool MapEditor::OnInit() {
 		return false;
 	}
 
+	// Load "game over" graphic
+	if((GameOverText = Surface::OnLoad("./graphics/GameOver.png")) == NULL){
+	  return false;
+	}
+
+	// Load "you win" graphic
+	if((YouWinText = Surface::OnLoad("./graphics/YouWin.png")) == NULL){
+	  return false;
+	}
+
 	// Make pink background of following surfaces transparent
 	Surface::Transparent(Player_Character,255,0,255);
 	Surface::Transparent(Menu,255,0,255);
@@ -167,6 +177,8 @@ bool MapEditor::OnInit() {
 	Surface::Transparent(BulletIndicator,255,0,255);
 	Surface::Transparent(Gems,255,0,255);
 	Surface::Transparent(Grave,255,0,255);
+	Surface::Transparent(GameOverText,255,0,255);
+	Surface::Transparent(YouWinText,255,0,255);
 
 //==========================================================================
 // Load map tileset

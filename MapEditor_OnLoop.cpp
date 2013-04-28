@@ -12,26 +12,8 @@ every iteration through the game loop and makes appropriate changes to game data
 //
 void MapEditor::OnLoop()
 {
-	// Move camera
-	if(Camera::CameraControl.MovingLeft == true){ // the camera is moving left
-		Camera::CameraControl.OnMove(moveSize,0);
-		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(-moveSize,0);
-	}
-
-	if(Camera::CameraControl.MovingRight == true){ // the camera is moving right
-		Camera::CameraControl.OnMove(-moveSize,0);
-		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(moveSize,0);
-	}
-
-	if(Camera::CameraControl.MovingUp == true){ // the camera is moving up
-		Camera::CameraControl.OnMove(0,moveSize);
-		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,-moveSize);
-	}
-
-	if(Camera::CameraControl.MovingDown == true){ // the camera is moving down
-		Camera::CameraControl.OnMove(0,-moveSize);
-		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,moveSize);
-	}
+        // Move camera
+        MoveCamera();
 
 	// Check to make sure that the camera didn't move out of bounds - if so, change map view
 	Camera::CameraControl.CheckBounds();
@@ -59,6 +41,28 @@ void MapEditor::OnLoop()
 
 }
 
+
+void MapEditor::MoveCamera(){
+	if(Camera::CameraControl.MovingLeft == true){ // the camera is moving left
+		Camera::CameraControl.OnMove(moveSize,0);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(-moveSize,0);
+	}
+
+	if(Camera::CameraControl.MovingRight == true){ // the camera is moving right
+		Camera::CameraControl.OnMove(-moveSize,0);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(moveSize,0);
+	}
+
+	if(Camera::CameraControl.MovingUp == true){ // the camera is moving up
+		Camera::CameraControl.OnMove(0,moveSize);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,-moveSize);
+	}
+
+	if(Camera::CameraControl.MovingDown == true){ // the camera is moving down
+		Camera::CameraControl.OnMove(0,-moveSize);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,moveSize);
+	}
+}
 
 //==============================================================================
 //
@@ -243,13 +247,8 @@ void MapEditor::DeSpawnEntities()
 	for(unsigned int i = 0; i < EntityList.size(); ++i) {
 		// for all non-chest entities
 		if(EntityList[i]->getType() != ENTITY_TYPE_CHEST){
-			// get distance from player
-			int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
-			int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
-			double dist = sqrt(distX*distX+distY*distY);
-
-			// if the entity is marked for destroying or the distance > 1280
-			if(EntityList[i]->isDestroyable() || dist > 1280) {
+			// if the entity is marked for destroying
+			if(EntityList[i]->isDestroyable()) {
 				// decrement numEnemies if the entity is an enemy
 				if( EntityList[i]->getType() == ENTITY_TYPE_ENEMY ) numEnemies--;
 
