@@ -95,13 +95,27 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  dispMenu = !(dispMenu);
 		  break;
 
+		// play (when on title screen)
 		case SDLK_p:
 			dispTitle = false;
 			break;
 
+		// replay (when on GameOver or YouWin screens)
+	        case SDLK_r:
+		  if(!Running){
+		    Replay = true;
+		    OnExit();
+		  }
+		  break;
+
 		case SDLK_ESCAPE:
+		  if(!dispTitle){
 			if(Running) OnStop();
-			else OnExit();
+			else{
+			  Replay = false;
+			  OnExit();
+			}
+		  }
 			break;
 
 		// Objective (toggle on and off)
@@ -113,7 +127,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		case SDLK_SPACE:
 			if(numPlayerBullets > 0) { // only if the player has any bullets left
 				Mix_PlayChannel(-1, sfx2, 0); // laser noise, yo
-		  	AddBullet();
+				AddBullet();
 				numPlayerBullets--; // decrement number of player's bullets
 			}
 		  break;

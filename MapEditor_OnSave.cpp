@@ -25,4 +25,6 @@ void MapEditor::OnSave() {
 
   // entities
   for(unsigned int i=0;i<EntityList.size();i++) EntityList[i]->OnSave(savefile);
+
+  savefile.close();
 }

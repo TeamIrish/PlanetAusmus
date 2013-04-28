@@ -73,12 +73,14 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	playerHealth = 10;
 	numPlayerBullets = 0;
 	numEnemies = 0;
+	EntityList.clear();
 
 	runLoadMaps = false;
 	for(int i=0;i<4;i++) runAddChests[i] = false;
 
 	Running = true;
 	Quit = false;
+	Replay = false;
 
 	if(inputarg1=="debug" || inputarg2=="debug"){
 	  debug=true;
@@ -96,70 +98,71 @@ int MapEditor::OnExecute() {
 
   srand(time(NULL));
 
-	// Initialize the game; if it fails, return error code and close program
-	if(OnInit() == false){
-		return -1;
-	}
+  // Initialize the game; if it fails, return error code and close program
+  if(OnInit() == false){
+    return -1;
+  }
 
-	SDL_Event Event;
-	ObjPtr = new Objectives; 
+  SDL_Event Event;
+  ObjPtr = new Objectives; 
 
-	// Enter into the title screen view
-	while(dispTitle == true){
+  // Enter into the title screen view
+  while(dispTitle == true){
 
-		while(SDL_PollEvent(&Event)){
-			OnEvent(&Event);
-		}
+    while(SDL_PollEvent(&Event)){
+      OnEvent(&Event);
+    }
 
-		Surface::OnDraw(Surf_Display,TitleScreen,0,0);
+    Surface::OnDraw(Surf_Display,TitleScreen,0,0);
 
-		if(dispTitleMenu)
-			Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W)/2, (WHEIGHT-MENU_H) / 2);
-		SDL_Flip(Surf_Display);
-	}
+    if(dispTitleMenu)
+      Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W)/2, (WHEIGHT-MENU_H) / 2);
+    SDL_Flip(Surf_Display);
+  }
 
-	// Main game loop
-	while(Running){
-		// start the timer to regulate the frame rate
-		fps.start();
+  // Main game loop
+  while(Running){
+    // start the timer to regulate the frame rate
+    fps.start();
 
-		// check for events (user input), pass one at a time to OnEvent(
-		while( SDL_PollEvent(&Event) ){
-			OnEvent(&Event);
-			if(Event.type == SDL_QUIT) Quit = true;
-		}
+    // check for events (user input), pass one at a time to OnEvent(
+    while( SDL_PollEvent(&Event) ){
+      OnEvent(&Event);
+      if(Event.type == SDL_QUIT) Quit = true;
+    }
 		
-		// Manipulate data
-		OnLoop();
+    // Manipulate data
+    OnLoop();
 
-	  // switch map view if necessary
-	  if(runLoadMaps==true){
-			LoadMaps();
+    // switch map view if necessary
+    if(runLoadMaps==true){
+      LoadMaps();
 
-			// add chests only if player has not come to this map before
-			for(int i=0;i<4;i++) { 
-				if(runAddChests[i]){
-					AddChests(i);
-					runAddChests[i] = false;
-				}
-			}
-		}
-
-		// Render the output
-		OnRender();
-		
-		// delay for frame rate if needed
-		fps.delay_if_needed();
+      // add chests only if player has not come to this map before
+      for(int i=0;i<4;i++) { 
+	if(runAddChests[i]){
+	  AddChests(i);
+	  runAddChests[i] = false;
 	}
+      }
+    }
 
-	if(CheckEndConditions()) Win();
-	else if(playerHealth > 0) OnSave();
-	else GameOver();
+    // Render the output
+    OnRender();
+		
+    // delay for frame rate if needed
+    fps.delay_if_needed();
+  }
 
-	// Clean up trash
-	OnCleanup();
+  if(CheckEndConditions()) Win();
+  else if(playerHealth > 0) OnSave();
+  else GameOver();
 
-	return 0;
+  // Clean up trash
+  OnCleanup();
+
+  if(Replay) return 2;
+  else return 0;
 }
 
 
@@ -216,6 +219,9 @@ void MapEditor::GameOver(){
   while(!Quit) {
     while(SDL_PollEvent(&Event)) OnEvent(&Event);
   }
+
+  // remove map files, so next game is new
+  system("rm maps/*");
 }
 
 void MapEditor::Win(){
@@ -228,6 +234,9 @@ void MapEditor::Win(){
   while(!Quit) {
     while(SDL_PollEvent(&Event)) OnEvent(&Event);
   }
+
+  // remove map files, so next game is new
+  system("rm maps/*");
 }
 
 //==============================================================================
@@ -235,9 +244,13 @@ void MapEditor::Win(){
 // main function; calls OnExecute to run game loop
 int main(int argc, char* argv[]) {
   string arg2="",arg1="";
+  int out;
   if(argc>2) arg2 = argv[2];
   if(argc>1) arg1 = argv[1];
 
-  MapEditor theApp(arg1, arg2);
-  return theApp.OnExecute();
+  do{
+    MapEditor* theApp = new MapEditor(arg1, arg2);
+    out = theApp->OnExecute();
+    delete theApp;
+  }while(out == 2);
 }

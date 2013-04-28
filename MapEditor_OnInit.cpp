@@ -71,10 +71,12 @@ bool MapEditor::OnInit() {
 	    EntityList.push_back(tmp);
 	  }
 
+	  loadfile.close();
 	  if(debug) cout<<"Savefile loaded."<<endl;
 
 	  // get rid of loadfile, so that player starts over upon death
 	  remove("maps/save.txt");
+
 	}
 
 

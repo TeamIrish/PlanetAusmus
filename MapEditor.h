@@ -23,6 +23,7 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 #include <fstream>
 #include <vector>
 #include <cstdio>
+#include <cstdlib>
 
 #include "Define.h"
 #include "Event.h"
@@ -47,6 +48,7 @@ class MapEditor : public Event {
 
 			static bool Running;
 			bool Quit;
+			bool Replay;
 
 			// SDL surfaces
 			SDL_Surface* Surf_Display;
