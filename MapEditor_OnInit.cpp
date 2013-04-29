@@ -122,59 +122,49 @@ bool MapEditor::OnInit() {
 	if(BulletDisplayFont == NULL) cout << "Error loading font." << endl;
 
 	// Load the Objective Background
-	if((ObjBackground = Surface::OnLoad("./graphics/objbackground.png")) == NULL){
-		return false;
-	}
+	if((ObjBackground = Surface::OnLoad("./graphics/objbackground.png")) == NULL) return false;
 
 	// Load the menu
-	if((Menu = Surface::OnLoad("./graphics/menu.png")) == NULL){
-		return false;
-	}
+	if((Menu = Surface::OnLoad("./graphics/menu.png")) == NULL) return false;
 
 	// Load the title screen
-	if((TitleScreen = Surface::OnLoad("./graphics/colorTitle.png")) == NULL){
-		return false;
-	}
+	if((TitleScreen = Surface::OnLoad("./graphics/colorTitle.png")) == NULL) return false;
+
+	// load the title screen where the start button is depressed
+	if((TitleScreen_StartDepressed = Surface::OnLoad("./graphics/colorTitle_startDepressed.png")) == NULL) return false;
+
+	// laod the title screen where the about button is depressed
+	if((TitleScreen_AboutDepressed = Surface::OnLoad("./graphics/colorTitle_aboutDepressed.png")) == NULL) return false;
 
 	// Load the title menu
-	if((TitleMenu = Surface::OnLoad("./graphics/titleMenu.png")) == NULL){
-		return false;
-	}
+	if((TitleMenu = Surface::OnLoad("./graphics/titleMenu.png")) == NULL) return false;
+
+	// load the title menu where the back button is depressed
+	if((TitleMenu_BackDepressed = Surface::OnLoad("./graphics/titleMenu_backDepressed.png")) == NULL) return false;
 
 	// Load the heart bar
-	if((HeartBar = Surface::OnLoad("./graphics/hearts.png")) == NULL){
-		return false;
-	}
+	if((HeartBar = Surface::OnLoad("./graphics/hearts.png")) == NULL) return false;
 
 	// Load the bullet indicator
-	if((BulletIndicator = Surface::OnLoad("./graphics/bullets.png")) == NULL){
-		return false;
-	}
+	if((BulletIndicator = Surface::OnLoad("./graphics/bullets.png")) == NULL) return false;
 
 	// Load the gem indicators
-	if((Gems = Surface::OnLoad("./graphics/jewels.png")) == NULL){
-		return false;
-	}
+	if((Gems = Surface::OnLoad("./graphics/jewels.png")) == NULL) return false;
 
 	// Load the grave
-	if((Grave = Surface::OnLoad("./graphics/grave.png")) == NULL){
-		return false;
-	}
+	if((Grave = Surface::OnLoad("./graphics/grave.png")) == NULL) return false;
 
 	// Load "game over" graphic
-	if((GameOverText = Surface::OnLoad("./graphics/GameOver.png")) == NULL){
-	  return false;
-	}
+	if((GameOverText = Surface::OnLoad("./graphics/GameOver.png")) == NULL) return false;
 
 	// Load "you win" graphic
-	if((YouWinText = Surface::OnLoad("./graphics/YouWin.png")) == NULL){
-	  return false;
-	}
+	if((YouWinText = Surface::OnLoad("./graphics/YouWin.png")) == NULL) return false;
 
 	// Make pink background of following surfaces transparent
 	Surface::Transparent(Player_Character,255,0,255);
 	Surface::Transparent(Menu,255,0,255);
 	Surface::Transparent(TitleMenu,255,0,255);
+	Surface::Transparent(TitleMenu_BackDepressed, 255, 0, 255);
 	Surface::Transparent(HeartBar,255,0,255);
 	Surface::Transparent(BulletIndicator,255,0,255);
 	Surface::Transparent(Gems,255,0,255);

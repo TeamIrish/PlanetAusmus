@@ -49,8 +49,16 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	for(int i=0;i<5;i++) gotGem[i] = false;
 	TitleScreen = NULL;
 		dispTitle = true;
+		displayInitialMenu = true;
+	TitleScreen_StartDepressed = NULL;
+		displayStartDepressedMenu = false;
+	TitleScreen_AboutDepressed = NULL;
+		displayAboutDepressedMenu = NULL;
 	TitleMenu = NULL;
-		dispTitleMenu = false;
+		dispPlainTitleMenu = false;
+	TitleMenu_BackDepressed = NULL;
+		displayBackDepressedTitleMenu = false;
+
 
 	Player_Character = NULL;
 	Grave = NULL;
@@ -113,10 +121,21 @@ int MapEditor::OnExecute() {
       OnEvent(&Event);
     }
 
-    Surface::OnDraw(Surf_Display,TitleScreen,0,0);
+		// if no button is depressed on the main menu
+    if(displayInitialMenu == true) Surface::OnDraw(Surf_Display,TitleScreen,0,0);
+		
+		// if the start button is depressed on the main menu
+		if(displayStartDepressedMenu == true) Surface::OnDraw(Surf_Display, TitleScreen_StartDepressed, 0, 0);
+		
+		// if the about button is depressed on the main menu
+		if(displayAboutDepressedMenu == true) Surface::OnDraw(Surf_Display, TitleScreen_AboutDepressed, 0, 0);
 
-    if(dispTitleMenu)
-      Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W)/2, (WHEIGHT-MENU_H) / 2);
+		// if meant to display about menu without button depressed
+    if(dispPlainTitleMenu) Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W) / 2, (WHEIGHT-MENU_H) / 2);
+
+		// if meant to display about menu with button depressed
+		if(displayBackDepressedTitleMenu) Surface::OnDraw(Surf_Display, TitleMenu_BackDepressed, (WWIDTH - MENU_W) / 2, (WHEIGHT-MENU_H) / 2);
+
     SDL_Flip(Surf_Display);
   }
 
@@ -135,17 +154,17 @@ int MapEditor::OnExecute() {
     OnLoop();
 
     // switch map view if necessary
-    if(runLoadMaps==true){
+    if(runLoadMaps==true) {
       LoadMaps();
 
       // add chests only if player has not come to this map before
-      for(int i=0;i<4;i++) { 
-	if(runAddChests[i]){
-	  AddChests(i);
-	  runAddChests[i] = false;
-	}
-      }
-    }
+      for(int i=0;i<4;i++) {
+				if(runAddChests[i]){
+					AddChests(i);
+					runAddChests[i] = false;
+				}
+			}
+		}
 
     // Render the output
     OnRender();

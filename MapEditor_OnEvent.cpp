@@ -14,25 +14,59 @@ void MapEditor::OnEvent(SDL_Event* Event) {
 }
 
 //==============================================================================
-void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos) {
-	// On left mouse button click
-	//cout << "X: " << MouseXPos << "\nY: " << MouseYPos << "\n" << endl;
-	if(dispTitle && !(dispTitleMenu)){
+// On left mouse button click
+void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos)
+{
+	// if the main menu is up
+	if(dispTitle && !(dispPlainTitleMenu)){
+
 		// clicked "Start" button
-		if(((MouseXPos > 359) && (MouseXPos < 432)) && ((MouseYPos > 298) && (MouseYPos < 323))){
-			dispTitle = false;
+		if(((MouseXPos > 361) && (MouseXPos < 442)) && ((MouseYPos > 307) && (MouseYPos < 330))){
+			displayStartDepressedMenu = true;
+			displayInitialMenu = false;
 		}
-		if(((MouseXPos > 359) && (MouseXPos < 432)) && ((MouseYPos > 343) && (MouseYPos < 363))){
-			dispTitleMenu = true;
+
+		// clicked the "about" button
+		if(((MouseXPos > 361) && (MouseXPos < 442)) && ((MouseYPos > 344) && (MouseYPos < 369))){
+			displayAboutDepressedMenu = true;
+			displayInitialMenu = false;
 		}
 	}
-	if(dispTitleMenu){
+
+	// if the about screen is up
+	else if(dispPlainTitleMenu){
 		if(((MouseXPos > 601) && (MouseXPos < 630)) && ((MouseYPos > 159) && (MouseYPos < 181))){
-			dispTitleMenu = false;
+			dispPlainTitleMenu = false;
+			displayBackDepressedTitleMenu = true;
 		}
 	}
 }
 
+//=====================================================================
+void MapEditor::OnLButtonUp(int MouseXPos, int MouseYPos)
+{
+	// on left mouse button up
+	if(dispTitle) { // if we are on the title screen
+
+		// if the start button is depressed
+		if(displayStartDepressedMenu == true) {
+			displayStartDepressedMenu = false;
+			dispTitle = false; // exit the title screen and begin game
+		}
+
+		// if the about button is depressed
+		if(displayAboutDepressedMenu == true) {
+			displayAboutDepressedMenu = false;
+			dispPlainTitleMenu = true; // display the about screen
+		}
+
+		// if the back button on the about screen is depressed
+		if(displayBackDepressedTitleMenu == true) {
+			displayBackDepressedTitleMenu = false;
+			displayInitialMenu = true;
+		}
+	}
+}
 //==============================================================================
 void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 {

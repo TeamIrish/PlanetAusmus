@@ -58,10 +58,25 @@ class MapEditor : public Event {
 			SDL_Surface* HeartBar;
 			SDL_Surface* Gems;
 			SDL_Surface* BulletIndicator;
+			
+			// title screen surface
 			SDL_Surface* TitleScreen;
-				bool dispTitle;
+				// title screen surface with depressed start button
+				SDL_Surface* TitleScreen_StartDepressed;
+				// title screen surface with depressed about button
+				SDL_Surface* TitleScreen_AboutDepressed;
+
+				bool dispTitle; // display one of the title screens
+				bool displayInitialMenu; // display the initial menu
+				bool displayStartDepressedMenu; // start button depressed
+				bool displayAboutDepressedMenu; // about button depressed
+
+			// about page surface
 			SDL_Surface* TitleMenu;
-				bool dispTitleMenu;
+				// about page surface with depressed back button
+				SDL_Surface* TitleMenu_BackDepressed;
+				bool dispPlainTitleMenu; // display the about screen
+				bool displayBackDepressedTitleMenu; // back button depressed
 
 			SDL_Surface* Player_Character;
 			SDL_Surface* Grave;
@@ -150,6 +165,7 @@ class MapEditor : public Event {
  				// event handling and related methods
         void OnEvent(SDL_Event* Event);
 				void OnLButtonDown(int mX, int mY); // When left mouse button clicks, gets position 
+				void OnLButtonUp(int mX, int mY); // when the left mouse button comes up, gets position
 				void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
 				void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode);
 				void OnStop();

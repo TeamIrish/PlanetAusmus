@@ -74,7 +74,7 @@ int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heigh
     if(EntityList[i]->getType()==ENTITY_TYPE_CHEST){
       if(abs(centerX-EntityList[i]->getX())<(width+EntityList[i]->getW())/3
 	 && abs(centerY+height/4-EntityList[i]->getY())<(height/2+EntityList[i]->getH())/2){
-	return 2;
+				return 2;
       }
     }
   }
@@ -120,8 +120,9 @@ int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heigh
 		    continue;
 		  }
 		}
-		else{
-		  if(debug) cout<<"Entity out of tile collision checking range."<<endl;
+
+		else {
+		  if(debug) cout << "Entity out of tile collision checking range." << endl;
 		  return TILE_TYPE_NON_TRAVERSABLE;
 		}
   }
@@ -227,7 +228,7 @@ bool MapEditor::CheckEntityCollisions()
 				else if(type == ENTITY_TYPE_CHEST) dynamic_cast<Chest*>(EntityList[i])->OpenChest();
 
 				// remove anything other than a chest that the player touches
-				if(type != ENTITY_TYPE_CHEST){
+				if(type != ENTITY_TYPE_CHEST) {
 				  EntityList[i]->OnCleanup(); // clean up surface
 				  delete EntityList[i]; // deallocate memory
 				  EntityList.erase(EntityList.begin() + i); // erase the pointer from EntityList vector
