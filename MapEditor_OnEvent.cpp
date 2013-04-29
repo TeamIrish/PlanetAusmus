@@ -35,7 +35,7 @@ void MapEditor::OnLButtonDown(int MouseXPos, int MouseYPos)
 
 	// if the about screen is up
 	else if(dispPlainTitleMenu){
-		if(((MouseXPos > 601) && (MouseXPos < 630)) && ((MouseYPos > 159) && (MouseYPos < 181))){
+		if(((MouseXPos > 155) && (MouseXPos < 182)) && ((MouseYPos > 146) && (MouseYPos < 166))){
 			dispPlainTitleMenu = false;
 			displayBackDepressedTitleMenu = true;
 		}
