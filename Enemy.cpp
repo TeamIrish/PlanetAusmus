@@ -16,7 +16,8 @@ const int ENEMY_LEFT = 3;
 const int NUM_FRAMES = 4;
 
 Enemy::Enemy( string file, int w, int h, int x, int y, int s, int hits )
-	: Entity( file, w, h, x, y, s ){
+	: Entity( file, w, h, x, y, s )
+{
   health = 2 * hits; // each bullet decreases health by 2
 }
 
@@ -53,20 +54,22 @@ void Enemy::OnLoop()
 	else directionToPlayerX = ENEMY_RIGHT;
 	if(Y > WHEIGHT/2-Camera::CameraControl.GetY()) directionToPlayerY = ENEMY_UP;
 	else directionToPlayerY = ENEMY_DOWN;
+
 	// (advanced tracking)
 	if(abs(X-WWIDTH/2-Camera::CameraControl.GetX()) < width+CHARACTER_W) directionToPlayerX = directionToPlayerY;
 	if(abs(Y-WHEIGHT/2-Camera::CameraControl.GetY()) < height+CHARACTER_H) directionToPlayerY = directionToPlayerX;
 
 	// random number to determine enemy's direction
 	int randNum = rand() % 40;
+
 	// set next state pseudo-randomly
+	// else continue in same direction as currently
 	if( randNum == 39 ) entityStateX = ENEMY_LEFT;
 	else if( randNum == 38 ) entityStateX = ENEMY_UP;
 	else if( randNum == 37 ) entityStateX = ENEMY_RIGHT;
 	else if( randNum == 36 ) entityStateX = ENEMY_RIGHT;
 	else if( randNum>28 ) entityStateX = directionToPlayerY;
 	else if( randNum>21 ) entityStateX = directionToPlayerX;
-	// else continue in same direction as currently
 
 	// make sure the enemy is in bounds; if not, despawn
 	if( (X<width/2) || (X+width/2)>(2*MAP_WIDTH*TILE_SIZE) ||
@@ -78,13 +81,18 @@ void Enemy::OnLoop()
 	entityStateY = ++entityStateY%NUM_FRAMES;
 }
 
-void Enemy::onHit(){
-  entityStateY = 4;
+// handle a collision between enemy and bullet
+void Enemy::onHit()
+{
+  entityStateY = 4; // animation frame
 
   health--;  // each bullet actually decreases health by 2, because of the two frames that it stays in contact with the enemy
+
+	// if the enemy's health is depleted, set it up for destroying
   if(health <= 0){
     destroy = true;
-    // drop a heart (or any other item...)
+
+    // randomly drop a heart (or any other item...)
     if(rand()%4==3){
       Entity * tmp = new Heart(X,Y);
       tmp->setType(ENTITY_TYPE_HEART);
@@ -95,7 +103,9 @@ void Enemy::onHit(){
   }
 }
 
-void Enemy::OnSave(ofstream & savefile){
+// save the enemies to the file
+void Enemy::OnSave(ofstream & savefile)
+{
   savefile<<spritefilename<<endl;
   savefile<<width<<endl;
   savefile<<height<<endl;

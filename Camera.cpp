@@ -5,15 +5,19 @@
 #include "MapEditor.h"
 #include "Camera.h"
 
+// static camera control object
 Camera Camera::CameraControl;
  
-Camera::Camera() {
-  X = -(MAP_WIDTH*TILE_SIZE-WWIDTH/2);
-  Y = -(MAP_HEIGHT*TILE_SIZE-WHEIGHT/2);
- 
-    TargetX = TargetY = NULL;
- 
-    TargetMode = TARGET_MODE_NORMAL;
+// default constructor
+Camera::Camera() 
+{
+	// put the camera in the center of the map
+	X = -(MAP_WIDTH*TILE_SIZE - WWIDTH/2);
+	Y = -(MAP_HEIGHT*TILE_SIZE - WHEIGHT/2);
+
+	TargetX = TargetY = NULL;
+
+	TargetMode = TARGET_MODE_NORMAL;
 
     playerStateX = playerStateY = 0;
     facingDir = -1;
@@ -22,7 +26,8 @@ Camera::Camera() {
     animTimerMax=2;
 }
 
-void Camera::OnMove(int MoveX, int MoveY) {
+void Camera::OnMove(int MoveX, int MoveY) 
+{
     X += MoveX;
     Y += MoveY;
 }

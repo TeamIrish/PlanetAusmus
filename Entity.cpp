@@ -1,11 +1,13 @@
 // Benjamin Laws, Matt Rundle, Matt Mahan, Paul Kennedy
 // CSE 20212 Final Project
 
-//#include "Entity.h"
 #include "MapEditor.h"
 
-Entity::Entity(string file, int w, int h, int x, int y, int s){
+// constructor
+Entity::Entity(string file, int w, int h, int x, int y, int s)
+{
   spritefilename = file; // necessary to store w/o "graphics/" for saving/loading
+
   string fullfilename = "graphics/"+file;
   EntitySprite = Surface::OnLoad( fullfilename.c_str() );
   if(!EntitySprite) cout<<"EntitySprite ("<<fullfilename.c_str()<<") load failure."<<endl;
