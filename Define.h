@@ -5,7 +5,7 @@
 #define MAP_HEIGHT 40
 #define TILE_SIZE 32
 
-#define INIT_PLAYER_BULLETS 50
+#define INIT_PLAYER_BULLETS 5
 #define INIT_PLAYER_HEALTH 10
 
 #define WWIDTH 800

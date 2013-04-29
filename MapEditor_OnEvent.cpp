@@ -140,7 +140,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		// newgame (when on title screen)
 		case SDLK_n:
 		  if(dispTitle){
-		    system("rm maps/*");
+		    system("rm -f maps/*");
 		  }
 		  break;
 		  
