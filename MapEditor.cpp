@@ -179,14 +179,14 @@ int MapEditor::OnExecute() {
   }
 
   if(CheckEndConditions()) {
-		cout << "Found win conditions." << endl;
+    if(debug) cout << "Found win conditions." << endl;
 		Win();
 	}
   else if(playerHealth > 0) {
 		OnSave();
 	}
   else {
-		cout << "GAme over." << endl;
+    if(debug) cout << "GAme over." << endl;
 		GameOver();
 	}
 

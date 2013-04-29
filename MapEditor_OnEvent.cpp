@@ -135,11 +135,14 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 
 		// play (when on title screen)
 		case SDLK_p:
-		  dispTitle = false;
+		  if(dispTitle && !(dispPlainTitleMenu)){
+		     displayStartDepressedMenu = true;
+		     displayInitialMenu = false;
+		  }
 		  break;
 		// newgame (when on title screen)
 		case SDLK_n:
-		  if(dispTitle){
+		  if(dispTitle && !(dispPlainTitleMenu)){
 		    system("rm -f maps/*");
 		  }
 		  break;
@@ -225,6 +228,11 @@ void MapEditor::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode) {
 
 		case SDLK_s:
 			Camera::CameraControl.MovingDown = false;
+			break;
+
+	        case SDLK_p:
+			displayStartDepressedMenu = false;
+			dispTitle = false; // exit the title screen and begin game
 			break;
 
 		default:
