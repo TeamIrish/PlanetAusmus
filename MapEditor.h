@@ -23,6 +23,7 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 #include <fstream>
 #include <vector>
 #include <cstdio>
+#include <cstdlib>
 
 #include "Define.h"
 #include "Event.h"
@@ -45,8 +46,9 @@ class MapEditor : public Event {
 
     private:
 
-			bool Running;
+			static bool Running;
 			bool Quit;
+			bool Replay;
 
 			// SDL surfaces
 			SDL_Surface* Surf_Display;
@@ -56,10 +58,25 @@ class MapEditor : public Event {
 			SDL_Surface* HeartBar;
 			SDL_Surface* Gems;
 			SDL_Surface* BulletIndicator;
+			
+			// title screen surface
 			SDL_Surface* TitleScreen;
-				bool dispTitle;
+				// title screen surface with depressed start button
+				SDL_Surface* TitleScreen_StartDepressed;
+				// title screen surface with depressed about button
+				SDL_Surface* TitleScreen_AboutDepressed;
+
+				bool dispTitle; // display one of the title screens
+				bool displayInitialMenu; // display the initial menu
+				bool displayStartDepressedMenu; // start button depressed
+				bool displayAboutDepressedMenu; // about button depressed
+
+			// about page surface
 			SDL_Surface* TitleMenu;
-				bool dispTitleMenu;
+				// about page surface with depressed back button
+				SDL_Surface* TitleMenu_BackDepressed;
+				bool dispPlainTitleMenu; // display the about screen
+				bool displayBackDepressedTitleMenu; // back button depressed
 
 			SDL_Surface* Player_Character;
 			SDL_Surface* Grave;
@@ -67,6 +84,9 @@ class MapEditor : public Event {
 			SDL_Surface* ObjBackground;
 			SDL_Surface* Surface_NumPlayerBullets;
 				bool dispObjective;
+
+			SDL_Surface* GameOverText;
+			SDL_Surface* YouWinText;
 
 			// SDL Music / Sounds
 			Mix_Music* mus;
@@ -117,10 +137,13 @@ class MapEditor : public Event {
 			MapEditor(string,string);
 
         int OnExecute();
+
+			       	static bool CheckEndConditions();
 				void GameOver();
+				void Win();
 
 				bool LoadMaps(); // called after every change of map view
-				void AddChests(); // called the first time any map is loaded
+				void AddChests(int); // called the first time any map is loaded
 
 				static bool runLoadMaps;
 				static bool runAddChests[4];
@@ -142,6 +165,7 @@ class MapEditor : public Event {
  				// event handling and related methods
         void OnEvent(SDL_Event* Event);
 				void OnLButtonDown(int mX, int mY); // When left mouse button clicks, gets position 
+				void OnLButtonUp(int mX, int mY); // when the left mouse button comes up, gets position
 				void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
 				void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode);
 				void OnStop();
@@ -149,6 +173,7 @@ class MapEditor : public Event {
 			 
 				// game data logic and related methods
 				void OnLoop();
+				void MoveCamera();
 				static int CheckTileCollision(int=-Camera::CameraControl.GetX()+WWIDTH/2,int=-Camera::CameraControl.GetY()+WHEIGHT/2,int=CHARACTER_W,int=CHARACTER_H);
 				void SpawnEnemy();
 				void AddBullet();

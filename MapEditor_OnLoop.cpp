@@ -12,26 +12,8 @@ every iteration through the game loop and makes appropriate changes to game data
 //
 void MapEditor::OnLoop()
 {
-	// Move camera
-	if(Camera::CameraControl.MovingLeft == true){ // the camera is moving left
-		Camera::CameraControl.OnMove(moveSize,0);
-		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(-moveSize,0);
-	}
-
-	if(Camera::CameraControl.MovingRight == true){ // the camera is moving right
-		Camera::CameraControl.OnMove(-moveSize,0);
-		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(moveSize,0);
-	}
-
-	if(Camera::CameraControl.MovingUp == true){ // the camera is moving up
-		Camera::CameraControl.OnMove(0,moveSize);
-		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,-moveSize);
-	}
-
-	if(Camera::CameraControl.MovingDown == true){ // the camera is moving down
-		Camera::CameraControl.OnMove(0,-moveSize);
-		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,moveSize);
-	}
+        // Move camera
+        MoveCamera();
 
 	// Check to make sure that the camera didn't move out of bounds - if so, change map view
 	Camera::CameraControl.CheckBounds();
@@ -55,10 +37,32 @@ void MapEditor::OnLoop()
 	if(playerHealth < 1) Running = false;
 
 	// Decide whether to spawn enemy
-	if(numEnemies<10 && rand()%100<1) SpawnEnemy();
+	if(numEnemies<20 && rand()%50<1) SpawnEnemy();
 
 }
 
+
+void MapEditor::MoveCamera(){
+	if(Camera::CameraControl.MovingLeft == true){ // the camera is moving left
+		Camera::CameraControl.OnMove(moveSize,0);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(-moveSize,0);
+	}
+
+	if(Camera::CameraControl.MovingRight == true){ // the camera is moving right
+		Camera::CameraControl.OnMove(-moveSize,0);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(moveSize,0);
+	}
+
+	if(Camera::CameraControl.MovingUp == true){ // the camera is moving up
+		Camera::CameraControl.OnMove(0,moveSize);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,-moveSize);
+	}
+
+	if(Camera::CameraControl.MovingDown == true){ // the camera is moving down
+		Camera::CameraControl.OnMove(0,-moveSize);
+		if(!debug && CheckTileCollision()) Camera::CameraControl.OnMove(0,moveSize);
+	}
+}
 
 //==============================================================================
 //
@@ -70,7 +74,7 @@ int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heigh
     if(EntityList[i]->getType()==ENTITY_TYPE_CHEST){
       if(abs(centerX-EntityList[i]->getX())<(width+EntityList[i]->getW())/3
 	 && abs(centerY+height/4-EntityList[i]->getY())<(height/2+EntityList[i]->getH())/2){
-	return 2;
+				return 2;
       }
     }
   }
@@ -116,8 +120,9 @@ int MapEditor::CheckTileCollision(int centerX, int centerY, int width, int heigh
 		    continue;
 		  }
 		}
-		else{
-		  if(debug) cout<<"Entity out of tile collision checking range."<<endl;
+
+		else {
+		  if(debug) cout << "Entity out of tile collision checking range." << endl;
 		  return TILE_TYPE_NON_TRAVERSABLE;
 		}
   }
@@ -223,7 +228,7 @@ bool MapEditor::CheckEntityCollisions()
 				else if(type == ENTITY_TYPE_CHEST) dynamic_cast<Chest*>(EntityList[i])->OpenChest();
 
 				// remove anything other than a chest that the player touches
-				if(type != ENTITY_TYPE_CHEST){
+				if(type != ENTITY_TYPE_CHEST) {
 				  EntityList[i]->OnCleanup(); // clean up surface
 				  delete EntityList[i]; // deallocate memory
 				  EntityList.erase(EntityList.begin() + i); // erase the pointer from EntityList vector
@@ -243,24 +248,19 @@ void MapEditor::DeSpawnEntities()
 	for(unsigned int i = 0; i < EntityList.size(); ++i) {
 		// for all non-chest entities
 		if(EntityList[i]->getType() != ENTITY_TYPE_CHEST){
-			// get distance from player
-			int distX = EntityList[i]->getX() + Camera::CameraControl.GetX();
-			int distY = EntityList[i]->getY() + Camera::CameraControl.GetY();
-			double dist = sqrt(distX*distX+distY*distY);
-
-			// if the entity is destroyable and the distance > 1280
-			if(EntityList[i]->isDestroyable() || dist > 1280) {
-				if(debug) cout << "Entity " << i << " despawned." << endl; // debug message
-
+			// if the entity is marked for destroying
+			if(EntityList[i]->isDestroyable()) {
 				// decrement numEnemies if the entity is an enemy
 				if( EntityList[i]->getType() == ENTITY_TYPE_ENEMY ) numEnemies--;
 
 				// despawn the enemy
 				EntityList[i]->OnCleanup();
 				EntityList.erase( EntityList.begin() + i );
-      }
-    }
-  }
+
+				if(debug) cout << "Entity " << i << " despawned." << endl; // debug message
+			}
+		}
+	}
 }
 
 //==============================================================================

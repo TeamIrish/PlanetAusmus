@@ -68,18 +68,10 @@ void Enemy::OnLoop()
 	else if( randNum>21 ) entityStateX = directionToPlayerX;
 	// else continue in same direction as currently
 
-	// make sure the enemy is in bounds
-	if( X < width/2 ) { // too far left
-		X = width/2;
-	}
-	if( (X + width/2) > (2 * MAP_WIDTH * TILE_SIZE) ) { // too far right
-		X = 2 * MAP_WIDTH * TILE_SIZE - width/2;
-	}
-	if( Y < height/2 ) { // too far up
-		Y = height/2;
-	}
-	if( (Y + height) > (2 * MAP_HEIGHT * TILE_SIZE) ) { // too far down
-		Y = 2* MAP_HEIGHT * TILE_SIZE - height;
+	// make sure the enemy is in bounds; if not, despawn
+	if( (X<width/2) || (X+width/2)>(2*MAP_WIDTH*TILE_SIZE) ||
+	    (Y<height/2) || (Y+height)>(2*MAP_HEIGHT*TILE_SIZE) ){
+	  destroy = true;
 	}
 
 	// shift animation frame

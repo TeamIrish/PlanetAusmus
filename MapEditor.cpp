@@ -12,6 +12,7 @@ using namespace std;
 
 //==============================================================================
 // initialize static variables
+bool MapEditor::Running;
 string MapEditor::filenameSave[4];
 string MapEditor::filenameLoad[4];
 int MapEditor::playerHealth;
@@ -19,7 +20,7 @@ int MapEditor::numPlayerBullets;
 bool MapEditor::gotGem[5];
 Map MapEditor::gameMap[4];
 vector<Entity*> MapEditor::EntityList;
-bool MapEditor::runLoadMaps=false;
+bool MapEditor::runLoadMaps;
 bool MapEditor::runAddChests[4];
 bool MapEditor::debug;
 int MapEditor::moveSize;
@@ -48,11 +49,21 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	for(int i=0;i<5;i++) gotGem[i] = false;
 	TitleScreen = NULL;
 		dispTitle = true;
+		displayInitialMenu = true;
+	TitleScreen_StartDepressed = NULL;
+		displayStartDepressedMenu = false;
+	TitleScreen_AboutDepressed = NULL;
+		displayAboutDepressedMenu = NULL;
 	TitleMenu = NULL;
-		dispTitleMenu = false;
+		dispPlainTitleMenu = false;
+	TitleMenu_BackDepressed = NULL;
+		displayBackDepressedTitleMenu = false;
+
 
 	Player_Character = NULL;
 	Grave = NULL;
+	GameOverText = NULL;
+	YouWinText = NULL;
 
 	mus = NULL;
 	sfx1 = NULL;
@@ -70,11 +81,14 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	playerHealth = INIT_PLAYER_HEALTH;
 	numPlayerBullets = INIT_PLAYER_BULLETS;
 	numEnemies = 0;
+	EntityList.clear();
 
+	runLoadMaps = false;
 	for(int i=0;i<4;i++) runAddChests[i] = false;
 
 	Running = true;
 	Quit = false;
+	Replay = false;
 
 	if(inputarg1=="debug" || inputarg2=="debug"){
 	  debug=true;
@@ -92,70 +106,90 @@ int MapEditor::OnExecute() {
 
   srand(time(NULL));
 
-	// Initialize the game; if it fails, return error code and close program
-	if(OnInit() == false){
-		return -1;
-	}
+  // Initialize the game; if it fails, return error code and close program
+  if(OnInit() == false){
+    return -1;
+  }
 
-	SDL_Event Event;
-	ObjPtr = new Objectives; 
+  SDL_Event Event;
+  ObjPtr = new Objectives; 
 
-	// Enter into the title screen view
-	while(dispTitle == true){
+  // Enter into the title screen view
+  while(dispTitle == true){
 
-		while(SDL_PollEvent(&Event)){
-			OnEvent(&Event);
-		}
+    while(SDL_PollEvent(&Event)){
+      OnEvent(&Event);
+    }
 
-		Surface::OnDraw(Surf_Display,TitleScreen,0,0);
-
-		if(dispTitleMenu)
-			Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W)/2, (WHEIGHT-MENU_H) / 2);
-		SDL_Flip(Surf_Display);
-	}
-
-	// Main game loop
-	while(Running){
-		// start the timer to regulate the frame rate
-		fps.start();
-
-		// check for events (user input), pass one at a time to OnEvent(
-		while( SDL_PollEvent(&Event) ){
-			OnEvent(&Event);
-			if(Event.type == SDL_QUIT) Quit = true;
-		}
+		// if no button is depressed on the main menu
+    if(displayInitialMenu == true) Surface::OnDraw(Surf_Display,TitleScreen,0,0);
 		
-		// Manipulate data
-		OnLoop();
+		// if the start button is depressed on the main menu
+		if(displayStartDepressedMenu == true) Surface::OnDraw(Surf_Display, TitleScreen_StartDepressed, 0, 0);
+		
+		// if the about button is depressed on the main menu
+		if(displayAboutDepressedMenu == true) Surface::OnDraw(Surf_Display, TitleScreen_AboutDepressed, 0, 0);
 
-	  // switch map view if necessary
-	  if(runLoadMaps==true){
-			LoadMaps();
+		// if meant to display about menu without button depressed
+    if(dispPlainTitleMenu) Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W) / 2, (WHEIGHT-MENU_H) / 2);
 
-			// add chests only if player has not come to this map before
-			for(int i=0;i<4;i++) { 
+		// if meant to display about menu with button depressed
+		if(displayBackDepressedTitleMenu) Surface::OnDraw(Surf_Display, TitleMenu_BackDepressed, (WWIDTH - MENU_W) / 2, (WHEIGHT-MENU_H) / 2);
+
+    SDL_Flip(Surf_Display);
+  }
+
+  // Main game loop
+  while(Running){
+    // start the timer to regulate the frame rate
+    fps.start();
+
+    // check for events (user input), pass one at a time to OnEvent(
+    while( SDL_PollEvent(&Event) ){
+      OnEvent(&Event);
+      if(Event.type == SDL_QUIT) Quit = true;
+    }
+		
+    // Manipulate data
+    OnLoop();
+
+    // switch map view if necessary
+    if(runLoadMaps==true) {
+      LoadMaps();
+
+      // add chests only if player has not come to this map before
+      for(int i=0;i<4;i++) {
 				if(runAddChests[i]){
-					AddChests();
-
+					AddChests(i);
 					runAddChests[i] = false;
 				}
 			}
 		}
 
-		// Render the output
-		OnRender();
+    // Render the output
+    OnRender();
 		
-		// delay for frame rate if needed
-		fps.delay_if_needed();
+    // delay for frame rate if needed
+    fps.delay_if_needed();
+  }
+
+  if(CheckEndConditions()) {
+		cout << "Found win conditions." << endl;
+		Win();
+	}
+  else if(playerHealth > 0) {
+		OnSave();
+	}
+  else {
+		cout << "GAme over." << endl;
+		GameOver();
 	}
 
-	if(playerHealth > 0) OnSave(); // doesn't actually do anything anymore... might later, though, if we actually save stuff
-	else GameOver();
+  // Clean up trash
+  OnCleanup();
 
-	// Clean up trash
-	OnCleanup();
-
-	return 0;
+  if(Replay) return 2;
+  else return 0;
 }
 
 
@@ -172,19 +206,19 @@ bool MapEditor::LoadMaps()
 	return true;
 }
 
-void MapEditor::AddChests()
+void MapEditor::AddChests(int mapID)
 {
 	// Add chests
 	while(rand()%10 < 2) {
 		int chestX,chestY,attempts=0;
 		
 		while(attempts<100) {
-			chestX = rand()%MAP_WIDTH*TILE_SIZE;
-			chestY = rand()%MAP_HEIGHT*TILE_SIZE;
+		  chestX = (mapID%2)*MAP_WIDTH*TILE_SIZE + rand()%MAP_WIDTH*TILE_SIZE;
+		  chestY = (mapID/2)*MAP_HEIGHT*TILE_SIZE + rand()%MAP_HEIGHT*TILE_SIZE;
 
-			if(!CheckTileCollision(chestX,chestY,16,16)) break;
+		  if(!CheckTileCollision(chestX,chestY,16,16)) break;
 
-			attempts++;
+		  attempts++;
 		}
 		
 		if(attempts < 100) {
@@ -198,12 +232,38 @@ void MapEditor::AddChests()
 
 //==============================================================================
 //
+bool MapEditor::CheckEndConditions(){
+  for(int i=0;i<5;i++){
+    if(gotGem[i]==false) return false;
+  }
+  Running = false;
+  return true;
+}
+
 void MapEditor::GameOver(){
   SDL_Event Event;
 
   while(!Quit) {
     while(SDL_PollEvent(&Event)) OnEvent(&Event);
-	}
+  }
+
+  // remove map files, so next game is new
+  system("rm maps/*");
+}
+
+void MapEditor::Win(){
+  SDL_Event Event;
+
+  // display of "you win" graphic
+  Surface::OnDraw(Surf_Display,YouWinText,WWIDTH/2-225,WHEIGHT/2-130);
+  SDL_Flip(Surf_Display);
+
+  while(!Quit) {
+    while(SDL_PollEvent(&Event)) OnEvent(&Event);
+  }
+
+  // remove map files, so next game is new
+  system("rm maps/*");
 }
 
 //==============================================================================
@@ -211,9 +271,13 @@ void MapEditor::GameOver(){
 // main function; calls OnExecute to run game loop
 int main(int argc, char* argv[]) {
   string arg2="",arg1="";
+  int out;
   if(argc>2) arg2 = argv[2];
   if(argc>1) arg1 = argv[1];
 
-  MapEditor theApp(arg1, arg2);
-  return theApp.OnExecute();
+  do{
+    MapEditor* theApp = new MapEditor(arg1, arg2);
+    out = theApp->OnExecute();
+    delete theApp;
+  }while(out == 2);
 }

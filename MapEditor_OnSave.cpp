@@ -10,6 +10,7 @@ void MapEditor::OnSave() {
     return;
   }
 
+	
   // player state
   savefile<<playerHealth<<endl;
   savefile<<Camera::CameraControl.playerStateX<<endl;
@@ -25,4 +26,6 @@ void MapEditor::OnSave() {
 
   // entities
   for(unsigned int i=0;i<EntityList.size();i++) EntityList[i]->OnSave(savefile);
+
+  savefile.close();
 }

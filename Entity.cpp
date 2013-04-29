@@ -67,6 +67,10 @@ int Entity::getType(){
 	return type;
 }
 
+void Entity::makeDestroyable(){
+  destroy = true;
+}
+
 bool Entity::isDestroyable(){
   return destroy;
 }

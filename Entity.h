@@ -29,6 +29,7 @@ class Entity {
 	  virtual void OnLoop() = 0;
 		void setType(int);
 		int getType();
+		void makeDestroyable();
 		bool isDestroyable();
 		virtual void onHit() = 0;
 		virtual void OnSave(ofstream &) = 0;
