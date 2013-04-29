@@ -109,6 +109,12 @@ class MapEditor : public Event {
 			// number of player's bullets
 			static int numPlayerBullets;
 
+			// indicators for directional motion keys being down
+			int a_keyIsDown; // a key for moving left
+			int s_keyIsDown; // s key for moving down
+			int d_keyIsDown; // d key for moving right
+			int w_keyIsDown; // w key for moving up
+
 			// game map
 			static Map gameMap[4];
 

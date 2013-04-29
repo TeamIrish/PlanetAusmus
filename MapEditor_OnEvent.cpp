@@ -101,6 +101,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  if(Running){
 		    Camera::CameraControl.MovingLeft = true;
 		    Camera::CameraControl.MovingRight = false;
+				a_keyIsDown = true;
 		  }
 		  break;
 
@@ -109,6 +110,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  if(Running){
 		    Camera::CameraControl.MovingRight = true;	
 		    Camera::CameraControl.MovingLeft = false;	
+				d_keyIsDown = true;
 		  }
 		  break;
 
@@ -117,6 +119,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  if(Running){
 		    Camera::CameraControl.MovingUp = true;
 		    Camera::CameraControl.MovingDown = false;
+				w_keyIsDown = true;
 		  }
 		  break;
 
@@ -125,6 +128,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  if(Running){
 		    Camera::CameraControl.MovingDown = true;
 		    Camera::CameraControl.MovingUp = false;
+				s_keyIsDown = true;
 		  }
 		  break;
 
@@ -155,7 +159,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  }
 		  break;
 
-		// ESC key for quitting the game 
+		// ESC key for quitting the game from the title screen or mid-game
 		case SDLK_ESCAPE:
 		  if(dispTitle){
 		    dispTitle = false;
@@ -192,45 +196,72 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 }
 
 //------------------------------------------------------------------------------
-void MapEditor::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode) {
+// handle events where a key comes up
+void MapEditor::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode)
+{
 	switch(sym) {
-         	case SDLK_LEFT:
-		  if((--Camera::CameraControl.numDirKeys) == 0)
-		    Camera::CameraControl.facingDir = -1;
+		// left directional key (for looking left) comes up
+		case SDLK_LEFT:
+			if((--Camera::CameraControl.numDirKeys) == 0)
+				Camera::CameraControl.facingDir = -1;
 		  break;
 
-         	case SDLK_RIGHT:
-		  if((--Camera::CameraControl.numDirKeys) == 0)
-		    Camera::CameraControl.facingDir = -1;
-		  break;
+		// right directional key (for looking right) comes up
+		case SDLK_RIGHT:
+			if((--Camera::CameraControl.numDirKeys) == 0)
+				Camera::CameraControl.facingDir = -1;
+			break;
 
-         	case SDLK_UP:
-		  if((--Camera::CameraControl.numDirKeys) == 0)
-		    Camera::CameraControl.facingDir = -1;
-		  break;
+		// up directional key (for looking up) comes up
+		case SDLK_UP:
+			if((--Camera::CameraControl.numDirKeys) == 0)
+				Camera::CameraControl.facingDir = -1;
+			break;
 
-         	case SDLK_DOWN:
-		  if((--Camera::CameraControl.numDirKeys) == 0)
-		    Camera::CameraControl.facingDir = -1;
-		  break;
+		// down directional key (for looking down) comes up
+		case SDLK_DOWN:
+			if((--Camera::CameraControl.numDirKeys) == 0)
+				Camera::CameraControl.facingDir = -1;
+			break;
 
+		// a key (for moving left) comes up
 		case SDLK_a:
+			// quit moving left
 			Camera::CameraControl.MovingLeft = false;
+			a_keyIsDown = false;
+			// switch to moving right if the d key is down
+			if(d_keyIsDown) Camera::CameraControl.MovingRight = true;
 			break;
 
+		// d key (for moving right) comes up
 		case SDLK_d:
+			// quit moving right
 			Camera::CameraControl.MovingRight = false;
+			d_keyIsDown = false;
+			// switch to moving left if the a key is down
+			if(a_keyIsDown) Camera::CameraControl.MovingLeft = true;
 			break;
 
+		// w key (for moving up) comes up
 		case SDLK_w:
+			// quit moving up
 			Camera::CameraControl.MovingUp = false;
+			w_keyIsDown = false;
+			// switch to moving down if the s key is down
+			if(s_keyIsDown) Camera::CameraControl.MovingDown = true;
 			break;
 
+		// s key (for moving down) comes up
 		case SDLK_s:
+			// quit moving down
 			Camera::CameraControl.MovingDown = false;
+			s_keyIsDown = false;
+			// switch to moving up if the w key is down
+			if(w_keyIsDown) Camera::CameraControl.MovingUp = true;
 			break;
 
-	        case SDLK_p:
+		// from the title screen, quit the title screen and play on p key coming up
+		case SDLK_p:
 			displayStartDepressedMenu = false;
 			dispTitle = false; // exit the title screen and begin game
 			break;

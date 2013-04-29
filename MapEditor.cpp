@@ -83,6 +83,11 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	numEnemies = 0;
 	EntityList.clear();
 
+	a_keyIsDown = false;
+	s_keyIsDown = false;
+	d_keyIsDown = false;
+	w_keyIsDown = false;
+
 	runLoadMaps = false;
 	for(int i=0;i<4;i++) runAddChests[i] = false;
 
