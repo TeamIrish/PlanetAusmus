@@ -139,6 +139,11 @@ int MapEditor::OnExecute() {
     SDL_Flip(Surf_Display);
   }
 
+  // Get save info and initialize the map
+  if(LoadSave() == false){
+    return -1;
+  }
+
   // Main game loop
   while(Running){
     // start the timer to regulate the frame rate

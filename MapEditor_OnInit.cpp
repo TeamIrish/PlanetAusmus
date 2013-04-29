@@ -22,65 +22,6 @@ bool MapEditor::OnInit() {
 	
 
 //======================================================================================
-// Load from savefile, if any
-	ifstream loadfile("maps/save.txt");
-	if(loadfile){
-	  // player state
-	  int loadX,loadY;
-	  loadfile>>playerHealth;
-	  loadfile>>Camera::CameraControl.playerStateX;
-	  loadfile>>Camera::CameraControl.playerStateY;
-	  loadfile>>Camera::CameraControl.currentMapX;
-	  loadfile>>Camera::CameraControl.currentMapY;
-	  loadfile>>loadX>>loadY;
-	  Camera::CameraControl.SetPos(loadX,loadY);
-	  loadfile>>numPlayerBullets;
-
-	  // gems collected
-	  for(int i=0;i<5;i++) loadfile>>gotGem[i];
-
-	  // entities
-	  while(!loadfile.eof()){
-	    string spritefile;
-	    int w,h,X,Y,s,type,health,stateX,stateY;
-	    Entity * tmp;
-	    loadfile>>spritefile>>w>>h>>X>>Y>>s>>type>>stateX>>stateY;
-	    if(spritefile=="") break;
-
-	    switch(type){
-	    case ENTITY_TYPE_ENEMY:
-	      loadfile>>health;
-	      tmp = new Enemy(spritefile,w,h,X,Y,s,health/2);
-	      break;
-	    case ENTITY_TYPE_BULLET:
-	      continue;
-	    case ENTITY_TYPE_ITEM:
-	      continue;
-	    case ENTITY_TYPE_HEART:
-	      tmp = new Heart(X,Y);
-	      break;
-	    case ENTITY_TYPE_CHEST:
-	      tmp = new Chest(X,Y);
-	      break;
-	    default:
-	      if(debug) cout<<"Error loading saved entity..."<<endl;
-	      continue;
-	    }
-	    tmp->setType(type);
-	    tmp->changeState(stateX,stateY);
-	    EntityList.push_back(tmp);
-	  }
-
-	  loadfile.close();
-	  if(debug) cout<<"Savefile loaded."<<endl;
-
-	  // get rid of loadfile, so that player starts over upon death
-	  remove("maps/save.txt");
-
-	}
-
-
-//======================================================================================
 // Load the graphics
 
 	/*
@@ -173,19 +114,6 @@ bool MapEditor::OnInit() {
 	Surface::Transparent(YouWinText,255,0,255);
 
 //==========================================================================
-// Load map tileset
-
-	Camera::CameraControl.ChangeMapView();
-	LoadMaps();
-
-	for(int i=0;i<4;i++){
-	  if((gameMap[i].Surf_Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
-	    return false;
-	  }
-	}
-
-
-//==========================================================================
 // Load sound bites and play the music
 
 	// Open audio player
@@ -220,3 +148,78 @@ bool MapEditor::OnInit() {
 	return true;
 
 }
+
+
+//======================================================================================
+bool MapEditor::LoadSave(){
+  // Load from savefile, if any
+  ifstream loadfile("maps/save.txt");
+  if(loadfile){
+    // player state
+    int loadX,loadY;
+    loadfile>>playerHealth;
+    loadfile>>Camera::CameraControl.playerStateX;
+    loadfile>>Camera::CameraControl.playerStateY;
+    loadfile>>Camera::CameraControl.currentMapX;
+    loadfile>>Camera::CameraControl.currentMapY;
+    loadfile>>loadX>>loadY;
+    Camera::CameraControl.SetPos(loadX,loadY);
+    loadfile>>numPlayerBullets;
+
+    // gems collected
+    for(int i=0;i<5;i++) loadfile>>gotGem[i];
+
+    // entities
+    while(!loadfile.eof()){
+      string spritefile;
+      int w,h,X,Y,s,type,health,stateX,stateY;
+      Entity * tmp;
+      loadfile>>spritefile>>w>>h>>X>>Y>>s>>type>>stateX>>stateY;
+      if(spritefile=="") break;
+
+      switch(type){
+      case ENTITY_TYPE_ENEMY:
+	loadfile>>health;
+	tmp = new Enemy(spritefile,w,h,X,Y,s,health/2);
+	break;
+      case ENTITY_TYPE_BULLET:
+	continue;
+      case ENTITY_TYPE_ITEM:
+	continue;
+      case ENTITY_TYPE_HEART:
+	tmp = new Heart(X,Y);
+	break;
+      case ENTITY_TYPE_CHEST:
+	tmp = new Chest(X,Y);
+	break;
+      default:
+	if(debug) cout<<"Error loading saved entity..."<<endl;
+	continue;
+      }
+      tmp->setType(type);
+      tmp->changeState(stateX,stateY);
+      EntityList.push_back(tmp);
+    }
+
+    loadfile.close();
+    if(debug) cout<<"Savefile loaded."<<endl;
+
+    // get rid of loadfile, so that player starts over upon death
+    remove("maps/save.txt");
+  }
+
+  //==========================================================================
+  // Load maps and tileset
+
+  Camera::CameraControl.ChangeMapView();
+  LoadMaps();
+
+  for(int i=0;i<4;i++){
+    if((gameMap[i].Surf_Tileset = Surface::OnLoad("./tilesets/grounds32.gif")) == NULL){
+      return false;
+    }
+  }
+
+  return true;
+}
+

@@ -134,10 +134,16 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  break;
 
 		// play (when on title screen)
-		//case SDLK_p:
-		//	dispTitle = false;
-		//		break;
-
+		case SDLK_p:
+		  dispTitle = false;
+		  break;
+		// newgame (when on title screen)
+		case SDLK_n:
+		  if(dispTitle){
+		    system("rm maps/*");
+		  }
+		  break;
+		  
 		// r key for replay (when on GameOver or YouWin screens)
 		case SDLK_r:
 		  if(!Running){
@@ -148,15 +154,20 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 
 		// ESC key for quitting the game 
 		case SDLK_ESCAPE:
-		  if(!dispTitle) {
-				if(Running)
-					OnStop();
-				else {
-			  	Replay = false;
-			  	OnExit();
-				}
+		  if(dispTitle){
+		    dispTitle = false;
+		    Running = false;
+		    Replay = false;
 		  }
-			break;
+		  else{
+		    if(Running)
+		      OnStop();
+		    else {
+		      Replay = false;
+		      OnExit();
+		    }
+		  }
+		  break;
 
 		// Objective (toggle on and off)
 		case SDLK_o:

@@ -159,8 +159,9 @@ class MapEditor : public Event {
 
     public:
 
-				// initialization method
+				// initialization methods
 				bool OnInit();
+				bool LoadSave();
  
  				// event handling and related methods
         void OnEvent(SDL_Event* Event);
