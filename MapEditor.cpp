@@ -173,9 +173,17 @@ int MapEditor::OnExecute() {
     fps.delay_if_needed();
   }
 
-  if(CheckEndConditions()) Win();
-  else if(playerHealth > 0) OnSave();
-  else GameOver();
+  if(CheckEndConditions()) {
+		cout << "Found win conditions." << endl;
+		Win();
+	}
+  else if(playerHealth > 0) {
+		OnSave();
+	}
+  else {
+		cout << "GAme over." << endl;
+		GameOver();
+	}
 
   // Clean up trash
   OnCleanup();

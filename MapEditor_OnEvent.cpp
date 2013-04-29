@@ -72,27 +72,31 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 {
 	switch(sym) {
 	
+		// left arrow key for face left
 		case SDLK_LEFT:
 		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 2;
 		  break;
 
+		// right arrow key for face right
 		case SDLK_RIGHT:
 		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 3;
 		  break;
 
+		// up arrow key for face up
 		case SDLK_UP:
 		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 1;
 		  break;
 
+		// down arrow key for face down
 		case SDLK_DOWN:
 		  Camera::CameraControl.numDirKeys++;
 		  Camera::CameraControl.facingDir = 0;
 		  break;
 
-		// Left
+		// a key for move left
 		case SDLK_a:
 		  if(Running){
 		    Camera::CameraControl.MovingLeft = true;
@@ -100,7 +104,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  }
 		  break;
 
-		// Right
+		// d key for move right
 		case SDLK_d:
 		  if(Running){
 		    Camera::CameraControl.MovingRight = true;	
@@ -108,7 +112,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  }
 		  break;
 
-		// Up
+		// w key for move up
 		case SDLK_w:
 		  if(Running){
 		    Camera::CameraControl.MovingUp = true;
@@ -116,7 +120,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  }
 		  break;
 
-		// Down
+		// s key for move down
 		case SDLK_s:
 		  if(Running){
 		    Camera::CameraControl.MovingDown = true;
@@ -130,25 +134,27 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 		  break;
 
 		// play (when on title screen)
-		case SDLK_p:
-			dispTitle = false;
-			break;
+		//case SDLK_p:
+		//	dispTitle = false;
+		//		break;
 
-		// replay (when on GameOver or YouWin screens)
-	        case SDLK_r:
+		// r key for replay (when on GameOver or YouWin screens)
+		case SDLK_r:
 		  if(!Running){
 		    Replay = true;
 		    OnExit();
 		  }
 		  break;
 
+		// ESC key for quitting the game 
 		case SDLK_ESCAPE:
-		  if(!dispTitle){
-			if(Running) OnStop();
-			else{
-			  Replay = false;
-			  OnExit();
-			}
+		  if(!dispTitle) {
+				if(Running)
+					OnStop();
+				else {
+			  	Replay = false;
+			  	OnExit();
+				}
 		  }
 			break;
 
@@ -157,7 +163,7 @@ void MapEditor::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 			dispObjective = !(dispObjective);
 			break;
 
-		// shoot
+		// shoot with space bar
 		case SDLK_SPACE:
 			if(numPlayerBullets > 0) { // only if the player has any bullets left
 				Mix_PlayChannel(-1, sfx2, 0); // laser noise, yo
