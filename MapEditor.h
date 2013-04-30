@@ -47,11 +47,6 @@ class MapEditor : public Event
 
 private:
 
-	// indicators for the game state
-	static bool Running; // indicates the main game loop is running
-	bool Quit; // set when the game is meant to quit
-	bool Replay; // set when the game is meant to replay
-
 	/*========================
 	 * In-Game SDL Surfaces
 	 * =======================*/
@@ -99,6 +94,11 @@ private:
 	/*===========================
 	 * Other Private Data Members
 	 * ==========================*/
+
+	// indicators for the game state
+	static bool Running; // indicates the main game loop is running
+	bool Quit; // set when the game is meant to quit
+	bool Replay; // set when the game is meant to replay
 
 	// SDL Music / Sounds
 	Mix_Music* mus;

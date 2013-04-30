@@ -287,13 +287,15 @@ void MapEditor::Win(){
 // main function; calls OnExecute to run game loop
 int main(int argc, char* argv[]) {
   string arg2="",arg1="";
-  int out;
+
+  int out; // indicates if the application should quit after the game exits
+
   if(argc>2) arg2 = argv[2];
   if(argc>1) arg1 = argv[1];
 
-  do{
+  do {
     MapEditor* theApp = new MapEditor(arg1, arg2);
     out = theApp->OnExecute();
     delete theApp;
-  }while(out == 2);
+  } while(out == 2);
 }
