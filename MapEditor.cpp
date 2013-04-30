@@ -78,9 +78,6 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	BulletDisplayFont = NULL;
 
 	// Other variables
-	currentTileXID=0;
-	currentTileYID=1;
-
 	playerHealth = INIT_PLAYER_HEALTH;
 	numPlayerBullets = INIT_PLAYER_BULLETS;
 	numEnemies = 0;
@@ -215,7 +212,7 @@ int MapEditor::OnExecute()
 bool MapEditor::LoadMaps()
 {
   for(int i=0;i<4;i++) {
-		if( gameMap[i].OnLoad("", filenameLoad[i], currentTileXID, currentTileYID) == false ) {
+		if( gameMap[i].OnLoad("", filenameLoad[i]) == false ) {
 			cout << "  Error loading " << filenameLoad[i] << endl;
       return false;
 		}

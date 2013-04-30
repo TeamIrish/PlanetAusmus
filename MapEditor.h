@@ -143,10 +143,6 @@ public:
 	// objective pointer for current objective
 	Objectives *ObjPtr;
 
-	// current tile choice; don't think we need anymore
-	int currentTileXID;
-	int currentTileYID;
-
 	// entity variables
 	static vector<Entity*> EntityList;
 	static int numEnemies;

@@ -5,7 +5,7 @@ Map::Map() {
 	Surf_Tileset = NULL;
 }
 
-bool Map::OnLoad(char* File, string filenameLoad, int currentTileXID, int currentTileYID) {
+bool Map::OnLoad(char* File, string filenameLoad) {
 	TileList.clear();
 
 	  FILE* FileHandle = fopen(filenameLoad.c_str(),"r");
