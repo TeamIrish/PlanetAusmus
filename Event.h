@@ -3,12 +3,15 @@
  
 #include "SDL/SDL.h"
  
-class Event {
-    public:
-        Event();
+// abstract class for handling events
+class Event 
+{
+public:
+        Event(); // constructor
  
-        virtual ~Event();
+        virtual ~Event(); // destructor
  
+ 				// all-purpose event handler; calls other handling methods
         virtual void OnEvent(SDL_Event* Event);
  
         virtual void OnInputFocus();
@@ -25,7 +28,7 @@ class Event {
  
         virtual void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right,bool Middle);
  
-        virtual void OnMouseWheel(bool Up, bool Down);    //Not implemented
+        virtual void OnMouseWheel(bool Up, bool Down);
  
         virtual void OnLButtonDown(int mX, int mY);
  

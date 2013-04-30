@@ -4,12 +4,14 @@
 #include "MapEditor.h"
 #include "Entity.h"
 
-class Heart : public Entity {
+// represents heart entity dropped randomly by slain enemies
+class Heart : public Entity
+{
  public:
-  Heart(int,int);
-  void OnLoop();
-  void onHit();
-  void OnSave(ofstream &);
+  Heart(int,int); // constructor
+  void OnLoop(); // implement game logic
+  void onHit(); // handle collision with player
+  void OnSave(ofstream &); // save to file
  private:
   int counter;
 };

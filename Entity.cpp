@@ -6,13 +6,18 @@
 // constructor
 Entity::Entity(string file, int w, int h, int x, int y, int s)
 {
+	// set up the entity's surface
   spritefilename = file; // necessary to store w/o "graphics/" for saving/loading
+  string fullfilename = "graphics/"+file; // append graphics/ to give the directory
+  EntitySprite = Surface::OnLoad( fullfilename.c_str() ); // create the surface
 
-  string fullfilename = "graphics/"+file;
-  EntitySprite = Surface::OnLoad( fullfilename.c_str() );
-  if(!EntitySprite) cout<<"EntitySprite ("<<fullfilename.c_str()<<") load failure."<<endl;
-  Surface::Transparent(EntitySprite, 255, 0, 255);
+	// debug message
+  if(!EntitySprite) cout << "EntitySprite (" << fullfilename.c_str() << ") load failure." <<endl;
 
+	// color key the surface
+  Surface::Transparent(EntitySprite, 255, 0, 255); 
+
+	// basic entity info
   width = w;
   height = h;
   X = x;
@@ -23,56 +28,72 @@ Entity::Entity(string file, int w, int h, int x, int y, int s)
   destroy = false;
 }
 
-bool Entity::OnRender(SDL_Surface* Display){
+// blit the entity at the appropriate place on (or off) the screen
+bool Entity::OnRender(SDL_Surface* Display)
+{
   if( Surface::OnDraw( Display, EntitySprite, X + Camera::CameraControl.GetX() - width/2, Y + Camera::CameraControl.GetY() - height/2, entityStateX * width, entityStateY * height, width, height) == false ) {
-		return false;
+		return false; // return false to indicate failure
 	}
 
   return true;
 }
 
-int Entity::getX(){
+// accessors
+int Entity::getX()
+{
   return X;
 }
 
-int Entity::getY(){
+int Entity::getY()
+{
   return Y;
 }
 
-int Entity::getW(){
+int Entity::getW()
+{
   return width;
 }
 
-int Entity::getH(){
+int Entity::getH()
+{
   return height;
 }
 
-void Entity::changePos(int a,int b){
+int Entity::getType()
+{
+	return type;
+}
+
+bool Entity::isDestroyable()
+{
+  return destroy;
+}
+
+// mutators
+void Entity::changePos(int a,int b)
+{
   X += a;
   Y += b;
 }
 
-void Entity::changeState(int a,int b){
+void Entity::changeState(int a,int b)
+{
   entityStateX = a;
   entityStateY = b;
 }
 
-void Entity::OnCleanup(){
-  SDL_FreeSurface(EntitySprite);
-}
-
-void Entity::setType(int entityType){
+void Entity::setType(int entityType)
+{
 	type = entityType;
 }
 
-int Entity::getType(){
-	return type;
-}
-
-void Entity::makeDestroyable(){
+void Entity::makeDestroyable()
+{
   destroy = true;
 }
 
-bool Entity::isDestroyable(){
-  return destroy;
+// free the entity's surface and clean up any other dynamic memory
+void Entity::OnCleanup()
+{
+  SDL_FreeSurface(EntitySprite);
 }

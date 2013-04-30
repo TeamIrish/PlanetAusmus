@@ -26,6 +26,7 @@ bool MapEditor::debug;
 int MapEditor::moveSize;
 int MapEditor::numEnemies;
 Mix_Chunk* MapEditor::sfx1;
+
 // tile order: deepwater,water,sand,grass,grass,evergreen,tree,grass,grass,dirt,rock,snow,mountains,snow,rock,lava
 int MapEditor::tileX[] = {0,6,3,0,0,6,0,0,0,0,3,3,6,3,3,6};
 int MapEditor::tileY[] = {2,1,1,1,1,6,6,1,1,3,0,9,9,9,0,8};
@@ -37,6 +38,7 @@ int MapEditor::tileTypes[] = {2,2,1,1,1,3,3,1,1,1,1,1,3,1,1,2}; // 1 = traversab
 MapEditor::MapEditor(string inputarg1,string inputarg2) {
 
 	// Initialize the surfaces to NULL to avoid errors
+	// also initialize related boolean flags
 	Surf_Display = NULL;
 	Tileset = NULL;
 	Objective=NULL;
@@ -46,7 +48,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	HeartBar = NULL;
 	BulletIndicator = NULL;
 	Gems = NULL;
-	for(int i=0;i<5;i++) gotGem[i] = false;
+		for(int i=0;i<5;i++) gotGem[i] = false;
 	TitleScreen = NULL;
 		dispTitle = true;
 		displayInitialMenu = true;
@@ -73,6 +75,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	// Initialize Font objects to NULL
 	XObjectiveFont = NULL;
 		dispObjective = true;
+	BulletDisplayFont = NULL;
 
 	// Other variables
 	currentTileXID=0;
@@ -83,6 +86,7 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 	numEnemies = 0;
 	EntityList.clear();
 
+	// indicate which movement keys are down
 	a_keyIsDown = false;
 	s_keyIsDown = false;
 	d_keyIsDown = false;
@@ -106,21 +110,21 @@ MapEditor::MapEditor(string inputarg1,string inputarg2) {
 
 
 //==============================================================================
-//
-int MapEditor::OnExecute() {
-
-  srand(time(NULL));
+// full game implementation
+int MapEditor::OnExecute()
+{
+  srand(time(NULL)); // seed the random number generator
 
   // Initialize the game; if it fails, return error code and close program
-  if(OnInit() == false){
+  if(OnInit() == false) {
     return -1;
   }
 
-  SDL_Event Event;
-  ObjPtr = new Objectives; 
+  SDL_Event Event; // event object to receive events
+  ObjPtr = new Objectives;
 
-  // Enter into the title screen view
-  while(dispTitle == true){
+	// display the title screen until the game proper begins or the user quits prematurely
+  while(dispTitle == true) {
 
     while(SDL_PollEvent(&Event)){
       OnEvent(&Event);
@@ -135,10 +139,10 @@ int MapEditor::OnExecute() {
 		// if the about button is depressed on the main menu
 		if(displayAboutDepressedMenu == true) Surface::OnDraw(Surf_Display, TitleScreen_AboutDepressed, 0, 0);
 
-		// if meant to display about menu without button depressed
+		// if meant to display about menu without back button depressed
     if(dispPlainTitleMenu) Surface::OnDraw(Surf_Display, TitleMenu, (WWIDTH - MENU_W) / 2, (WHEIGHT-MENU_H) / 2);
 
-		// if meant to display about menu with button depressed
+		// if meant to display about menu with back button depressed
 		if(displayBackDepressedTitleMenu) Surface::OnDraw(Surf_Display, TitleMenu_BackDepressed, (WWIDTH - MENU_W) / 2, (WHEIGHT-MENU_H) / 2);
 
     SDL_Flip(Surf_Display);
@@ -183,15 +187,18 @@ int MapEditor::OnExecute() {
     fps.delay_if_needed();
   }
 
+	// check if end conditions for the game are met; if so, the player has won
   if(CheckEndConditions()) {
     if(debug) cout << "Found win conditions." << endl;
 		Win();
 	}
+	// if the player still has health but has not won, save their game
   else if(playerHealth > 0) {
 		OnSave();
 	}
+	// otherwise, it's game over
   else {
-    if(debug) cout << "GAme over." << endl;
+    if(debug) cout << "Game over." << endl;
 		GameOver();
 	}
 
@@ -204,7 +211,7 @@ int MapEditor::OnExecute() {
 
 
 //==============================================================================
-//
+// load the maps
 bool MapEditor::LoadMaps()
 {
   for(int i=0;i<4;i++) {
@@ -216,13 +223,13 @@ bool MapEditor::LoadMaps()
 	return true;
 }
 
+// add chests at random places
 void MapEditor::AddChests(int mapID)
 {
-	// Add chests
 	while(rand()%10 < 2) {
 		int chestX,chestY,attempts=0;
 		
-		while(attempts<100) {
+		while(attempts < 100) {
 		  chestX = (mapID%2)*MAP_WIDTH*TILE_SIZE + rand()%MAP_WIDTH*TILE_SIZE;
 		  chestY = (mapID/2)*MAP_HEIGHT*TILE_SIZE + rand()%MAP_HEIGHT*TILE_SIZE;
 
@@ -242,10 +249,12 @@ void MapEditor::AddChests(int mapID)
 
 //==============================================================================
 //
-bool MapEditor::CheckEndConditions(){
-  for(int i=0;i<5;i++){
-    if(gotGem[i]==false) return false;
+bool MapEditor::CheckEndConditions()
+{
+  for(int i=0;i<5;i++) {
+    if( gotGem[i]==false ) return false;
   }
+
   Running = false;
   return true;
 }

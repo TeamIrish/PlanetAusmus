@@ -1,89 +1,91 @@
 #include "Event.h"
  
-Event::Event() {
+// default constructor
+Event::Event()
+{
 }
  
-Event::~Event() {
-    //Do nothing
+// destructor
+Event::~Event()
+{
 }
  
-void Event::OnEvent(SDL_Event* Event) {
-    switch(Event->type) {
-        case SDL_ACTIVEEVENT: {
-            switch(Event->active.state) {
-                case SDL_APPMOUSEFOCUS: {
-                    if ( Event->active.gain )    OnMouseFocus();
-                    else                OnMouseBlur();
+// call different event handlers based on which event is detected
+void Event::OnEvent(SDL_Event* Event)
+{
+	switch(Event->type) {
+
+		case SDL_ACTIVEEVENT: // handle active events
+			switch(Event->active.state) { // switch among active events
+				case SDL_APPMOUSEFOCUS:
+					if ( Event->active.gain ) OnMouseFocus();
+					else OnMouseBlur();
+					break;
+				
+				case SDL_APPINPUTFOCUS:
+					if ( Event->active.gain ) OnInputFocus();
+					else OnInputBlur();
+					break;
+				
+				case SDL_APPACTIVE:
+					if ( Event->active.gain ) OnRestore();
+					else OnMinimize();
+					break;
+			}
+			
+			break; // break the active event case
+
+		case SDL_KEYDOWN: // handle key down events
+			OnKeyDown(Event->key.keysym.sym,Event->key.keysym.mod,Event->key.keysym.unicode);
+			break;
  
-                    break;
-                }
-                case SDL_APPINPUTFOCUS: {
-                    if ( Event->active.gain )    OnInputFocus();
-                    else                OnInputBlur();
+		case SDL_KEYUP: // handle key up events
+			OnKeyUp(Event->key.keysym.sym,Event->key.keysym.mod,Event->key.keysym.unicode);
+			break;
  
-                    break;
-                }
-                case SDL_APPACTIVE:    {
-                    if ( Event->active.gain )    OnRestore();
-                    else                OnMinimize();
+		case SDL_MOUSEMOTION: // handle mouse movements
+			OnMouseMove(Event->motion.x,Event->motion.y,Event->motion.xrel,Event->motion.yrel,(Event->motion.state&SDL_BUTTON(SDL_BUTTON_LEFT))!=0,(Event->motion.state&SDL_BUTTON(SDL_BUTTON_RIGHT))!=0,(Event->motion.state&SDL_BUTTON(SDL_BUTTON_MIDDLE))!=0);
+			break;
  
-                    break;
-                }
-            }
-            break;
-        }
+		case SDL_MOUSEBUTTONDOWN: // handle mouse clicks down
+			switch(Event->button.button) { // switch among different mouse buttons
+				case SDL_BUTTON_LEFT:
+					OnLButtonDown(Event->button.x,Event->button.y);
+					break;
+					
+				case SDL_BUTTON_RIGHT:
+					OnRButtonDown(Event->button.x,Event->button.y);
+					break;
+
+				case SDL_BUTTON_MIDDLE:
+					OnMButtonDown(Event->button.x,Event->button.y);
+					break;
+			}
+			
+			break; // break mouse button down event case
+
+		case SDL_MOUSEBUTTONUP:  // handle mouse clicks up
+			switch(Event->button.button) {
+				case SDL_BUTTON_LEFT:
+					OnLButtonUp(Event->button.x,Event->button.y);
+					break;
+
+				case SDL_BUTTON_RIGHT:
+					OnRButtonUp(Event->button.x,Event->button.y);
+					break;
+					
+				case SDL_BUTTON_MIDDLE:
+					OnMButtonUp(Event->button.x,Event->button.y);
+					break;
+			}
+			
+			break; // break mouse button up event case
  
-        case SDL_KEYDOWN: {
-            OnKeyDown(Event->key.keysym.sym,Event->key.keysym.mod,Event->key.keysym.unicode);
-            break;
-        }
- 
-        case SDL_KEYUP: {
-            OnKeyUp(Event->key.keysym.sym,Event->key.keysym.mod,Event->key.keysym.unicode);
-            break;
-        }
- 
-        case SDL_MOUSEMOTION: {
-            OnMouseMove(Event->motion.x,Event->motion.y,Event->motion.xrel,Event->motion.yrel,(Event->motion.state&SDL_BUTTON(SDL_BUTTON_LEFT))!=0,(Event->motion.state&SDL_BUTTON(SDL_BUTTON_RIGHT))!=0,(Event->motion.state&SDL_BUTTON(SDL_BUTTON_MIDDLE))!=0);
-            break;
-        }
- 
-        case SDL_MOUSEBUTTONDOWN: {
-            switch(Event->button.button) {
-                case SDL_BUTTON_LEFT: {
-                    OnLButtonDown(Event->button.x,Event->button.y);
-                    break;
-                }
-                case SDL_BUTTON_RIGHT: {
-                    OnRButtonDown(Event->button.x,Event->button.y);
-                    break;
-                }
-                case SDL_BUTTON_MIDDLE: {
-                    OnMButtonDown(Event->button.x,Event->button.y);
-                    break;
-                }
-            }
-            break;
-        }
- 
-        case SDL_MOUSEBUTTONUP:    {
-            switch(Event->button.button) {
-                case SDL_BUTTON_LEFT: {
-                    OnLButtonUp(Event->button.x,Event->button.y);
-                    break;
-                }
-                case SDL_BUTTON_RIGHT: {
-                    OnRButtonUp(Event->button.x,Event->button.y);
-                    break;
-                }
-                case SDL_BUTTON_MIDDLE: {
-                    OnMButtonUp(Event->button.x,Event->button.y);
-                    break;
-                }
-            }
-            break;
-        }
- 
+ 			case SDL_QUIT: // handle a quit
+				OnExit();
+				break;
+        
+// handle other events poential events
         case SDL_JOYAXISMOTION: {
             OnJoyAxis(Event->jaxis.which,Event->jaxis.axis,Event->jaxis.value);
             break;
@@ -108,10 +110,6 @@ void Event::OnEvent(SDL_Event* Event) {
             break;
         }
  
-        case SDL_QUIT: {
-            OnExit();
-            break;
-        }
  
         case SDL_SYSWMEVENT: {
             //Ignore
