@@ -22,7 +22,7 @@ the University of Notre Dame.
 Credits:
 
     -Special thanks to David Gervais for the particular 
-     tileset used in the creation of MapEditor. His work is
+     tileset used in the creation of Planet Ausmus. His work is
      published under the Creative Commons license. To view
      some of his work, visit:
      http://pousse.rapiere.free.fr/tome/tome-tiles.htm
@@ -34,11 +34,11 @@ Credits:
 
     -Character sprite credit goes to Placky (plackys@hotmail.com), and 
      can be found at: 
-	http://www.freewebs.com/yodasoda/Top%20Down%20Halo.png
+     http://www.freewebs.com/yodasoda/Top%20Down%20Halo.png
 
     -Bullet sprites were made by ~Dark-Days 
      (http://dark-days.deviantart.com) and can be found at:
-        http://dark-days.deviantart.com/art/Bullet-Hell-Sprites-157446698
+     http://dark-days.deviantart.com/art/Bullet-Hell-Sprites-157446698
 
     -Background music credit goes to soundgenius.com; we
      used online-convert.com to convert the .mp3 files
@@ -52,14 +52,14 @@ Credits:
 Installation:
 
     -Game requires installation of all SDL libaries
-
         -Resources can be found at http://www.libsdl.org/
 
     -Download all files, and run the makefile
 
-    -Do not remove any files from the resource subdirectories, but feel 
-     free to substitute your own sprites if you so desire. This may 
-     require changing some of the size constants in the Define.h file.
+    -Do not remove any files from the resource subdirectories,
+     but feel free to substitute your own sprites if you so
+     desire. This may require changing some of the size
+     constants in the Define.h file.
 
 ------------------------------------------------------------
 
@@ -67,9 +67,11 @@ Instructions:
 
     -Run make
 
-    -Run MapEditor
+    -Run PlanetAusmus
 
     -Explore, and watch out for enemies
+
+    -Collect all 5 colors of gems to win
 
 ------------------------------------------------------------
 
@@ -86,6 +88,9 @@ Controls:
     -Space bar to shoot
 
     -ESC to exit
+
+    -Press 'n' on the title screen to erase save data (maps
+     and savefile)
 
 ------------------------------------------------------------
 
