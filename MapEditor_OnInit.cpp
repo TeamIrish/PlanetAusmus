@@ -211,6 +211,7 @@ bool MapEditor::LoadSave(){
   //==========================================================================
   // Load maps and tileset
 
+  Camera::CameraControl.Clear();
   Camera::CameraControl.ChangeMapView();
   LoadMaps();
 

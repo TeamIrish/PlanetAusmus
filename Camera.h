@@ -12,7 +12,7 @@ enum {
  
 class Camera {
 public:
-	static Camera CameraControl;				// static control object
+	static Camera CameraControl;  // static control object
  
 private:
 	int X;
@@ -41,15 +41,16 @@ public:
 	void setCurrentMaps(int,int);
 
 public:
-	Camera();														// default constructor
+	Camera();      // default constructor
+	void Clear();  // prevents restart error with static camera object
  
 	void OnMove(int MoveX, int MoveY);	// carry out game logic for the camera
 	bool ChangeMapView();
 	void GetCornerValues(int,int,int[]);
 	int TileToValue(int,int);
  
-	int GetX();													// return the camera's x coordinate
-	int GetY();													// return the camera's y coordinate
+	int GetX();  // return the camera's x coordinate
+	int GetY();  // return the camera's y coordinate
 
 	void SetPos(int X, int Y);
 
