@@ -152,6 +152,8 @@ bool MapEditor::OnInit() {
 
 //======================================================================================
 bool MapEditor::LoadSave(){
+  Camera::CameraControl.Clear();
+
   // Load from savefile, if any
   ifstream loadfile("maps/save.txt");
   if(loadfile){
@@ -211,7 +213,6 @@ bool MapEditor::LoadSave(){
   //==========================================================================
   // Load maps and tileset
 
-  Camera::CameraControl.Clear();
   Camera::CameraControl.ChangeMapView();
   LoadMaps();
 
