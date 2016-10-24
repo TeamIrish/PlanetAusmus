@@ -8,11 +8,11 @@ This is the header file for the MapEditor class, which is the 'overarching' clas
 #ifndef _MAPEDITOR_H_
     #define _MAPEDITOR_H_
  
-#include "SDL/SDL.h"
-#include "SDL/SDL_mixer.h"
-#include "SDL/SDL_ttf.h"
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_ttf.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
+#include <SDL/SDL_ttf.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
 #include <stdlib.h>
 
 #include <iostream>

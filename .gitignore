@@ -5,7 +5,7 @@
 *.~
 
 # Remove anything in the maps directory
-./maps/map*
+maps/*
 
 # Remove compiled source as it takes up a lot of repo space
 MapEditor

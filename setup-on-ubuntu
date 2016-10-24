@@ -1,0 +1,14 @@
+#!/bin/bash -eux
+
+packages=(
+    libsdl1.2-dev
+    libsdl-mixer1.2-dev
+    libsdl-ttf2.0-de
+    libsdl-image1.2-dev
+)
+
+for package in ${packages[@]}; do
+    sudo apt-get install -y $package || exit 1
+done
+
+make
